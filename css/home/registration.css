@@ -1,0 +1,50 @@
+.registration{
+	display:none;
+	float:middle;
+	position:absolute;
+	padding-top:20px;
+	width:500px;
+	background-color:#383E4C;
+	border-radius:10px;
+	margin-top:100px;
+	margin-left:430px;
+	z-index: 100;
+	padding:10px;
+}
+.registration input[type="submit"] {
+  background: #1abc9c;
+}
+.registration input[type="submit"]:hover {
+  background: #1bc6a4;
+}
+.panel-heading{
+	font-size:150%;
+}
+@media all and (max-width: 1000px) {
+	.registration {
+		margin-left:8%;
+	}
+}
+
+
+
+/* page structure */
+#page { 
+  display: block;
+  position: relative;
+  overflow: hidden;
+  height: auto;
+  background: #fff; 
+  box-sizing: border-box;
+  //-webkit-box-shadow: 0 0 12px 0 rgba(150, 180, 210, .9);
+  //-moz-box-shadow: 0 0 12px 0 rgba(150, 180, 210, .9);
+  //box-shadow: 0 0 12px 0 rgba(150, 180, 210, .9);
+}
+/* inner page layouts */
+#content-customerregister { display: block; position: relative; width: 100%; }
+
+#content-shopregister { display: none; width: 100%; position: absolute; top: 0; left: 500px; }
+
+.slidelink { background-color:gray; font-size: 100%; display:inline-block;}
+.left{float:left;}
+.right{float:right;}
