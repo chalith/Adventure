@@ -32,7 +32,6 @@
   $("#shopRegister").submit(function(e) {
     e.preventDefault();
   });
-  
   var ccustomerregister = $("#content-customerregister");
   var cshopregister = $("#content-shopregister");
   
@@ -40,7 +39,7 @@
   $("#showshopregister").on("click", function(e){
     e.preventDefault();
     var newheight = cshopregister.height();
-	var newwidth = cshopregister.width();
+    var newwidth = cshopregister.width();
     $(cshopregister).css("display", "block");
     
     $(ccustomerregister).stop().animate({
@@ -428,10 +427,10 @@ $(document).ready(function(){
 
     <!-- Modal content-->
     <div class="modal-content">
-      <div class="modal-body">
+        <div class="modal-body" id="regbody">
           <center>
     <div id="w">
-		<div id="page">
+        	<div id="page">
 			<div id="content-shopregister">
 				<div class="content"><br>
 				<a href="#" class="slidelink left feature-content-link blue-btn" id="showcustomerregister">&larr; Customer Registration</a><br><br><br>
@@ -459,7 +458,7 @@ $(document).ready(function(){
 							<label>Select a picture</label>
                                                         <div id="filein">
 							<input class="form-control" type="file" name="file" id="file"/>
-                                                        <img id="pic" src="" style="width: 50%;"/>
+                                                        <div class="picdiv"><img id="pic" src="" alt="No picture selected"/></div>
                                                         </div>
 						</div>
 
@@ -556,6 +555,8 @@ $(document).ready(function(){
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         </div>
                                         <div class="modal-body">
+                                            <form name="customerRegister" id="customerRegister" role="form" method="post" accept-charset="utf-8">
+                                            </form>
                                         </div>
                                 	
 				</div>

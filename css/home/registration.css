@@ -25,14 +25,29 @@
 		margin-left:8%;
 	}
 }
-
-
-
+.picdiv{
+    background-color: gray;
+    margin-top: 2px;
+    border: solid;
+    min-width:  400px;
+    min-height: 300px;
+    max-width:  400px;
+    max-height: 300px;
+    overflow: hidden;
+}
+#file{
+    min-height: 45px;
+}
 /* page structure */
+.modal-body{
+    overflow: hidden;
+}
+#w{
+    height:auto;
+}
 #page { 
   display: block;
   position: relative;
-  overflow: hidden;
   height: auto;
   background: #fff; 
   box-sizing: border-box;
