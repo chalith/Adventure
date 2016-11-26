@@ -458,7 +458,7 @@ $(document).ready(function(){
 							<label>Select a picture</label>
                                                         <div id="filein">
 							<input class="form-control" type="file" name="file" id="file"/>
-                                                        <div class="picdiv"><img id="pic" src="" alt="No picture selected"/></div>
+                                                        <div class="form-group picdiv"><img id="pic" src="" alt="No picture selected"/></div>
                                                         </div>
 						</div>
 
