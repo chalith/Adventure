@@ -259,7 +259,7 @@ $(document).ready(function() {
     var t = document.getElementById("txttpnumber");
     if(typeof t != 'undefined'){
    
-        $("#logout").click(function(event) {
+        $(".logout").click(function(event) {
             event.preventDefault();
             logout();
         });
@@ -355,7 +355,7 @@ $(document).ready(function(){
 
                                                         <ul>
                                                                 <li><a href="#">Profile</a></li>
-                                                                <li><a href="#" id="logout" class="highlight">Logout</a></li>
+                                                                <li><a href="#" class="highlight logout">Logout</a></li>
                                                         </ul>
                                                 </div>
 					</li>
@@ -368,7 +368,7 @@ $(document).ready(function(){
 
                                         <ul>
                                                 <li><a href="#">Profile</a></li>
-                                                <li><a href="#" id="logout" class="highlight">Logout</a></li>
+                                                <li><a href="#" class="highlight logout">Logout</a></li>
                                         </ul>
                                 </div>
                             </div>
