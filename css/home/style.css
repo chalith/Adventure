@@ -515,7 +515,7 @@ h2 {
   } 
 
   ul#menu { display:none; }
-
+  li .user { display:none; }
   .slicknav_menu {
     display: block;
     position: fixed;

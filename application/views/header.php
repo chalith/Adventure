@@ -341,15 +341,15 @@ $(document).ready(function(){
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>                        
 				</button>
-			</div>   
-			<div class="single-page-nav sticky-wrapper header-login-signup header-user-dropdown" id="tmNavbar">
+			</div>
+                        <div class="single-page-nav sticky-wrapper header-login-signup header-user-dropdown" id="tmNavbar">
 				<ul class="nav navbar-nav  header-limiter">
 					<li><a href="#section1">Homepage</a></li>
 					<li><a href="#section2">About Us</a></li>
 					<li><a href="#section3">Services</a></li>
 					<li><a href="#section4">Contact</a></li>
 					<li><a href="http://www.facebook.com/templatemo" class="external" target="_blank">External</a></li>
-					<li class="">
+					<li>
 						<div class="header-user-menu user">
                                                     <img src="<?php echo $picture; ?>" alt="User Image"/>
 
@@ -360,6 +360,18 @@ $(document).ready(function(){
                                                 </div>
 					</li>
 				</ul>
+			</div>
+                        <div class="navbar-header header-user-dropdown navbar-toggle left" style="width: 90px; padding: 0; margin-left: 1px;">
+                            <div class="header-limiter">
+				<div class="header-user-menu user">
+                                    <img src="<?php echo $picture; ?>" alt="User Image"/>
+
+                                        <ul>
+                                                <li><a href="#">Profile</a></li>
+                                                <li><a href="#" id="logout" class="highlight">Logout</a></li>
+                                        </ul>
+                                </div>
+                            </div>
 			</div>
 		</div>
 		
@@ -458,7 +470,7 @@ $(document).ready(function(){
 							<label>Select a picture</label>
                                                         <div id="filein">
 							<input class="form-control" type="file" name="file" id="file"/>
-                                                        <div class="form-group picdiv"><img id="pic" src="" alt="No picture selected"/></div>
+                                                        <div class="picdiv"><img id="pic" src="" alt="No picture selected"/></div>
                                                         </div>
 						</div>
 

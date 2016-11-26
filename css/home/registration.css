@@ -20,18 +20,11 @@
 .panel-heading{
 	font-size:150%;
 }
-@media all and (max-width: 1000px) {
-	.registration {
-		margin-left:8%;
-	}
-}
 .picdiv{
     background-color: gray;
     margin-top: 2px;
     border: solid;
-    min-width:  400px;
     min-height: 300px;
-    max-width:  400px;
     max-height: 300px;
     overflow: hidden;
 }
