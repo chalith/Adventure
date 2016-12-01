@@ -125,33 +125,35 @@ $(document).ready(function(){
 	<div id="section2">
 		<!-- Start Feature Area -->
 		<section id="feature-area" class="about-section">
-                                                <!-- Trigger the modal with a button -->
-                                                
-                                                
-                                                
-
-                                                
-                                                
-                                                
-                                                
 			<div class="container">
-                            <div class="row text-center inner">
-					<?php
-                                            if($activities!=NULL){
-                                            foreach ($activities as $object){
-                                        ?>
-                                <div class="col-sm-4">
-                                    <div class="feature-content" style="max-height: 500px; overflow: hidden; margin-bottom: 50px;">
-                                                    <img src="<?php echo $object->picture; ?>" alt="Image">
-							<h2 class="feature-content-title blue-text"><?php echo $object->name; ?></h2>
-							<p class="feature-content-description"><?php echo $object->about; ?></p>
-							<a href="#" class="feature-content-link blue-btn">See Details</a>
+				<div class="row text-center inner">
+					<div class="col-sm-4">
+						<div class="feature-content">
+							<img src="<?php echo base_url('img/rsz_img05.jpg');?>" alt="Image">
+							<h2 class="feature-content-title green-text">Waterfall Trekking</h2>
+							<p class="feature-content-description">Water fall trekking gives travellers a close view of incredible scenery of a waterfall. Trekking is mainly focused in view of stunningly beautiful waterfalls hidden inside the rain forests in Kitulgala. 
+							</p>
+                                                        <a href="<?php echo base_url('index.php/welcome/getGeneralFeatures/WT');?>" class="feature-content-link green-btn" >See Details</a>
+
 						</div>
 					</div>
-                                        <?php
-                                            }
-                                            }
-                                        ?>
+					<div class="col-sm-4">
+						<div class="feature-content">
+							<img src="<?php echo base_url('img/rsz_cycle2.jpg');?>" alt="Image">
+							<h2 class="feature-content-title blue-text">Cycling Trips</h2>
+							<p class="feature-content-description">Our Mountain Cycling tracks cover Tea Estates, Rubber Estates and other scenic locations, towns and sleepy hamlets. This is a great way to experience the sceneries and the local village lifestyles.</p>
+							<a href="<?php echo base_url('index.php/welcome/getGeneralFeatures/Cycle');?>" class="feature-content-link blue-btn">See Details</a>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="feature-content">
+							<img src="<?php echo base_url('img/rsz_jumping.jpg');?>" alt="Image">
+							<h2 class="feature-content-title red-text">Confidence Jumps in natural stream slides</h2>
+							<p class="feature-content-description">The trek to natural rock pools and waterfalls of kataran-Oya" -1.5KM. There are 7 natural extremely beautiful where you will be able to experience many adeventures. 
+							</p>
+							<a href="<?php echo base_url('index.php/welcome/getGeneralFeatures/Jump');?>" class="feature-content-link red-btn">See Details</a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</section>
