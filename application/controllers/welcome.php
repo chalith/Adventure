@@ -40,5 +40,14 @@ class Welcome extends CI_Controller {
                 $this->load->view('generalFeaturesView', $data);
             
         }
+        
+        public function registerCustomer(){
+            
+           
+            $myname = $this->input->post('customerpass');;
+            $packet1 = array("name" => $myname);
+            $this->load->model('register_model');
+            $this->register_model->registerCustomer($packet1);
+        }
 }
 ?>

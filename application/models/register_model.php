@@ -60,5 +60,10 @@
             return $alert;
             
         }
+        
+        public function registerCustomer($packet1){
+            echo $packet1['name'];
+            
+        }
     }
 ?>
