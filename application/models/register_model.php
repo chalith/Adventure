@@ -37,11 +37,13 @@
                                 $this->db->insert('shopmobilenumber',$tp);
                         
                         }
-                        $alert=$data["shopname"]." registered successfully";
+                        $alert["bool"]=TRUE;
+                        $alert["msg"]=$data["shopname"]." registered successfully";
                         
                 }
                 else{
-                        $alert=$data["email"]." is already registered in the system";
+                        $alert["bool"]=FALSE;
+                        $alert["msg"]=$data["email"]." is already registered in the system";
                 }
                 return $alert;
         }
@@ -60,7 +62,6 @@
             return $alert;
             
         }
-        
         public function registerCustomer($packet1){
             echo $packet1['name'];
             

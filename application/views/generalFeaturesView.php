@@ -1,6 +1,13 @@
 
 <!DOCTYPE html>
 <html>
+    <?php
+        $this->load->helper('url');
+        //$this->load->view('registration');
+        $_SESSION["headercontent"]=array(
+            'nav1'=>'<li><a href="#section1">About</a></li>',
+        );
+    ?>
     <head>
         <title>FindYourRaft</title>
         <!--
@@ -22,26 +29,7 @@
 
     </head>
     <body>
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>                        
-                    </button>
-                </div>   
-                <div class="single-page-nav sticky-wrapper" id="tmNavbar">
-                    <ul class="nav navbar-nav">
-                        <li><a href="#section1">Homepage</a></li>
-                        <li><a href="#section2">About Us</a></li>
-                        <li><a href="#section3">Services</a></li>
-                        <li><a href="#section4">Contact</a></li>
-                        <li><a href="http://www.facebook.com/templatemo" class="external" target="_blank">External</a></li>
-                    </ul>
-                </div>   
-            </div>
-        </nav>   
+        <?php include('header.php'); ?>   
         <?php foreach ($generalfeature as $generalfeature) { ?>
 
             <div id="section1">

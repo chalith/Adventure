@@ -34,7 +34,15 @@
             }
         }
         public function getPerson($email){
-            return "provider";
+            $query = $this->db->query("SELECT userType FROM user WHERE email = '".$email."'");
+            if($query->num_rows()>0){
+                $obj = $query->result();
+                return $obj[0]->userType;
+            }
+            else{
+                return NULL;
+            }
+            //return "provider";
         }
     }
 ?>

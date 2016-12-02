@@ -24,8 +24,10 @@
                     $_SESSION['email'] = $email;
                     $_SESSION['id'] = $id;
                     $_SESSION['person'] = $person;
+                    $_SESSION['picture']=$this->login_model->getPicture($_SESSION['person'],$_SESSION['id']);
                     echo json_encode(array('alert'=>"true"));
                     return;
+                    
                     //$data["alert"]="<script>alert(\"logged\");</script>";
                 }else{
                     echo json_encode(array('alert'=>"Password is incorrect"));

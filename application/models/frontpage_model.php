@@ -4,7 +4,7 @@
             parent::__construct();
         }
         public function getActivities(){
-            $query = $this->db->query("SELECT * FROM mainfeatures");
+            $query = $this->db->query("SELECT * FROM generalfeatures");
             if($query->num_rows()>0){
                 return $query->result();
             }

@@ -28,7 +28,7 @@ class Register_controller extends CI_Controller{
             $address = $this->validate->get_input($this->input->post('address'));
             $fax = $this->validate->get_input($this->input->post('fax'));
             $about = $this->validate->get_input($this->input->post('about'));
-            
+            $picture = $this->input->post('picture');
             $data = array(
                     "shopid" => $shopid,
                     "shopname" => $shopname,
@@ -37,7 +37,7 @@ class Register_controller extends CI_Controller{
                     "address" => $address,
                     "fax" => $fax,
                     "about" => $about,
-                    "picture" => "img/4-2.jpg",
+                    "picture" => $picture,
                     "tpnumbers" => $tpnumbers,
                     "password" => $password
             );
@@ -47,6 +47,9 @@ class Register_controller extends CI_Controller{
             
         }
         public function picture_upload(){
+            if($_FILES["file"]["name"]==""){
+                return;
+            }
             $validextensions = array("jpeg", "jpg", "png");
             $temporary = explode(".", $_FILES["file"]["name"]);
             $file_extension = end($temporary);

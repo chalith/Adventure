@@ -3,6 +3,12 @@
     <?php
         $this->load->helper('url');
         //$this->load->view('registration');
+        $_SESSION["headercontent"]=array(
+            'nav1'=>'<li><a href="#section1">About</a></li>',
+            'nav2'=>'<li><a href="#section2">Activities</a></li>',
+            'nav3'=>'<li><a href="#section3">Providers</a></li>',
+            'nav4'=>'<li><a href="#section4">Special Offers</a></li>'
+        );
     ?>
     
 <head>
@@ -14,16 +20,16 @@
         <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=ABeeZee:400,400italic">
         
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="css/home/login.css">
-	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/home/style.css">
+	<link rel="stylesheet" href="<?php echo base_url();?>css/home/login.css">
+	<link rel="stylesheet" href="<?php echo base_url();?>bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="<?php echo base_url();?>css/home/style.css">
 	
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 	<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 	<script src="jquery.json-2.4.min.js"></script>
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
-	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<script src="<?php echo base_url();?>bootstrap/js/bootstrap.min.js"></script>
 <script>
 $(document).ready(function(){
   var providers = $("#providersrow");
@@ -99,6 +105,18 @@ $(document).ready(function(){
 		}, 800, function(){ /* callback */ });
 	}
   });
+  
+  $(".featurebtn").on("click",function(e){
+      window.location="index.php/welcome/getGeneralFeatures/"+e.target.id;
+  });
+  $(".provider").on("click",function(e){
+      var curid=$(e.target).parents().attr('id');
+      if(typeof curid=='undefined'){
+          var curid = e.target.id;
+      }
+      alert(curid);
+      //window.location="index.php/welcome/getGeneralFeatures/"+e.target.id;
+  });
 });
 </script>
 </head>
@@ -125,35 +143,36 @@ $(document).ready(function(){
 	<div id="section2">
 		<!-- Start Feature Area -->
 		<section id="feature-area" class="about-section">
-			<div class="container">
-				<div class="row text-center inner">
-					<div class="col-sm-4">
-						<div class="feature-content">
-							<img src="<?php echo base_url('img/rsz_img05.jpg');?>" alt="Image">
-							<h2 class="feature-content-title green-text">Waterfall Trekking</h2>
-							<p class="feature-content-description">Water fall trekking gives travellers a close view of incredible scenery of a waterfall. Trekking is mainly focused in view of stunningly beautiful waterfalls hidden inside the rain forests in Kitulgala. 
-							</p>
-                                                        <a href="<?php echo base_url('index.php/welcome/getGeneralFeatures/WT');?>" class="feature-content-link green-btn" >See Details</a>
+                                                <!-- Trigger the modal with a button -->
+                                                
+                                                
+                                                
 
+                                                
+                                                
+                                                
+                                                
+			<div class="container">
+                            <div class="row text-center inner">
+					<?php
+                                            if($activities!=NULL){
+                                            foreach ($activities as $object){
+                                        ?>
+                                <div class="col-sm-4">
+                                    <div class="feature-content" style="max-height: 500px; overflow: hidden; margin-bottom: 50px;">
+                                        <div class="activityimg"><img src="<?php echo base_url().$object->image; ?>" alt="Image"></div>
+							<h2 class="feature-content-title blue-text"><?php echo $object->name; ?></h2>
+							<p class="feature-content-description"><?php 
+                                                                                                    $descr = $object->description;
+                                                                                                    echo substr($descr, 0, 200).".....";
+                                                                                                ?></p>
+							<a href="#" id="<?php echo $object->activityID; ?>" class="featurebtn feature-content-link blue-btn">See Details</a>
 						</div>
 					</div>
-					<div class="col-sm-4">
-						<div class="feature-content">
-							<img src="<?php echo base_url('img/rsz_cycle2.jpg');?>" alt="Image">
-							<h2 class="feature-content-title blue-text">Cycling Trips</h2>
-							<p class="feature-content-description">Our Mountain Cycling tracks cover Tea Estates, Rubber Estates and other scenic locations, towns and sleepy hamlets. This is a great way to experience the sceneries and the local village lifestyles.</p>
-							<a href="<?php echo base_url('index.php/welcome/getGeneralFeatures/Cycle');?>" class="feature-content-link blue-btn">See Details</a>
-						</div>
-					</div>
-					<div class="col-sm-4">
-						<div class="feature-content">
-							<img src="<?php echo base_url('img/rsz_jumping.jpg');?>" alt="Image">
-							<h2 class="feature-content-title red-text">Confidence Jumps in natural stream slides</h2>
-							<p class="feature-content-description">The trek to natural rock pools and waterfalls of kataran-Oya" -1.5KM. There are 7 natural extremely beautiful where you will be able to experience many adeventures. 
-							</p>
-							<a href="<?php echo base_url('index.php/welcome/getGeneralFeatures/Jump');?>" class="feature-content-link red-btn">See Details</a>
-						</div>
-					</div>
+                                        <?php
+                                            }
+                                            }
+                                        ?>
 				</div>
 			</div>
 		</section>
@@ -199,14 +218,15 @@ $(document).ready(function(){
                                                                     if($providers!=NULL){
                                                                     foreach ($providers as $object){
                                                                 ?>
-                                                                    <td>
-								<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-xxs-12">
-									<div class="testimonial-content">
-                                                                            <img src="<?php echo $object->picture; ?>" alt="Image">
-										<h2><?php echo $object->shopName; ?></h2>
-										<p><?php echo $object->about; ?></p>
-										<br>
-									</div>
+                                                                <td>
+								<div id="<?php echo $object->id; ?>" class="provider testimonial-content col-lg-3 col-md-3 col-sm-6 col-xs-6 col-xxs-12">
+                                                                    <div id="<?php echo $object->id; ?>" class="providerimg"><img src="<?php echo base_url().$object->picture; ?>" alt="Image"></div>
+                                                                        <h2><?php echo $object->shopName; ?></h2>
+                                                                        <p><?php 
+                                                                                $descr = $object->about;
+                                                                                echo substr($descr, 0, 72).".....";
+                                                                            ?></p>
+                                                                        <br>
 								</div>
 								</td>
 								<?php
@@ -255,6 +275,9 @@ $(document).ready(function(){
 							</div>
 						</section><br><br>
 						<!-- End Contact Area -->
+                                                <?php
+                                                    if($advertisements!=NULL){
+                                                ?>
 						<section id="testimornial-area2">
 						<div class="container">
 							<div id="myCarousel2" class="carousel slide pro" data-ride="carousel">
@@ -265,20 +288,19 @@ $(document).ready(function(){
 								<li></li>
 								<li></li>
 							  </ol>
-
+                                                           
 							  <!-- Wrapper for slides -->
 							  <div class="carousel-inner pro" role="listbox">
 								<div class="row text-center providers">
 								<table id="advertisements">
 								<tr>
                                                                 <?php
-                                                                    if($advertisements!=NULL){
                                                                     foreach ($advertisements as $object){
                                                                 ?>                                                               
 								<td>
 								<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-xxs-12">
 									<div class="testimonial-content">
-                                                                            <img src="<?php echo $object["shoppic"]; ?>" alt="Image">
+                                                                            <img src="<?php echo base_url().$object["shoppic"]; ?>" alt="Image">
 										<h2><?php echo $object["title"]; ?></h2>
                                                                                 <a style="font-size:120%;"><?php echo $object["shopname"]; ?></a>
 										<p><?php echo $object["description"]; ?></p>
@@ -287,7 +309,6 @@ $(document).ready(function(){
 								</div>
 								</td>
                                                                 <?php
-                                                                    }
                                                                     }
                                                                 ?>
 								</tr>
@@ -307,6 +328,14 @@ $(document).ready(function(){
 
 						</div>
 					</section>
+                                                <?php
+                                                    }
+                                                    else{
+                                                ?>
+                                                <center><h1>No special offers for this season</h1></center><br><br>
+                                                <?php
+                                                    }
+                                                ?>
 					</div>
             </div>
 					
