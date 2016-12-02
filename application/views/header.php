@@ -389,7 +389,17 @@ function showLogin(){
                                                 <img src="<?php echo base_url().$picture; ?>" alt="User Image"/>
 
                                                     <ul>
-                                                            <li><a href="#">Profile</a></li>
+                                                            <?php 
+                                                                if($person=="provider"){
+                                                            ?>
+                                                                <li><a href="#">Profile</a></li>
+                                                            <?php
+                                                                }else{
+                                                            ?>
+                                                                <li><a href="#">Edit info</a></li>
+                                                            <?php
+                                                                }
+                                                            ?>
                                                             <li><a href="#" class="highlight logout">Logout</a></li>
                                                     </ul>
                                             </div>

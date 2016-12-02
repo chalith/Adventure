@@ -18,7 +18,7 @@
                 
             if($pwrd!=NULL){
                 $person = $this->login_model->getPerson($email);
-                $id = $this->login_model->getID($email);
+                $id = $this->login_model->getID($person,$email);
                 if($password==$pwrd){
                     session_start();
                     $_SESSION['email'] = $email;

@@ -3,8 +3,8 @@
         public function __construct() {
             parent::__construct();
         }
-        public function getID($email){
-            $query = $this->db->query("SELECT id FROM provider WHERE email = '".$email."'");
+        public function getID($table,$email){
+            $query = $this->db->query("SELECT id FROM $table WHERE email = '".$email."'");
             if($query->num_rows()>0){
                 $obj = $query->result();
                 return $obj[0]->id;
