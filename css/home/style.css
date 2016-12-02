@@ -78,6 +78,9 @@ z-index: 999;
 #advertisements .testimonial-content{
 	background-color:#DCC9BC;
 }	
+.login-signup-sec{
+    float: right;
+}
 .providers{
 	display:inline-block;
 	overflow-x:hidden;
@@ -97,7 +100,36 @@ z-index: 999;
 #advertisements tr td{
     padding: 20px;
 }
-
+#section4  h1 {
+    color: #383E4C;
+    font-size: 32px;
+    font-style: italic;
+    margin-bottom: 25px;
+    margin-top: 35px;
+}
+.nav li a{
+    font-size: 10px;
+}
+.homebtn{
+    border-radius: 5px;
+}
+.activityimg{
+    max-height: 250px;
+    overflow: hidden;
+}
+.providerimg{
+    max-height: 150px;
+    overflow: hidden;
+}
+.provider{
+    cursor:pointer;
+}
+.provider:hover{
+    background: lightgray;
+}
+.provider:active{
+    box-shadow: 1px 1px 2px 1px inset;
+}
 .pro{
     max-height: 450px;
 }
@@ -248,7 +280,8 @@ div#service-area-main {
 
 /* Start Testimornial CSS */
 #testimornial-area{
-  margin: 60px 0;
+  margin: 60px 0 60px 0;
+  //height: 320px;
 }
 h2 {
     color: #666666;
@@ -256,11 +289,11 @@ h2 {
 .testimonial-content {
   overflow: hidden;
   background-color: #f2f2f2;
-  max-height: 380px;
-  min-height: 380px;
-  max-width: 300px;
-  min-width: 300px;
-  margin: 0 auto 32px;
+  max-height: 300px;
+  min-height: 300px;
+  max-width: 245px;
+  min-width: 245px;
+  margin: 0 auto;
 }
 .testimonial-content  p {
     padding: 10px 20px;
@@ -440,9 +473,10 @@ h2 {
 }
 .navbar .navbar-nav {
     display: inline-block;
+}
+.navbar .nav-content{
     float: none;
 }
-
 .navbar .navbar-collapse {
     text-align: center;
 }

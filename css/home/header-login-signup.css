@@ -1,14 +1,13 @@
 .login-signup{
-	padding: 30px;
-	margin-left:60px;
+        padding: 30px;
+	//float: right;
 	box-sizing: border-box;
 	font-size:50%;
 }
 .login-signup-btn{
 	border-radius:20px;
-	//box-shadow: 2px 2px 5px 0.2px black inset;
+        //box-shadow: 2px 2px 5px 0.2px black inset;
 }
-
 /* Logo */
 
 .header-login-signup .header-limiter h1{
