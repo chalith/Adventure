@@ -31,14 +31,14 @@
                         for($i=0;$i<count($tpnumbers);$i++){
                                 $tp = array(
                                     "shopID" => $data["shopid"],
-                                    "mobileNumber" => $tpnumbers[$i][0],
+                                    "mobileNumber" => trim($tpnumbers[$i][0]),
                                     "contactName" => $tpnumbers[$i][1]
                                 );
                                 $this->db->insert('shopmobilenumber',$tp);
                         
                         }
                         $alert["bool"]=TRUE;
-                        $alert["msg"]=$data["shopname"]." registered successfully";
+                        $alert["msg"]=$data["email"]." registered successfully";
                         
                 }
                 else{
@@ -55,9 +55,19 @@
                 return $obj[0]->id;
             }
         }
-        public function insert_picture($shopID,$path){
-            $this->db->where('id', $shopID);
-            $this->db->update('provider', $path);
+        public function getCustomerID($email){
+            $query=$this->db->query("SELECT id FROM customer WHERE email = '$email';");
+            $shopID="";
+            if($query->num_rows()>0){
+                $obj = $query->result();
+                return $obj[0]->id;
+            }
+        }
+        
+        public function insert_picture($table,$id,$path){
+            $this->db->where('id', $id);
+            $this->db->update($table, array("picture" => $path));
+            //$this->db->query("UPDATE $table SET picture = '$path' WHERE id = '$id';");
             $alert="Picture is uploaded successfully";
             return $alert;
             
@@ -68,16 +78,23 @@
                 $alert="";
                 if($query->num_rows()==0){
                         $customer = array(
-                            "customerId" => $data["custid"],
+                            "id" => $data["custid"],
                             "name" => $data["custname"],
 //                            "userName" => $data["custusername"],
                             "address" => $data["custaddress"],
                             "email" => $data["custemail"],
-                            "telephone" => $data["custtp"]
-                           
+                            "picture" => $data["cuspic"]
+                            
                         );
                         $this->db->insert('customer',$customer);
-
+                        if($data["custtp"]!=""){
+                            $mobile = array(
+                                "customerID" => $data["custid"],
+                                "mobileNumber" => $data["custtp"]
+                            );
+                            $this->db->insert('customermobilenumber',$mobile);
+                        }
+                        
                         $user = array(
                             "email" => $data["custemail"],
                             "password" => $data["custpass"],
@@ -86,7 +103,7 @@
                         $this->db->insert('user',$user);
                         
                         $alert["bool"]=TRUE;
-                        $alert["msg"]=$data["custname"]." registered successfully";
+                        $alert["msg"]=$data["custemail"]." registered successfully";
                         
                 }
                 else{

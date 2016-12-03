@@ -42,7 +42,7 @@
                     var t = document.forms["shopRegister"]["txttpnumber" + i];
 
                     if (typeof t != 'undefined') {
-                        var number = document.forms["shopRegister"]["txttpnumber" + i].value;
+                        var number = document.forms["shopRegister"]["txttpnumber" + i].value.trim();
                         var name = document.forms["shopRegister"]["txtname" + i].value;
                         if ((number != "") || (name != "")) {
                             var temp = [number, name];
@@ -63,7 +63,7 @@
                 address = document.forms["shopRegister"]["txtaddress"].value;
                 if (address == "")
                     return;
-                fax = document.forms["shopRegister"]["txtfax"].value;
+                fax = document.forms["shopRegister"]["txtfax"].value.trim();
                 if (fax != "") {
                     if ((fax.length != 10) || (fax.isNaN)) {
                         alert("Fax number is invalid");
@@ -156,7 +156,7 @@
                                 if (res.alert.bool && (path.value != "")) {
                                     //alert(res.alert);
                                     jQuery.ajax({
-                                        url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload",
+                                        url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/file/provider",
                                         type: "POST", // Type of request to be send, called as method
                                         data: new FormData(document.getElementById("shopRegister")), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
                                         contentType: false, // The content type used when sending data to the server.
@@ -192,7 +192,7 @@
                 document.forms["shopRegister"]["txtfax"].value = "";
                 document.forms["shopRegister"]["txtabout"].value = "";
                 //document.forms["shopRegister"]["file"].value="";
-                document.getElementById("filein").innerHTML = "<input class=\"form-control\" type=\"file\" name=\"file\" id=\"file\"/><img id=\"pic\" src=\"\" style=\"width: 50%;\"/>";
+                document.getElementById("filein").innerHTML = "<div class=\"input-group\"><span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-picture\"></i></span><input class=\"form-control\" type=\"file\" name=\"file\" id=\"file\"/></div><div class=\"picdiv\"><img id=\"pic\" src=\"\" alt=\"No picture selected\"/></div>";
                 for (var i = 1; i < 6; i++) {
 
                     var t = document.forms["shopRegister"]["txttpnumber" + i];
@@ -205,6 +205,15 @@
                     }
 
                 }
+            }
+            function cusclear() {
+                document.forms["customerRegister"]["customeremail"].value="";
+                document.forms["customerRegister"]["customerpass"].value="";
+                document.forms["customerRegister"]["customerconfpass"].value="";
+                document.forms["customerRegister"]["customername"].value="";
+                document.forms["customerRegister"]["customeraddress"].value="";
+                document.forms["customerRegister"]["customertp"].value="";
+                document.getElementById("cusfilein").innerHTML = "<div class=\"input-group\"><span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-picture\"></i></span><input class=\"form-control\" type=\"file\" name=\"customerpic\" id=\"customerpic\"/></div><div class=\"picdiv\"><img id=\"cuspic\" src=\"\" alt=\"No picture selected\"/></div>";
             }
             function testUpload() {
                 var path = document.getElementById("file");
@@ -229,7 +238,7 @@
 
                     reader.onload = function (e) {
                         $('#' + imgtg).attr('src', e.target.result);
-                    }
+                    };
 
                     reader.readAsDataURL(input.files[0]);
                 }
@@ -292,6 +301,10 @@
                 $("#loginform").submit(function (e) {
                     e.preventDefault();
                 });
+                $("#customerRegister").submit(function (e) {
+                    e.preventDefault();
+                });
+                
                 var t = document.getElementById("txttpnumber");
                 if (typeof t != 'undefined') {
 
@@ -304,8 +317,12 @@
                     var path = document.getElementById("file");
                     readURL(path, "pic");
                 });
+                $('#customerpic').on("change", function () {
+                    var path = document.getElementById("customerpic");
+                    readURL(path, "cuspic");
+                });
 
-
+                
 
 
 
@@ -396,9 +413,9 @@
                 
                 custname = document.forms["customerRegister"]["customername"].value;
                 custaddress = document.forms["customerRegister"]["customeraddress"].value;
-                custtp = document.forms["customerRegister"]["customertp"].value;
+                custtp = document.forms["customerRegister"]["customertp"].value.trim();
                 
-                if (custtp && custtp.trim().length!=10){
+                if (custtp && (custtp.trim().length!=10 || custtp.isNaN)){
                     alert("Invalid Phone Number!");
                     return;
                 }
@@ -407,8 +424,7 @@
                     alert("Passwords Mismatch!");
                     return;
                 }
-                var obj = {custid: custid, custname: custname, custemail: custemail, custaddress: custaddress, custtp: custtp, custpass: custpass};
-                alert("one donkey at a time");
+                var obj = {custid: custid, custname: custname, custemail: custemail, custaddress: custaddress, custtp: custtp, cuspic: "img/customer/cover/noimg.png", custpass: custpass};
                 addcustomer(obj);
 
             }
@@ -418,17 +434,36 @@
                 var ret = confirm("Do you want to register");
                 
                 if (ret === true) {
-                    alert("inside ret");
+                    //alert("inside ret");
                     jQuery.ajax({
                         type: "POST",
                         url: "<?php echo base_url(); ?>" + "index.php/register_controller/registerCustomer",
                         dataType: "json",
                         data: obj,
                         success: function(res){
-
-
-                            alert("Good");
-                        
+                            alert(res.alert.msg);
+                            var path = document.getElementById("customerpic");
+                            
+                            if (res.alert.bool && (path.value != "")) {
+                                jQuery.ajax({
+                                    url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/customerpic/customer",
+                                    type: "POST", // Type of request to be send, called as method
+                                    data: new FormData(document.getElementById("customerRegister")), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+                                    contentType: false, // The content type used when sending data to the server.
+                                    cache: false, // To unable request pages to be cached
+                                    processData: false,
+                                    success: function (res) {
+                                        if (res)
+                                        {
+                                            alert(res);
+                                            claercus();
+                                        }
+                                    }
+                                });
+                            }
+                            if (res.alert.bool){
+                                location.reload();
+                            }
                         },
                         error:function(jqXHR, textStatus, errorThrown){
                             alert(jqXHR.responseText);
@@ -748,7 +783,7 @@
                                                             <label>Email:<span style="color:red">*</span></label>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                                                <input class="form-control" type="email" name="customeremail" id="customeremail" required>
+                                                                <input class="form-control" type="email" name="customeremail" id="customeremail" placeholder="Email" required>
                                                             </div>
                                                         </div>
 
@@ -756,7 +791,7 @@
                                                             <label>Password:<span style="color:red">*</span></label>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                                                <input class="form-control" type="password" name="customerpass" id="customerpass" required>
+                                                                <input class="form-control" type="password" name="customerpass" id="customerpass" placeholder="Password"  required>
                                                             </div>
                                                         </div>
 
@@ -764,16 +799,26 @@
                                                             <label>Confirm Password:<span style="color:red">*</span></label>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                                                <input class="form-control" type="password" name="customerconfpass" required id="customerconfpass"><span style="color:red;"></span>
+                                                                <input class="form-control" type="password" name="customerconfpass" required id="customerconfpass" placeholder="Password"><span style="color:red;"></span>
                                                             </div>
                                                         </div>
                                                         
-
+                                                        <div class="form-group">
+                                                            <label>Select a picture</label>
+                                                            <div id="cusfilein">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
+                                                                    <input class="form-control" type="file" name="customerpic" id="customerpic"/>
+                                                                </div>
+                                                                <div class="picdiv"><img id="cuspic" src="" alt="No picture selected"/></div>
+                                                            </div>
+                                                        </div>
+                                                        
                                                         <div class="form-group">
                                                             <label>Name:</label>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                                                <input type="text" class="form-control" id="customername" name="customername">
+                                                                <input type="text" class="form-control" id="customername" name="customername" placeholder="Name">
                                                             </div>
                                                         </div>
 
@@ -789,7 +834,7 @@
                                                             <label>Address:</label>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                                                                <input class="form-control" type="text" name="customeraddress" id="customeraddress">
+                                                                <input class="form-control" type="text" name="customeraddress" id="customeraddress" placeholder="Address">
                                                             </div>
                                                         </div>
 
@@ -797,7 +842,7 @@
                                                             <label>Contact:</label>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                                                                <input class="form-control" type="text" name="customertp" id="customertp">
+                                                                <input class="form-control" type="text" name="customertp" id="customertp" minlength="10" maxlength="10" placeholder="TPNumber1">
                                                             </div>
                                                         </div>
 

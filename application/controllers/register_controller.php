@@ -46,36 +46,40 @@ class Register_controller extends CI_Controller{
             echo json_encode(array('alert'=>$alert));
             
         }
-        public function picture_upload(){
-            if($_FILES["file"]["name"]==""){
+        public function picture_upload($id,$folder){
+            if($_FILES[$id]["name"]==""){
                 return;
             }
             $validextensions = array("jpeg", "jpg", "png");
-            $temporary = explode(".", $_FILES["file"]["name"]);
+            $temporary = explode(".", $_FILES[$id]["name"]);
             $file_extension = end($temporary);
-            $shopid = $this->register_model->getShopID($_POST["txtemail"]);
-            
-            if ($_FILES["file"]["error"] > 0)
+            $targtid = "";
+            if($folder=="provider")
+                $targtid = $this->register_model->getShopID($_POST["txtemail"]);
+            else if($folder=="customer")
+                $targtid = $this->register_model->getCustomerID($_POST["customeremail"]);
+            if ($_FILES[$id]["error"] > 0)
             {
-                $alert = "Return Code: " . $_FILES["file"]["error"] . "<br/><br/>";
+                $alert = "Return Code: " . $_FILES[$id]["error"] . "<br/><br/>";
                 echo $alert;
-                
+                return;
             }
             else
             {
-                $name = $shopid."pic.".$file_extension;
-                if (file_exists("img/shop/cover/" . $name)) {
+                $name = $targtid."pic.".$file_extension;
+                if (file_exists("img/".$folder."/cover/" . $name)) {
                     $alert = $name . " already exists. ";
                     echo $alert;
-                    
+                    return;
                 }
                 else
                 {
-                    $sourcePath = $_FILES['file']['tmp_name']; // Storing source path of the file in a variable
-                    $targetPath = "img/shop/cover/".$name; // Target path where file is to be stored
+                    $sourcePath = $_FILES[$id]['tmp_name']; // Storing source path of the file in a variable
+                    $targetPath = "img/".$folder."/cover/" . $name; // Target path where file is to be stored
                     move_uploaded_file($sourcePath,$targetPath);
-                    $alert=$this->register_model->insert_picture($shopid,array('picture'=>"img/shop/cover/".$name));
+                    $alert=$this->register_model->insert_picture($folder,$targtid,"img/".$folder."/cover/".$name);
                     echo $alert;
+                    return;
                     //$alert="aafsdfdfdfgfdhd11111111111111111111111111111111111";
 
                 }
@@ -95,6 +99,7 @@ class Register_controller extends CI_Controller{
             
             
             $custemail = $this->validate->get_input($this->input->post('custemail'));
+            $cuspic = $this->input->post('cuspic');
             $custaddress = $this->validate->get_input($this->input->post('custaddress'));
             
             $data = array(
@@ -104,7 +109,8 @@ class Register_controller extends CI_Controller{
                     "custemail" => $custemail,
                     "custaddress" => $custaddress,
                     "custtp" => $custtp,
-                    "custpass" => $custpass
+                    "custpass" => $custpass,
+                    "cuspic" => $cuspic
             );
             
             $alert=$this->register_model->registerCustomer($data);
