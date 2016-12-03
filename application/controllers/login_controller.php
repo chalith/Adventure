@@ -49,4 +49,5 @@
             return $this->login_model->getPicture($id);
         }
     }
+    
 ?>

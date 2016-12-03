@@ -62,9 +62,38 @@
             return $alert;
             
         }
-        public function registerCustomer($packet1){
-            echo $packet1['name'];
-            
+        public function registerCustomer($data){
+                
+                $query=$this->db->query("SELECT password FROM user WHERE email = '".$this->db->escape_str($data["custemail"])."';");
+                $alert="";
+                if($query->num_rows()==0){
+                        $customer = array(
+                            "customerId" => $data["custid"],
+                            "name" => $data["custname"],
+//                            "userName" => $data["custusername"],
+                            "address" => $data["custaddress"],
+                            "email" => $data["custemail"],
+                            "telephone" => $data["custtp"]
+                           
+                        );
+                        $this->db->insert('customer',$customer);
+
+                        $user = array(
+                            "email" => $data["custemail"],
+                            "password" => $data["custpass"],
+                            "userType" => "customer"
+                        );
+                        $this->db->insert('user',$user);
+                        
+                        $alert["bool"]=TRUE;
+                        $alert["msg"]=$data["custname"]." registered successfully";
+                        
+                }
+                else{
+                        $alert["bool"]=FALSE;
+                        $alert["msg"]=$data["custemail"]." is already registered in the system";
+                }
+                return $alert;
         }
     }
 ?>

@@ -1,590 +1,689 @@
 <html>
-<?php
+    <?php
     $this->load->helper('url');
     //$this->load->view('registration');
     $headercontent = "";
-    foreach ($_SESSION["headercontent"] as $ob){
-        $headercontent = $headercontent.$ob;
+    foreach ($_SESSION["headercontent"] as $ob) {
+        $headercontent = $headercontent . $ob;
     }
-?>
-    
-<head>
-    <title>FindYourRaft</title>
-    <?php include 'styles.php'; ?>
-<script>
-function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-}
-function register(){
-    var shopid=email=password=repassword=shopname=ownername=address=fax=about="";
-    var tpnumbers;
+    ?>
 
-    var shopid = "shop"+s4()+s4()+'-'+s4()+'-'+s4()+'-'+s4()+'-'+s4()+s4()+s4();
-
-    email = document.forms["shopRegister"]["txtemail"].value;
-    if(email=="") return;
-    password = document.forms["shopRegister"]["txtpassword"].value;
-    if(password=="") return;
-    repassword = document.forms["shopRegister"]["txtrepassword"].value;
-    if(repassword=="") return;
-    shopname = document.forms["shopRegister"]["txtshopname"].value;
-    if(shopname=="") return;
-    ownername = document.forms["shopRegister"]["txtownername"].value;
-    if(ownername=="") return;
-    tpnumbers = [];
-    for(var i=1;i<6;i++){
-
-        var t = document.forms["shopRegister"]["txttpnumber"+i];
-
-        if(typeof t != 'undefined'){
-                var number = document.forms["shopRegister"]["txttpnumber"+i].value;
-                var name = document.forms["shopRegister"]["txtname"+i].value;
-                if((number!="")||(name!="")){
-                    var temp = [number,name];
-                    tpnumbers.push(temp);
-                }
-        }else{
-                break;
-        }
-
-    }
-    for(var i=0;i<tpnumbers.length;i++){
-        var n=tpnumbers[i][0];
-        if((n.length!=10)||(n.isNaN)) { alert("Telephone number is invalid"); return;}        
-    }
-    address = document.forms["shopRegister"]["txtaddress"].value;
-    if(address=="") return;
-    fax = document.forms["shopRegister"]["txtfax"].value;
-    if(fax!=""){
-        if((fax.length!=10)||(fax.isNaN)) { alert("Fax number is invalid"); return;}
-    }
-    about = document.forms["shopRegister"]["txtabout"].value;
-    //if(about=="") {alert("Please write about your services"); return;}
-    if(!validateEmail(email)) return;
-    if(password!=repassword) {alert("Passwords are missmatch"); return;}
-    //if(!testUpload()) {return;}
-    var obj = {shopid:shopid,shopname:shopname,ownername:ownername,email:email,address:address,fax:fax,about:about,tpnumbers:tpnumbers,picture:"img/shop/cover/noimg.png",password:password};
-    //alert();
-    addshop(obj);
-
-    //var data = JSON.parse(text);
-    
-}
-function login(){
-    email = document.forms["loginform"]["email"].value;
-    if(email=="") return;
-    password = document.forms["loginform"]["password"].value;
-    if(password=="") return;
-    var obj = {email:email,password:password};
-    log(obj);
-}
-function log(obj){
-    jQuery.ajax({
-        type: "POST",
-        url: "<?php echo base_url(); ?>" + "index.php/login_controller/log_in",
-        dataType: 'json',
-        data: obj,
-        success: function(res) {
-            if (res)
-            {   
-                if(res.alert=="true"){
-                    //loadHeader();
-                    location.reload();
-                    clearlogin();
-                }
-                else{
-                    alert(res.alert);
-                }
+    <head>
+        <title>FindYourRaft</title>
+        <?php include 'styles.php'; ?>
+        <script>
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
             }
-        }
-    });
-}
-function clearlogin(){
-    document.forms["loginform"]["email"].value="";
-    document.forms["loginform"]["password"].value="";
-}
-function loadHeader(){
-//alert();
-    //var tmp = document.getElementById("userheader").innerHTML;
-    
-    //document.getElementById("headernav").innerHTML = tmp;
-}
-function logout(){
-    
-    jQuery.ajax({
-        type: "POST",
-        url: "<?php echo base_url(); ?>" + "index.php/login_controller/log_out",
-        success: function(res) {
-            location.reload();
-        }
+            function register() {
+                var shopid = email = password = repassword = shopname = ownername = address = fax = about = "";
+                var tpnumbers;
 
-    });
-}
+                var shopid = "shop" + s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 
-function addshop(obj){
-    
-    var ret=confirm("Do you want to register");
-    if(ret==true){
-        jQuery.ajax({
-            type: "POST",
-            url: "<?php echo base_url(); ?>" + "index.php/register_controller/shop_register",
-            dataType: 'json',
-            data: obj,
-            success: function(res) {
-                
-                if (res)
-                {
-                    alert(res.alert.msg);
-                    var path = document.getElementById("file");
-                    if(res.alert.bool&&(path.value!="")){
-                        //alert(res.alert);
-                        jQuery.ajax({
-                            url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload",
-                            type: "POST",             // Type of request to be send, called as method
-                            data: new FormData(document.getElementById("shopRegister")), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
-                            contentType: false,       // The content type used when sending data to the server.
-                            cache: false,             // To unable request pages to be cached
-                            processData:false,
-                            success: function(res) {
+                email = document.forms["shopRegister"]["txtemail"].value;
+                if (email == "")
+                    return;
+                password = document.forms["shopRegister"]["txtpassword"].value;
+                if (password == "")
+                    return;
+                repassword = document.forms["shopRegister"]["txtrepassword"].value;
+                if (repassword == "")
+                    return;
+                shopname = document.forms["shopRegister"]["txtshopname"].value;
+                if (shopname == "")
+                    return;
+                ownername = document.forms["shopRegister"]["txtownername"].value;
+                if (ownername == "")
+                    return;
+                tpnumbers = [];
+                for (var i = 1; i < 6; i++) {
 
-                                if (res)
-                                {
-                                    alert(res);
-                                    clear();
-                                }
-                            }
-                        });
+                    var t = document.forms["shopRegister"]["txttpnumber" + i];
+
+                    if (typeof t != 'undefined') {
+                        var number = document.forms["shopRegister"]["txttpnumber" + i].value;
+                        var name = document.forms["shopRegister"]["txtname" + i].value;
+                        if ((number != "") || (name != "")) {
+                            var temp = [number, name];
+                            tpnumbers.push(temp);
+                        }
+                    } else {
+                        break;
                     }
-                    if(res.alert.bool){
+
+                }
+                for (var i = 0; i < tpnumbers.length; i++) {
+                    var n = tpnumbers[i][0];
+                    if ((n.length != 10) || (n.isNaN)) {
+                        alert("Telephone number is invalid");
+                        return;
+                    }
+                }
+                address = document.forms["shopRegister"]["txtaddress"].value;
+                if (address == "")
+                    return;
+                fax = document.forms["shopRegister"]["txtfax"].value;
+                if (fax != "") {
+                    if ((fax.length != 10) || (fax.isNaN)) {
+                        alert("Fax number is invalid");
+                        return;
+                    }
+                }
+                about = document.forms["shopRegister"]["txtabout"].value;
+                //if(about=="") {alert("Please write about your services"); return;}
+                if (!validateEmail(email))
+                    return;
+                if (password != repassword) {
+                    alert("Passwords are missmatch");
+                    return;
+                }
+                //if(!testUpload()) {return;}
+                var obj = {shopid: shopid, shopname: shopname, ownername: ownername, email: email, address: address, fax: fax, about: about, tpnumbers: tpnumbers, picture: "img/shop/cover/noimg.png", password: password};
+                //alert();
+                addshop(obj);
+
+                //var data = JSON.parse(text);
+
+            }
+            function login() {
+                email = document.forms["loginform"]["email"].value;
+                if (email == "")
+                    return;
+                password = document.forms["loginform"]["password"].value;
+                if (password == "")
+                    return;
+                var obj = {email: email, password: password};
+                log(obj);
+            }
+            function log(obj) {
+                jQuery.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + "index.php/login_controller/log_in",
+                    dataType: 'json',
+                    data: obj,
+                    success: function (res) {
+                        if (res)
+                        {
+                            if (res.alert == "true") {
+                                //loadHeader();
+                                location.reload();
+                                clearlogin();
+                            } else {
+                                alert(res.alert);
+                            }
+                        }
+                    }
+                });
+            }
+            function clearlogin() {
+                document.forms["loginform"]["email"].value = "";
+                document.forms["loginform"]["password"].value = "";
+            }
+            function loadHeader() {
+        //alert();
+                //var tmp = document.getElementById("userheader").innerHTML;
+
+                //document.getElementById("headernav").innerHTML = tmp;
+            }
+            function logout() {
+
+                jQuery.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + "index.php/login_controller/log_out",
+                    success: function (res) {
                         location.reload();
                     }
+
+                });
+            }
+
+            function addshop(obj) {
+
+                var ret = confirm("Do you want to register");
+                if (ret == true) {
+                    jQuery.ajax({
+                        type: "POST",
+                        url: "<?php echo base_url(); ?>" + "index.php/register_controller/shop_register",
+                        dataType: 'json',
+                        data: obj,
+                        success: function (res) {
+
+                            if (res)
+                            {
+                                alert(res.alert.msg);
+                                var path = document.getElementById("file");
+                                if (res.alert.bool && (path.value != "")) {
+                                    //alert(res.alert);
+                                    jQuery.ajax({
+                                        url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload",
+                                        type: "POST", // Type of request to be send, called as method
+                                        data: new FormData(document.getElementById("shopRegister")), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+                                        contentType: false, // The content type used when sending data to the server.
+                                        cache: false, // To unable request pages to be cached
+                                        processData: false,
+                                        success: function (res) {
+
+                                            if (res)
+                                            {
+                                                alert(res);
+                                                clear();
+                                            }
+                                        }
+                                    });
+                                }
+                                if (res.alert.bool) {
+                                    location.reload();
+                                }
+                            }
+                        }
+
+                    });
+                }
+
+            }
+            function clear() {
+                document.forms["shopRegister"]["txtpassword"].value = "";
+                document.forms["shopRegister"]["txtrepassword"].value = "";
+                document.forms["shopRegister"]["txtshopname"].value = "";
+                document.forms["shopRegister"]["txtownername"].value = "";
+                document.forms["shopRegister"]["txtemail"].value = "";
+                document.forms["shopRegister"]["txtaddress"].value = "";
+                document.forms["shopRegister"]["txtfax"].value = "";
+                document.forms["shopRegister"]["txtabout"].value = "";
+                //document.forms["shopRegister"]["file"].value="";
+                document.getElementById("filein").innerHTML = "<input class=\"form-control\" type=\"file\" name=\"file\" id=\"file\"/><img id=\"pic\" src=\"\" style=\"width: 50%;\"/>";
+                for (var i = 1; i < 6; i++) {
+
+                    var t = document.forms["shopRegister"]["txttpnumber" + i];
+
+                    if (typeof t != 'undefined') {
+                        document.forms["shopRegister"]["txttpnumber" + i].value = "";
+                        document.forms["shopRegister"]["txtname" + i].value = "";
+                    } else {
+                        break;
+                    }
+
                 }
             }
-            
-        });
-    }
-    
-}
-function clear(){
-    document.forms["shopRegister"]["txtpassword"].value="";
-    document.forms["shopRegister"]["txtrepassword"].value="";
-    document.forms["shopRegister"]["txtshopname"].value="";
-    document.forms["shopRegister"]["txtownername"].value="";
-    document.forms["shopRegister"]["txtemail"].value="";
-    document.forms["shopRegister"]["txtaddress"].value="";
-    document.forms["shopRegister"]["txtfax"].value="";
-    document.forms["shopRegister"]["txtabout"].value="";
-    //document.forms["shopRegister"]["file"].value="";
-    document.getElementById("filein").innerHTML="<input class=\"form-control\" type=\"file\" name=\"file\" id=\"file\"/><img id=\"pic\" src=\"\" style=\"width: 50%;\"/>";
-    for(var i=1;i<6;i++){
+            function testUpload() {
+                var path = document.getElementById("file");
+                var extention = path.value.split(".").pop();
+                /*if(path.value == ""){
+                 setError(path);
+                 showalert("Please select an image");
+                 return false;
+                 }
+                 else */if (!((extention == "jpg") || (extention == "jpeg") || (extention == "bmp") || (extention == "gif") || (extention == "png"))) {
+                    setError(path);
+                    showalert("Invalid file format");
+                    return false;
+                }
+                return true;
+            }
 
-        var t = document.forms["shopRegister"]["txttpnumber"+i];
+            function readURL(input, imgtg) {
 
-        if(typeof t != 'undefined'){
-                document.forms["shopRegister"]["txttpnumber"+i].value="";
-                document.forms["shopRegister"]["txtname"+i].value="";
-        }else{
-                break;
-        }
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
 
-    }
-}
-function testUpload(){
-	var path = document.getElementById("file");
-	var extention = path.value.split(".").pop();
-	/*if(path.value == ""){
-		setError(path);
-		showalert("Please select an image");
-		return false;
-	}
-	else */if(!((extention=="jpg")||(extention=="jpeg")||(extention=="bmp")||(extention=="gif")||(extention=="png"))){
-		setError(path);
-		showalert("Invalid file format");
-		return false;
-	}
-	return true;
-}
+                    reader.onload = function (e) {
+                        $('#' + imgtg).attr('src', e.target.result);
+                    }
 
-function readURL(input,imgtg) {
-    
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            $('#'+imgtg).attr('src', e.target.result);
-        }
-
-        reader.readAsDataURL(input.files[0]);
-    }
-}
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
 
 
-$(document).ready(function(){
+            $(document).ready(function () {
 
-        var userMenu = $('.header-user-dropdown .header-user-menu');
+                var userMenu = $('.header-user-dropdown .header-user-menu');
 
-        userMenu.on('touchend', function(e){
+                userMenu.on('touchend', function (e) {
 
-                userMenu.addClass('show');
+                    userMenu.addClass('show');
 
-                e.preventDefault();
-                e.stopPropagation();
+                    e.preventDefault();
+                    e.stopPropagation();
 
-        });
+                });
 
-        // This code makes the user dropdown work on mobile devices
+                // This code makes the user dropdown work on mobile devices
 
-        $(document).on('touchend', function(e){
+                $(document).on('touchend', function (e) {
 
-                // If the page is touched anywhere outside the user menu, close it
-                userMenu.removeClass('show');
+                    // If the page is touched anywhere outside the user menu, close it
+                    userMenu.removeClass('show');
 
-        });
-        $('.homebtn').on('click',function (){
-            window.location="<?php echo base_url(); ?>";
-        });
-        
-        $('#loginformbtn').click(function(){
-          $('.login').fadeToggle('slow');
-          $(this).toggleClass('activebtn');
-        });
-        $(document).mouseup(function (e)
-        {
-                var container = $(".login");
+                });
+                $('.homebtn').on('click', function () {
+                    window.location = "<?php echo base_url(); ?>";
+                });
 
-                if (!container.is(e.target) // if the target of the click isn't the container...
-                        && container.has(e.target).length === 0) // ... nor a descendant of the container
+                $('#loginformbtn').click(function () {
+                    $('.login').fadeToggle('slow');
+                    $(this).toggleClass('activebtn');
+                });
+                $(document).mouseup(function (e)
                 {
+                    var container = $(".login");
+
+                    if (!container.is(e.target) // if the target of the click isn't the container...
+                            && container.has(e.target).length === 0) // ... nor a descendant of the container
+                    {
                         container.hide();
                         $('#loginformbtn').removeClass('activebtn');
-                }
-        });
-        $('input[type="submit"]').mousedown(function(){
-            $(this).css('background', '#2ecc71');
-          });
-          $('input[type="submit"]').mouseup(function(){
-            $(this).css('background', '#1abc9c');
-          });
-        $("#submitshopregister").click(function(event) {
-        //event.preventDefault();
-        register();
-    });
-    $("#submitlogin").click(function(event) {
-        login();
-    });
-    $("#loginform").submit(function(e) {
-    e.preventDefault();
-  });
-    var t = document.getElementById("txttpnumber");
-    if(typeof t != 'undefined'){
-   
-        $(".logout").click(function(event) {
-            event.preventDefault();
-            logout();
-        });
-    }    
-    $('#file').on("change",function(){
-        var path = document.getElementById("file");
-        readURL(path,"pic");
-    });
-    
-    
-    
-    
-    
-    $("#shopRegister").submit(function(e) {
-    e.preventDefault();
-  });
-  var ccustomerregister = $("#content-customerregister");
-  var cshopregister = $("#content-shopregister");
-  
-  /* display the shopregister page */
-  $("#showshopregister").on("click", function(e){
-    var newheight = cshopregister.height();
-    var newwidth = cshopregister.width();
-    $(cshopregister).css("display", "block");
-    
-    $(ccustomerregister).stop().animate({
-      "left": "-"+newwidth+"px"
-    }, 800, function(){ /* callback */ });
-    
-    $(cshopregister).stop().animate({
-      "left": "0px"
-    }, 800, function(){ $(ccustomerregister).css("display", "none"); });
-    
-    $("#page").stop().animate({
-      "height": newheight+"px"
-    }, 550, function(){ /* callback */ });
-  });
-  
-  /* display the customerregister page */
-  $("#showcustomerregister").on("click", function(e){
-    e.preventDefault();
-    var newheight = ccustomerregister.height();
-    var newwidth = ccustomerregister.width();
-	$(ccustomerregister).css("display", "block");
-    
-    $(ccustomerregister).stop().animate({
-      "left": "0px"
-    }, 800, function() { /* callback */ });
-    $(cshopregister).stop().animate({
-      "left": newwidth+"px"
-    }, 800, function() { $(cshopregister).css("display", "none"); });
-    
-    $("#page").stop().animate({
-      "height": newheight+"px"
-    }, 550, function(){ /* callback */ });
-  });
-});
+                    }
+                });
+                $('input[type="submit"]').mousedown(function () {
+                    $(this).css('background', '#2ecc71');
+                });
+                $('input[type="submit"]').mouseup(function () {
+                    $(this).css('background', '#1abc9c');
+                });
+                $("#submitshopregister").click(function (event) {
+                    //event.preventDefault();
+                    register();
+                });
+                $("#submitlogin").click(function (event) {
+                    login();
+                });
+                $("#loginform").submit(function (e) {
+                    e.preventDefault();
+                });
+                var t = document.getElementById("txttpnumber");
+                if (typeof t != 'undefined') {
 
-function showLogin(){
-        $('.login').fadeToggle('slow');
-        $(this).toggleClass('green');
-        var container = $(".registration");
-        container.hide();
-        $('#frontpagebody').css('opacity','1');
-        $('#registrationform').removeClass('green');
-}
-</script>
-</head>
-<body>
-    <div id="headernav">
+                    $(".logout").click(function (event) {
+                        event.preventDefault();
+                        logout();
+                    });
+                }
+                $('#file').on("change", function () {
+                    var path = document.getElementById("file");
+                    readURL(path, "pic");
+                });
+
+
+
+
+
+                $("#shopRegister").submit(function (e) {
+                    e.preventDefault();
+                });
+                var ccustomerregister = $("#content-customerregister");
+                var cshopregister = $("#content-shopregister");
+
+                /* display the shopregister page */
+                $("#showshopregister").on("click", function (e) {
+                    var newheight = cshopregister.height();
+                    var newwidth = cshopregister.width();
+                    $(cshopregister).css("display", "block");
+
+                    $(ccustomerregister).stop().animate({
+                        "left": "-" + newwidth + "px"
+                    }, 800, function () { /* callback */
+                    });
+
+                    $(cshopregister).stop().animate({
+                        "left": "0px"
+                    }, 800, function () {
+                        $(ccustomerregister).css("display", "none");
+                    });
+
+                    $("#page").stop().animate({
+                        "height": newheight + "px"
+                    }, 550, function () { /* callback */
+                    });
+                });
+
+                /* display the customerregister page */
+                $("#showcustomerregister").on("click", function (e) {
+                    e.preventDefault();
+                    var newheight = ccustomerregister.height();
+                    var newwidth = ccustomerregister.width();
+                    $(ccustomerregister).css("display", "block");
+
+                    $(ccustomerregister).stop().animate({
+                        "left": "0px"
+                    }, 800, function () { /* callback */
+                    });
+                    $(cshopregister).stop().animate({
+                        "left": newwidth + "px"
+                    }, 800, function () {
+                        $(cshopregister).css("display", "none");
+                    });
+
+                    $("#page").stop().animate({
+                        "height": newheight + "px"
+                    }, 550, function () { /* callback */
+                    });
+                });
+            });
+
+            function showLogin() {
+                $('.login').fadeToggle('slow');
+                $(this).toggleClass('green');
+                var container = $(".registration");
+                container.hide();
+                $('#frontpagebody').css('opacity', '1');
+                $('#registrationform').removeClass('green');
+            }
+        //Register Customer
+            function registercustomer() {
+               
+                var custid = custemail = custpass = custconfpass = custname = custaddress = custtp = custcontact = "";
+                
+                
+                custid = "customer" + s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+                
+                custemail = document.forms["customerRegister"]["customeremail"].value;
+                if (custemail == "")
+                    return;
+                
+                custpass = document.forms["customerRegister"]["customerpass"].value;
+                if (custpass == "")
+                    return;
+                custconfpass = document.forms["customerRegister"]["customerconfpass"].value;
+                if (custconfpass == "")
+                    return;
+
+//                custusername = document.forms["customerRegister"]["customerusername"].value;
+//                if (custusername == "")
+//                    return;
+               
+                
+                custname = document.forms["customerRegister"]["customername"].value;
+                custaddress = document.forms["customerRegister"]["customeraddress"].value;
+                custtp = document.forms["customerRegister"]["customertp"].value;
+                
+                if (custtp && custtp.trim().length!=10){
+                    alert("Invalid Phone Number!");
+                    return;
+                }
+
+                if (custpass != custconfpass) {
+                    alert("Passwords Mismatch!");
+                    return;
+                }
+                var obj = {custid: custid, custname: custname, custemail: custemail, custaddress: custaddress, custtp: custtp, custpass: custpass};
+                alert("one donkey at a time");
+                addcustomer(obj);
+
+            }
+
+            function addcustomer(obj){
+
+                var ret = confirm("Do you want to register");
+                
+                if (ret === true) {
+                    alert("inside ret");
+                    jQuery.ajax({
+                        type: "POST",
+                        url: "<?php echo base_url(); ?>" + "index.php/register_controller/registerCustomer",
+                        dataType: "json",
+                        data: obj,
+                        success: function(res){
+
+
+                            alert("Good");
+                        
+                        },
+                        error:function(jqXHR, textStatus, errorThrown){
+                            alert(jqXHR.responseText);
+                        }
+                    
+
+                    });
+                    console.log("saddd");
+                }
+
+            }
+
+
+        //Customer registration ends here
+
+
+        </script>
+    </head>
+    <body>
+        <div id="headernav">
             <?php
-                $email=$id=$person=$picture="";
-                session_start();    
-            
-                if(isset($_SESSION['email'])){
-                    $email=$_SESSION['email'];
-                    $id=$_SESSION['id'];
-                    $person=$_SESSION['person'];
-                    $picture=$_SESSION['picture'];
-                }
-            
-                if($email!=""){
-            ?>
-            <div id="userheader">
-            <nav class="navbar navbar-inverse navbar-fixed-top topbar">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>                        
-				</button>
-			</div>
-                        <div class="single-page-nav sticky-wrapper header-login-signup header-user-dropdown" id="tmNavbar">
-				<ul class="nav-content nav navbar-nav header-limiter">
-                                        <li><a href="#" class="homebtn">Home</a></li>  
-                                        <?php
-                                            echo $headercontent;
-                                        ?>
-					<!--<li><a href="#section1">Homepage</a></li>
-					<li><a href="#section2">About Us</a></li>
-					<li><a href="#section3">Services</a></li>
-					<li><a href="#section4">Contact</a></li>-->
-                                </ul>
-                                <ul class="login-signup-sec nav navbar-nav  header-limiter">
-                                    <li>
-                                            <div class="header-user-menu user">
-                                                <img src="<?php echo base_url().$picture; ?>" alt="User Image"/>
+            $email = $id = $person = $picture = "";
+            session_start();
 
-                                                    <ul>
-                                                            <?php 
-                                                                if($person=="provider"){
-                                                            ?>
-                                                                <li><a href="#">Profile</a></li>
-                                                            <?php
-                                                                }else{
-                                                            ?>
-                                                                <li><a href="#">Edit info</a></li>
-                                                            <?php
-                                                                }
-                                                            ?>
-                                                            <li><a href="#" class="highlight logout">Logout</a></li>
-                                                    </ul>
-                                            </div>
-                                    </li>
-                                </ul>
-                            
-			</div>
-                        <div class="navbar-header header-user-dropdown navbar-toggle left" style="width: 90px; padding: 0; margin-left: 1px;">
-                            <div class="header-limiter">
-				<div class="header-user-menu user">
-                                    <img src="<?php echo $picture; ?>" alt="User Image"/>
+            if (isset($_SESSION['email'])) {
+                $email = $_SESSION['email'];
+                $id = $_SESSION['id'];
+                $person = $_SESSION['person'];
+                $picture = $_SESSION['picture'];
+            }
 
-                                        <ul>
-                                                <li><a href="#">Profile</a></li>
-                                                <li><a href="#" class="highlight logout">Logout</a></li>
-                                        </ul>
-                                </div>
+            if ($email != "") {
+                ?>
+                <div id="userheader">
+                    <nav class="navbar navbar-inverse navbar-fixed-top topbar">
+                        <div class="container">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle">
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>                        
+                                </button>
                             </div>
-			</div>
-		</div>
-		
-	</nav>
-        </div>
-        <?php
-            }else{
-        ?>
-	<nav class="navbar navbar-inverse navbar-fixed-top topbar">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>                        
-				</button>
-			</div>   
-			<div class="single-page-nav sticky-wrapper header-login-signup" id="tmNavbar">
-                            <ul class="nav-content nav navbar-nav  header-limiter">
+                            <div class="single-page-nav sticky-wrapper header-login-signup header-user-dropdown" id="tmNavbar">
+                                <ul class="nav-content nav navbar-nav header-limiter">
                                     <li><a href="#" class="homebtn">Home</a></li>  
                                     <?php
-                                        echo $headercontent;
+                                    echo $headercontent;
                                     ?>
-
                                     <!--<li><a href="#section1">Homepage</a></li>
                                     <li><a href="#section2">About Us</a></li>
                                     <li><a href="#section3">Services</a></li>
                                     <li><a href="#section4">Contact</a></li>-->
+                                </ul>
+                                <ul class="login-signup-sec nav navbar-nav  header-limiter">
+                                    <li>
+                                        <div class="header-user-menu user">
+                                            <img src="<?php echo base_url() . $picture; ?>" alt="User Image"/>
+
+                                            <ul>
+                                                <?php
+                                                if ($person == "provider") {
+                                                    ?>
+                                                    <li><a href="#">Profile</a></li>
+                                                    <?php
+                                                } else {
+                                                    ?>
+                                                    <li><a href="#">Edit info</a></li>
+                                                    <?php
+                                                }
+                                                ?>
+                                                <li><a href="#" class="highlight logout">Logout</a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                            </div>
+                            <div class="navbar-header header-user-dropdown navbar-toggle left" style="width: 90px; padding: 0; margin-left: 1px;">
+                                <div class="header-limiter">
+                                    <div class="header-user-menu user">
+                                        <img src="<?php echo $picture; ?>" alt="User Image"/>
+
+                                        <ul>
+                                            <li><a href="#">Profile</a></li>
+                                            <li><a href="#" class="highlight logout">Logout</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </nav>
+                </div>
+                <?php
+            } else {
+                ?>
+                <nav class="navbar navbar-inverse navbar-fixed-top topbar">
+                    <div class="container">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>                        
+                            </button>
+                        </div>   
+                        <div class="single-page-nav sticky-wrapper header-login-signup" id="tmNavbar">
+                            <ul class="nav-content nav navbar-nav  header-limiter">
+                                <li><a href="#" class="homebtn">Home</a></li>  
+                                <?php
+                                echo $headercontent;
+                                ?>
+
+                                <!--<li><a href="#section1">Homepage</a></li>
+                                <li><a href="#section2">About Us</a></li>
+                                <li><a href="#section3">Services</a></li>
+                                <li><a href="#section4">Contact</a></li>-->
                             </ul>
                             <ul class="login-signup-sec nav navbar-nav  header-limiter">
-                                    <li class="login-signup">
-                                            <li><a class="login-signup-btn" style="font-size:85%;" href="#" id="loginformbtn">Login</a></li>
-                                            <li><a class="login-signup-btn" style="font-size:85%;" href="#" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Sign up</a></li>
-                                    </li>
+                                <li class="login-signup">
+                                <li><a class="login-signup-btn" style="font-size:85%;" href="#" id="loginformbtn">Login</a></li>
+                                <li><a class="login-signup-btn" style="font-size:85%;" href="#" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Sign up</a></li>
+                                </li>
                             </ul>
-			</div>
-		</div>
-		<div class="login">
-		  <div class="arrow-up"></div>
-		  <div class="formholder">
-			<div class="randompad">
-			   <fieldset>
-                               <?php 
+                        </div>
+                    </div>
+                    <div class="login">
+                        <div class="arrow-up"></div>
+                        <div class="formholder">
+                            <div class="randompad">
+                                <fieldset>
+                                    <?php
                                     //echo $alert;
-                                    
-                               ?>
-                               <form name="loginform" id="loginform" role="form" method="post" action="">
-				 <label>User Name</label>
-                                 <input name="email" type="email" required="required" placeholder="shomeone@somthing.com" />
-				 <label>Password</label>
-				 <input name="password" type="password" required="required" placeholder="password"/>
-				 <input id="submitlogin" type="submit" value="Login" />
-                               </form>
-			   </fieldset>
-			</div>
-		  </div>
-		</div>
-	</nav>
-        <?php
-             }
-        ?>
+                                    ?>
+                                    <form name="loginform" id="loginform" role="form" method="post" action="">
+                                        <label>User Name</label>
+                                        <input name="email" type="email" required="required" placeholder="shomeone@somthing.com" />
+                                        <label>Password</label>
+                                        <input name="password" type="password" required="required" placeholder="password"/>
+                                        <input id="submitlogin" type="submit" value="Login" />
+                                    </form>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                <?php
+            }
+            ?>
         </div>
-    
-    
-    
-    
-    
 
-    <div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-        <div class="modal-body" id="regbody">
-          <center>
-    <div id="w">
-        	<div id="page">
-			<div id="content-shopregister">
-				<div class="content"><br>
-				<a href="#" class="slidelink left feature-content-link blue-btn" id="showcustomerregister">&larr; Customer Registration</a><br><br><br>
-				<div class="modal-content">
-					<div class="modal-header">Register Shop
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
-                                        <form name="shopRegister" id="shopRegister" role="form" action="" method="post" accept-charset="utf-8">
-                                                <div class="form-group">
-							<label>Email<span style="color:red">*</span></label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                                            <input class="form-control" type="Email" name="txtemail" id="email" required="required" placeholder="Email" value=""/>
-                                                        </div>
-						</div>
 
-						<div class="form-group">
-							<label>Password<span style="color:red">*</span></label>
-							<div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                                            <input class="form-control" type="password" name="txtpassword" id="regpassword" required="required" placeholder="Password"/>
-                                                        </div>
+
+
+
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body" id="regbody">
+                        <center>
+                            <div id="w">
+                                <div id="page">
+                                    <div id="content-shopregister">
+                                        <div class="content"><br>
+                                            <a href="#" class="slidelink left feature-content-link blue-btn" id="showcustomerregister">&larr; Customer Registration</a><br><br><br>
+                                            <div class="modal-content">
+                                                <div class="modal-header">Register Shop
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
-
-						<div class="form-group">
-							<label>Re enter password<span style="color:red">*</span></label>
-							<div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                                            <input class="form-control" type="password" name="txtrepassword" id="repassword" required="required" placeholder="Password"/>
+                                                <div class="modal-body">
+                                                    <form name="shopRegister" id="shopRegister" role="form" action="" method="post" accept-charset="utf-8">
+                                                        <div class="form-group">
+                                                            <label>Email<span style="color:red">*</span></label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                                                <input class="form-control" type="Email" name="txtemail" id="email" required="required" placeholder="Email" value=""/>
+                                                            </div>
                                                         </div>
-                                                </div>
-                                                <div class="form-group">
-							<label>Select a picture</label>
-                                                        <div id="filein">
-							<div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
-                                                            <input class="form-control" type="file" name="file" id="file"/>
+
+                                                        <div class="form-group">
+                                                            <label>Password<span style="color:red">*</span></label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                                                <input class="form-control" type="password" name="txtpassword" id="regpassword" required="required" placeholder="Password"/>
+                                                            </div>
                                                         </div>
-                                                        <div class="picdiv"><img id="pic" src="" alt="No picture selected"/></div>
+
+                                                        <div class="form-group">
+                                                            <label>Re enter password<span style="color:red">*</span></label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                                                <input class="form-control" type="password" name="txtrepassword" id="repassword" required="required" placeholder="Password"/>
+                                                            </div>
                                                         </div>
-						</div>
+                                                        <div class="form-group">
+                                                            <label>Select a picture</label>
+                                                            <div id="filein">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
+                                                                    <input class="form-control" type="file" name="file" id="file"/>
+                                                                </div>
+                                                                <div class="picdiv"><img id="pic" src="" alt="No picture selected"/></div>
+                                                            </div>
+                                                        </div>
 
 
-						<div class="form-group">
-							<label>Name of the shop<span style="color:red">*</span></label>
-                                                        <div class="input-group">
-                                                           <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                                                            <input class="form-control" type="text" name="txtshopname" id="shopname" required="required" placeholder="ShopName" value=""/>
+                                                        <div class="form-group">
+                                                            <label>Name of the shop<span style="color:red">*</span></label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                                                <input class="form-control" type="text" name="txtshopname" id="shopname" required="required" placeholder="ShopName" value=""/>
+                                                            </div>
                                                         </div>
-                                                </div>
 
-						<div class="form-group">
-							<label>Owner's Name<span style="color:red">*</span></label>
-							<div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                                            <input class="form-control" type="text" name="txtownername" id="ownername" required="required" placeholder="OwnerName" value=""/>
-                                                        </div>
-                                                </div>        
-						<script>
-							var i = 1;
-							function addTP(){
-								if(i>=1){
-									alert("Number of contact numbers are too much !!!");
-									return;
-								}
-								var tp = Array();
-								var name = Array();
-								for(var j=1;j<=i;j++){
-									tp.push(document.getElementById("tpnumber"+j).value);
-									name.push(document.getElementById("name"+j).value);
-								}
-								i++;
-								var out="<div class=\"form-inline\"><input class=\"form-control\" type=\"text\" name=\"txttpnumber"+i+"\" id=\"tpnumber"+i+"\" required=\"required\" placeholder=\"TPNumber"+i+"\" maxlength=\"10\"/><label>Name</label><input class=\"form-control\" type=\"text\" name=\"txtname"+i+"\" id=\"name"+i+"\" required=\"required\" placeholder=\"Name\"/></div>";
-								document.getElementById("contactnumber").innerHTML += out;
-								for(var j=1;j<i;j++){
-									if(tp[j-1]!=""){
-										document.getElementById("tpnumber"+j).value = tp[j-1];
-									}
-									if(name[j-1]!=""){
-										document.getElementById("name"+j).value = name[j-1];
-									}
-								}
-							}
-						</script>
+                                                        <div class="form-group">
+                                                            <label>Owner's Name<span style="color:red">*</span></label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                                                <input class="form-control" type="text" name="txtownername" id="ownername" required="required" placeholder="OwnerName" value=""/>
+                                                            </div>
+                                                        </div>        
+                                                        <script>
+                                                            var i = 1;
+                                                            function addTP() {
+                                                                if (i >= 1) {
+                                                                    alert("Number of contact numbers are too much !!!");
+                                                                    return;
+                                                                }
+                                                                var tp = Array();
+                                                                var name = Array();
+                                                                for (var j = 1; j <= i; j++) {
+                                                                    tp.push(document.getElementById("tpnumber" + j).value);
+                                                                    name.push(document.getElementById("name" + j).value);
+                                                                }
+                                                                i++;
+                                                                var out = "<div class=\"form-inline\"><input class=\"form-control\" type=\"text\" name=\"txttpnumber" + i + "\" id=\"tpnumber" + i + "\" required=\"required\" placeholder=\"TPNumber" + i + "\" maxlength=\"10\"/><label>Name</label><input class=\"form-control\" type=\"text\" name=\"txtname" + i + "\" id=\"name" + i + "\" required=\"required\" placeholder=\"Name\"/></div>";
+                                                                document.getElementById("contactnumber").innerHTML += out;
+                                                                for (var j = 1; j < i; j++) {
+                                                                    if (tp[j - 1] != "") {
+                                                                        document.getElementById("tpnumber" + j).value = tp[j - 1];
+                                                                    }
+                                                                    if (name[j - 1] != "") {
+                                                                        document.getElementById("name" + j).value = name[j - 1];
+                                                                    }
+                                                                }
+                                                            }
+                                                        </script>
 
-						<div class="form-inline">
-							<label>Contact Number</label>
-							<div class="form-group" id="contactnumber">
-								<div class="form-inline">
+                                                        <div class="form-inline">
+                                                            <label>Contact Number</label>
+                                                            <div class="form-group" id="contactnumber">
+                                                                <div class="form-inline">
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
                                                                         <input class="form-control" type="tel" name="txttpnumber1" id="tpnumber1" placeholder="TPNumber1" minlength="10" maxlength="10" value=""/>
@@ -594,137 +693,138 @@ function showLogin(){
                                                                         <input class="form-control" type="text" name="txtname1" id="name1" placeholder="Name" value=""/>
                                                                     </div>
                                                                 </div>
-							</div>
-							<br><br>
-						</div>
-
-						<div class="form-group">
-							<label>Address<span style="color:red">*</span></label>
-							<div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                                                            <textarea class="form-control" name="txtaddress" id="address" required="required" placeholder="Address"></textarea>
+                                                            </div>
+                                                            <br><br>
                                                         </div>
+
+                                                        <div class="form-group">
+                                                            <label>Address<span style="color:red">*</span></label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                                                <textarea class="form-control" name="txtaddress" id="address" required="required" placeholder="Address"></textarea>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label>Fax</label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-phone-alt"></i></span>
+                                                                <input class="form-control" type="tel" name="txtfax" id="fax" placeholder="Fax" minlength="10" maxlength="10" value=""/>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label>About</label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                                                <textarea class="form-control" name="txtabout" id="about" placeholder="About"></textarea>
+                                                            </div>
+                                                        </div>    
+
+                                                        <div class="form-inline">
+                                                            <input class="btn btn-primary" id="submitshopregister" type="submit" value="Register"/>
+                                                            <a class="btn btn-info" onclick="showLogin();">Sign In</a>
+                                                        </div>
+                                                    </form>
                                                 </div>
-
-						<div class="form-group">
-							<label>Fax</label>
-							<div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-phone-alt"></i></span>
-                                                            <input class="form-control" type="tel" name="txtfax" id="fax" placeholder="Fax" minlength="10" maxlength="10" value=""/>
-                                                        </div>
-                                                </div>
-
-						<div class="form-group">
-							<label>About</label>
-							<div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span>
-                                                            <textarea class="form-control" name="txtabout" id="about" placeholder="About"></textarea>
-                                                        </div>
-                                                </div>    
-                            
-						<div class="form-inline">
-                                                        <input class="btn btn-primary" id="submitshopregister" type="submit" value="Register"/>
-                                                        <a class="btn btn-info" onclick="showLogin();">Sign In</a>
-						</div>
-					</form>
                                             </div>
-				</div>
-				</div>
-			</div><!-- /end #content-shopregister -->
-      
-      
-			<div id="content-customerregister">
-				<div class="content"><br>
-        		<a href="#" class="slidelink right feature-content-link blue-btn" id="showshopregister">Register Your Shop &rarr;</a><br><br><br>
-				<div class="modal-content">
-					<div class="modal-header">Register Customer
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         </div>
-                                        <div class="modal-body">
-                                            <!-- Customer registration form starts here-->
-                                                <form  name="customerRegister" id="customerRegister" role="form" method="post" action="<?php echo base_url('index.php/welcome/registerCustomer'); ?>" accept-charset="utf-8">
+                                    </div><!-- /end #content-shopregister -->
 
 
-                                                    <div class="form-group">
-                                                        <label>Email:<span style="color:red">*</span></label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                                            <input class="form-control" type="email" name="customeremail" id="customeremail" required>
+                                    <div id="content-customerregister">
+                                        <div class="content"><br>
+                                            <a href="#" class="slidelink right feature-content-link blue-btn" id="showshopregister">Register Your Shop &rarr;</a><br><br><br>
+                                            <div class="modal-content">
+                                                <div class="modal-header">Register Customer
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <!-- Customer registration form starts here-->
+                                                    <form  name="customerRegister" id="customerRegister" role="form" method="post"  accept-charset="utf-8">
+
+
+                                                        <div class="form-group">
+                                                            <label>Email:<span style="color:red">*</span></label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                                                <input class="form-control" type="email" name="customeremail" id="customeremail" required>
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div class="form-group">
-                                                        <label>Password:<span style="color:red">*</span></label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                                            <input class="form-control" type="password" name="customerpass" id="customerpass" required>
+                                                        <div class="form-group">
+                                                            <label>Password:<span style="color:red">*</span></label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                                                <input class="form-control" type="password" name="customerpass" id="customerpass" required>
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div class="form-group">
-                                                        <label>Confirm Password:<span style="color:red">*</span></label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                                            <input class="form-control" type="password" name="customerconfpass" required id="customerconfpass"><span style="color:red;"></span>
+                                                        <div class="form-group">
+                                                            <label>Confirm Password:<span style="color:red">*</span></label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                                                <input class="form-control" type="password" name="customerconfpass" required id="customerconfpass"><span style="color:red;"></span>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                        
 
-                                                    <div class="form-group">
-                                                        <label>Name:</label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                                            <input type="text" class="form-control" id="customername" name="customername">
+                                                        <div class="form-group">
+                                                            <label>Name:</label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                                                <input type="text" class="form-control" id="customername" name="customername">
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div class="form-group">
-                                                        <label>User-Name:<span style="color:red">*</span></label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                                            <input class="form-control" type="text" name="customerusername" id="customerusername" required>
+<!--                                                        <div class="form-group">
+                                                            <label>User-Name:<span style="color:red">*</span></label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                                                <input class="form-control" type="text" name="customerusername" id="customerusername" required>
+                                                            </div>
+                                                        </div>-->
+
+                                                        <div class="form-group">
+                                                            <label>Address:</label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                                                <input class="form-control" type="text" name="customeraddress" id="customeraddress">
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div class="form-group">
-                                                        <label>Address:</label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                                                            <input class="form-control" type="text" name="customeraddress" id="customeraddress">
+                                                        <div class="form-group">
+                                                            <label>Contact:</label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                                                <input class="form-control" type="text" name="customertp" id="customertp">
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div class="form-group">
-                                                        <label>Contact:</label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                                                            <input class="form-control" type="text" name="customertp" id="customertp">
+                                                        <div class="form-inline">
+                                                            <input class="btn btn-primary" id="submitregister" onclick="registercustomer();" type="submit" value="Register"/>
+                                                            <a class="btn btn-info" onclick="showLogin();">Sign In</a>
                                                         </div>
-                                                    </div>
 
-                                                    <div class="form-inline">
-                                                        <input class="btn btn-primary" id="submitregister" type="submit" value="Register"/>
-                                                        <a class="btn btn-info" onclick="showLogin();">Sign In</a>
-                                                    </div>
+                                                        <!-- nds here -->
+                                                    </form>
+                                                </div>
 
-                                                    <!-- nds here -->
-                                                </form>
+                                            </div>
                                         </div>
-                                	
-				</div>
-				</div>
-			</div><!-- /end #content-cutomerregister -->
-			
-		</div><!-- /end #page -->
-	</div><!-- /end #w -->
-        </center>
-              </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
+                                    </div><!-- /end #content-cutomerregister -->
 
-  </div>
-</div>
+                                </div><!-- /end #page -->
+                            </div><!-- /end #w -->
+                        </center>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
 
-</body>
+            </div>
+        </div>
+
+    </body>
 </html>

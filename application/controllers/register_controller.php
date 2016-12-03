@@ -80,6 +80,37 @@ class Register_controller extends CI_Controller{
 
                 }
             }
+        }
+        
+        
+            public function registerCustomer(){
+                
+            $custid=$custpass=$custname=$custusername=$custemail=$custaddress=$custtp="";
+            $custid = $this->input->post('custid');
+            $custpass = $this->encryptor->encryptPwrd($this->validate->get_input($this->input->post('custpass')));
+            $custname = $this->validate->get_input($this->input->post('custname'));
+            //$custusername = $this->validate->get_input($this->input->post('custusername'));
+            
+            $custtp = $this->input->post('custtp');
+            
+            
+            $custemail = $this->validate->get_input($this->input->post('custemail'));
+            $custaddress = $this->validate->get_input($this->input->post('custaddress'));
+            
+            $data = array(
+                    "custid" => $custid,
+                    "custname" => $custname,
+//                    "custusername" => $custusername,
+                    "custemail" => $custemail,
+                    "custaddress" => $custaddress,
+                    "custtp" => $custtp,
+                    "custpass" => $custpass
+            );
+            
+            $alert=$this->register_model->registerCustomer($data);
+            echo json_encode(array('alert'=>$alert));
+            
+        
             
         }
     }?>
