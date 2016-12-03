@@ -32,7 +32,12 @@
             </div>
 
 
-
+            <?php 
+              
+            $details = array(array("Rafting", "img/1-1.jpg", "index.php/welcome/getGeneralFeatures/act1"),array("Waterfall Abselling", "img/1-2.jpg", "index.php/welcome/getGeneralFeatures/act2"),array("Canyoning", "img/canyoning-1-.jpg", "index.php/welcome/getGeneralFeatures/act3"), array("Cycling", "img/cycling.png", "index.php/welcome/getGeneralFeatures/act4"), array("Hiking", "img/1-5.jpg", "index.php/welcome/getGeneralFeatures/act5"));
+            $random_keys = array_rand($details,4);
+            
+            ?>
 
             <div id = "section3">
                 <section id="testimornial-area">
@@ -41,11 +46,11 @@
 
                             <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                                 <div class="hovereffect">
-                                    <img class="img-responsive" src="<?php echo base_url('img/conjum.jpg'); ?>" alt="">
+                                    <img class="img-responsive" src="<?php echo base_url($details[$random_keys[0]][1]); ?>" alt="">
                                     <div class="overlay">
-                                        <h2>Effect 11</h2>
+                                        <h2><?php echo $details[$random_keys[0]][0]; ?></h2>
                                         <p> 
-                                            <a href="#">LINK HERE</a>
+                                            <a href="<?php echo base_url($details[$random_keys[0]][2]); ?>">Check Us!</a>
                                         </p> 
                                     </div>
                                 </div>
@@ -54,33 +59,33 @@
 
                             <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                                 <div class="hovereffect">
-                                    <img class="img-responsive" src="<?php echo base_url('img/bg-3.jpg'); ?>" alt="">
+                                    <img class="img-responsive" src="<?php echo base_url($details[$random_keys[1]][1]); ?>" alt="">
                                     <div class="overlay">
-                                        <h2>Effect 11</h2>
+                                        <h2><?php echo $details[$random_keys[1]][0]; ?></h2>
                                         <p> 
-                                            <a href="#">LINK HERE</a>
+                                            <a href="<?php echo base_url($details[$random_keys[1]][2]); ?>">Check Us!</a>
                                         </p> 
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                                 <div class="hovereffect">
-                                    <img class="img-responsive" src="<?php echo base_url('img/bg-1.jpg'); ?>" alt="">
+                                    <img class="img-responsive" src="<?php echo base_url($details[$random_keys[2]][1]); ?>" alt="">
                                     <div class="overlay">
-                                        <h2>Effect 11</h2>
+                                        <h2><?php echo $details[$random_keys[2]][0]; ?></h2>
                                         <p> 
-                                            <a href="#">LINK HERE</a>
+                                            <a href="<?php echo base_url($details[$random_keys[2]][2]); ?>">Check Us!</a>
                                         </p> 
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                                 <div class="hovereffect">
-                                    <img class="img-responsive" src="<?php echo base_url('img/bg-2.jpg'); ?>" alt="">
+                                    <img class="img-responsive" src="<?php echo base_url($details[$random_keys[3]][1]); ?>" alt="">
                                     <div class="overlay">
-                                        <h2>Effect 11</h2>
+                                        <h2><?php echo $details[$random_keys[3]][0]; ?></h2>
                                         <p> 
-                                            <a href="#">LINK HERE</a>
+                                            <a href="<?php echo base_url($details[$random_keys[3]][2]); ?>">Check Us!</a>
                                         </p> 
                                     </div>
                                 </div>
