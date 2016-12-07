@@ -540,7 +540,7 @@
                         </form>
                         
                     </center>
-                    <b>
+                    <br>
                     <button type="button" class="btn btn-danger">Delete Account</button>
                 </div>
                 <div class="modal-footer">
