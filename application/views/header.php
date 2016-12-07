@@ -121,7 +121,7 @@
                 document.forms["loginform"]["password"].value = "";
             }
             function loadHeader() {
-        //alert();
+                //alert();
                 //var tmp = document.getElementById("userheader").innerHTML;
 
                 //document.getElementById("headernav").innerHTML = tmp;
@@ -207,12 +207,12 @@
                 }
             }
             function cusclear() {
-                document.forms["customerRegister"]["customeremail"].value="";
-                document.forms["customerRegister"]["customerpass"].value="";
-                document.forms["customerRegister"]["customerconfpass"].value="";
-                document.forms["customerRegister"]["customername"].value="";
-                document.forms["customerRegister"]["customeraddress"].value="";
-                document.forms["customerRegister"]["customertp"].value="";
+                document.forms["customerRegister"]["customeremail"].value = "";
+                document.forms["customerRegister"]["customerpass"].value = "";
+                document.forms["customerRegister"]["customerconfpass"].value = "";
+                document.forms["customerRegister"]["customername"].value = "";
+                document.forms["customerRegister"]["customeraddress"].value = "";
+                document.forms["customerRegister"]["customertp"].value = "";
                 document.getElementById("cusfilein").innerHTML = "<div class=\"input-group\"><span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-picture\"></i></span><input class=\"form-control\" type=\"file\" name=\"customerpic\" id=\"customerpic\"/></div><div class=\"picdiv\"><img id=\"cuspic\" src=\"\" alt=\"No picture selected\"/></div>";
             }
             function testUpload() {
@@ -304,7 +304,7 @@
                 $("#customerRegister").submit(function (e) {
                     e.preventDefault();
                 });
-                
+
                 var t = document.getElementById("txttpnumber");
                 if (typeof t != 'undefined') {
 
@@ -322,7 +322,7 @@
                     readURL(path, "cuspic");
                 });
 
-                
+
 
 
 
@@ -387,18 +387,18 @@
                 $('#frontpagebody').css('opacity', '1');
                 $('#registrationform').removeClass('green');
             }
-        //Register Customer
+            //Register Customer
             function registercustomer() {
-               
+
                 var custid = custemail = custpass = custconfpass = custname = custaddress = custtp = custcontact = "";
-                
-                
+
+
                 custid = "customer" + s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-                
+
                 custemail = document.forms["customerRegister"]["customeremail"].value;
                 if (custemail == "")
                     return;
-                
+
                 custpass = document.forms["customerRegister"]["customerpass"].value;
                 if (custpass == "")
                     return;
@@ -409,13 +409,13 @@
 //                custusername = document.forms["customerRegister"]["customerusername"].value;
 //                if (custusername == "")
 //                    return;
-               
-                
+
+
                 custname = document.forms["customerRegister"]["customername"].value;
                 custaddress = document.forms["customerRegister"]["customeraddress"].value;
                 custtp = document.forms["customerRegister"]["customertp"].value.trim();
-                
-                if (custtp && (custtp.trim().length!=10 || custtp.isNaN)){
+
+                if (custtp && (custtp.trim().length != 10 || custtp.isNaN)) {
                     alert("Invalid Phone Number!");
                     return;
                 }
@@ -429,10 +429,10 @@
 
             }
 
-            function addcustomer(obj){
+            function addcustomer(obj) {
 
                 var ret = confirm("Do you want to register");
-                
+
                 if (ret === true) {
                     //alert("inside ret");
                     jQuery.ajax({
@@ -440,10 +440,10 @@
                         url: "<?php echo base_url(); ?>" + "index.php/register_controller/registerCustomer",
                         dataType: "json",
                         data: obj,
-                        success: function(res){
+                        success: function (res) {
                             alert(res.alert.msg);
                             var path = document.getElementById("customerpic");
-                            
+
                             if (res.alert.bool && (path.value != "")) {
                                 jQuery.ajax({
                                     url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/customerpic/customer",
@@ -461,14 +461,14 @@
                                     }
                                 });
                             }
-                            if (res.alert.bool){
+                            if (res.alert.bool) {
                                 location.reload();
                             }
                         },
-                        error:function(jqXHR, textStatus, errorThrown){
+                        error: function (jqXHR, textStatus, errorThrown) {
                             alert(jqXHR.responseText);
                         }
-                    
+
 
                     });
                     console.log("saddd");
@@ -477,11 +477,85 @@
             }
 
 
-        //Customer registration ends here
+            //Customer registration ends here
 
 
         </script>
     </head>
+
+    <!--    Edit Customer Details form-->
+
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <!--                    <h4 class="modal-title" id="myModalLabel">Modal</h4>-->
+                    <ul class="nav nav-tabs nav-justified">
+                        <li role="presentation" class="active"><a href="#custdetailsreset">Edit Personal Details</a></li>
+                        <li role="presentation"><a href="#">Reset Password</a></li
+                    </ul>
+                </div>
+
+                <div class="modal-body">
+                    <center>
+                        <form name="custdetailsreset" id="custdetailsreset" role="form" method="post" action="">
+                            <div class="form-group">
+                                <label>Reset Name:</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input type="text" class="form-control" id="custresetname" name="custresetname" placeholder="Name">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Reset Address:</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                    <input class="form-control" type="text" name="custresetaddress" id="custresetaddress" placeholder="Address">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Reset Contact:</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                    <input class="form-control" type="text" name="custresettp" id="custresettp" minlength="10" maxlength="10" placeholder="TPNumber1">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Select a picture</label>
+                                <div id="custresetfilein">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
+                                        <input class="form-control" type="file" name="custresetpic" id="custresetpic"/>
+                                    </div>
+                                    <div class="picdiv"><img id="custpic" src="" alt="No picture selected"/></div>
+                                </div>
+                            </div>
+
+                            
+                        </form>
+                        
+                    </center>
+                    <b>
+                    <button type="button" class="btn btn-danger">Delete Account</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+       
+    </div> 
+
+
+
+
+    <!--    Edit Customer Details form ends here-->
     <body>
         <div id="headernav">
             <?php
@@ -531,7 +605,9 @@
                                                     <?php
                                                 } else {
                                                     ?>
-                                                    <li><a href="#">Edit info</a></li>
+                                                    //Edit Details
+                                                    <li><a href="#" button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">Edit info</a></li>
+
                                                     <?php
                                                 }
                                                 ?>
@@ -542,6 +618,8 @@
                                 </ul>
 
                             </div>
+
+
                             <div class="navbar-header header-user-dropdown navbar-toggle left" style="width: 90px; padding: 0; margin-left: 1px;">
                                 <div class="header-limiter">
                                     <div class="header-user-menu user">
@@ -802,7 +880,7 @@
                                                                 <input class="form-control" type="password" name="customerconfpass" required id="customerconfpass" placeholder="Password"><span style="color:red;"></span>
                                                             </div>
                                                         </div>
-                                                        
+
                                                         <div class="form-group">
                                                             <label>Select a picture</label>
                                                             <div id="cusfilein">
@@ -813,7 +891,7 @@
                                                                 <div class="picdiv"><img id="cuspic" src="" alt="No picture selected"/></div>
                                                             </div>
                                                         </div>
-                                                        
+
                                                         <div class="form-group">
                                                             <label>Name:</label>
                                                             <div class="input-group">
@@ -822,13 +900,7 @@
                                                             </div>
                                                         </div>
 
-<!--                                                        <div class="form-group">
-                                                            <label>User-Name:<span style="color:red">*</span></label>
-                                                            <div class="input-group">
-                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                                                <input class="form-control" type="text" name="customerusername" id="customerusername" required>
-                                                            </div>
-                                                        </div>-->
+
 
                                                         <div class="form-group">
                                                             <label>Address:</label>

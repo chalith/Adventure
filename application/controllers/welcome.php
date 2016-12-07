@@ -30,6 +30,7 @@ class Welcome extends CI_Controller {
         public function getGeneralFeatures($param1){
             $this->load->model('generalFeaturesModel','',TRUE);
             $data['generalfeature']=$this->generalFeaturesModel->getGeneralFeatures($param1);
+//            $data['shops'] = $this->generalFeaturesModel->generalFeaturesProvider($param1);
             $this->load->view('generalFeaturesView', $data);
             
         }
@@ -37,7 +38,7 @@ class Welcome extends CI_Controller {
         public function registerCustomer(){
             
            
-            $myname = $this->input->post('customerpass');;
+            $myname = $this->input->post('customerpass');
             $packet1 = array("name" => $myname);
             $this->load->model('register_model');
             $this->register_model->registerCustomer($packet1);

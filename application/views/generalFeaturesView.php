@@ -100,24 +100,9 @@
                                         <h1><?php echo $generalfeature->name; ?></h1>
                                         <p class="tm-box-p"> <i>"<?php echo $generalfeature->description; ?>"</i></p>
                                         <p class="tm-box-p" style="float:center;"><b>Adventure Providers : </b></p>
-    <!--								<table class = "table">
-                                                <tbody>
-                                                //<?php
-//										$query = "SELECT * FROM shops WHERE shop_package_gf='{$name}'";
-//										$result = mysqli_query($connection, $query);
-//										if (!$result){
-//					            			echo "database error";
-//					        			}
-//					        			else{
-//					        				while($row = mysqli_fetch_assoc($result)){
-//					        					echo "<tr><td><a href=#>".$row["shop_name"]."</a></td></tr>";
-//					        				}
-//					        			}
-//
-//									
-                                        ?>
-                                        </tbody>
-                                </table>-->
+    								
+                                         
+                                                
                                     </div>                    
                                 </div>
                             </div>
