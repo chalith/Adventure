@@ -1,8 +1,37 @@
+#notifications{
+    max-height: 500px;
+    overflow-y:hidden;
+    overflow-x:hidden;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+#notifications:hover{
+	overflow-y:scroll;
+}
+#notifications::-webkit-scrollbar{
+	width: 8px;
+}
+#notifications::-webkit-scrollbar-thumb{
+	-webkit-box-shadow: inset 0 0 2px;
+	background-color:#545874;
+	border-radius:5px;
+}
+.setview{
+    float: right;
+    margin: 2px;
+}
+.notifiction-panel{
+    display: inline-block;
+    margin-bottom:-30px;
+}
+.notification{
+    background-color: #F1EEEE;
+}
 .user{
         padding: 30px;
 	margin-left:100px;
 	box-sizing: border-box;
-	font-size:50%;
+	font-size:10%;
 }
 
 .header-user-dropdown .header-limiter {

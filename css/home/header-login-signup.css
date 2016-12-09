@@ -1,3 +1,16 @@
+.badge-notify{
+   background:red;
+   position:relative;
+   top: -50px;
+   left: 12px;
+}
+.allcount{
+   background:red;
+   position:relative;
+   top: -30px;
+   left: 30px;
+}
+
 .login-signup{
         padding: 30px;
 	//float: right;
