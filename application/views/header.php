@@ -167,12 +167,23 @@
                                             if (res)
                                             {
                                                 alert(res);
-                                                clear();
+                                                location.reload();
                                             }
-                                        }
+                                        },
+                                        error: function(jqXHR, textStatus, errorThrown) {
+                                            alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+
+                                            $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+                                            console.log('jqXHR:');
+                                            console.log(jqXHR);
+                                            console.log('textStatus:');
+                                            console.log(textStatus);
+                                            console.log('errorThrown:');
+                                            console.log(errorThrown);
+                                    }
                                     });
                                 }
-                                if (res.alert.bool) {
+                                else  {
                                     location.reload();
                                 }
                             }
@@ -182,7 +193,7 @@
                 }
 
             }
-            function clear() {
+            /*function clear() {
                 document.forms["shopRegister"]["txtpassword"].value = "";
                 document.forms["shopRegister"]["txtrepassword"].value = "";
                 document.forms["shopRegister"]["txtshopname"].value = "";
@@ -214,7 +225,7 @@
                 document.forms["customerRegister"]["customeraddress"].value = "";
                 document.forms["customerRegister"]["customertp"].value = "";
                 document.getElementById("cusfilein").innerHTML = "<div class=\"input-group\"><span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-picture\"></i></span><input class=\"form-control\" type=\"file\" name=\"customerpic\" id=\"customerpic\"/></div><div class=\"picdiv\"><img id=\"cuspic\" src=\"\" alt=\"No picture selected\"/></div>";
-            }
+            }*/
             function testUpload() {
                 var path = document.getElementById("file");
                 var extention = path.value.split(".").pop();
@@ -452,7 +463,6 @@
                         success: function (res) {
                             alert(res.alert.msg);
                             var path = document.getElementById("customerpic");
-
                             if (res.alert.bool && (path.value != "")) {
                                 jQuery.ajax({
                                     url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/customerpic/customer",
@@ -465,12 +475,23 @@
                                         if (res)
                                         {
                                             alert(res);
-                                            claercus();
+                                            location.reload();
                                         }
+                                    },
+                                    error: function(jqXHR, textStatus, errorThrown) {
+                                        alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+
+                                        $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+                                        console.log('jqXHR:');
+                                        console.log(jqXHR);
+                                        console.log('textStatus:');
+                                        console.log(textStatus);
+                                        console.log('errorThrown:');
+                                        console.log(errorThrown);
                                     }
                                 });
                             }
-                            if (res.alert.bool) {
+                            else {
                                 location.reload();
                             }
                         },
