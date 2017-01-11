@@ -30,69 +30,10 @@
                     </div>
                 </header>
             </div>
-
-
-            <?php 
-              
-            $details = array(array("Rafting", "img/1-1.jpg", "index.php/welcome/getGeneralFeatures/act1"),array("Waterfall Abselling", "img/1-2.jpg", "index.php/welcome/getGeneralFeatures/act2"),array("Canyoning", "img/canyoning-1-.jpg", "index.php/welcome/getGeneralFeatures/act3"), array("Cycling", "img/cycling.png", "index.php/welcome/getGeneralFeatures/act4"), array("Hiking", "img/1-5.jpg", "index.php/welcome/getGeneralFeatures/act5"));
-            $random_keys = array_rand($details,4);
-            
-            ?>
-
             <div id = "section3">
                 <section id="testimornial-area">
                     <div class = "container">
-                        <div class="row">
-
-                            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                                <div class="hovereffect">
-                                    <img class="img-responsive" src="<?php echo base_url($details[$random_keys[0]][1]); ?>" alt="">
-                                    <div class="overlay">
-                                        <h2><?php echo $details[$random_keys[0]][0]; ?></h2>
-                                        <p> 
-                                            <a href="<?php echo base_url($details[$random_keys[0]][2]); ?>">Check Us!</a>
-                                        </p> 
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                                <div class="hovereffect">
-                                    <img class="img-responsive" src="<?php echo base_url($details[$random_keys[1]][1]); ?>" alt="">
-                                    <div class="overlay">
-                                        <h2><?php echo $details[$random_keys[1]][0]; ?></h2>
-                                        <p> 
-                                            <a href="<?php echo base_url($details[$random_keys[1]][2]); ?>">Check Us!</a>
-                                        </p> 
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                                <div class="hovereffect">
-                                    <img class="img-responsive" src="<?php echo base_url($details[$random_keys[2]][1]); ?>" alt="">
-                                    <div class="overlay">
-                                        <h2><?php echo $details[$random_keys[2]][0]; ?></h2>
-                                        <p> 
-                                            <a href="<?php echo base_url($details[$random_keys[2]][2]); ?>">Check Us!</a>
-                                        </p> 
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                                <div class="hovereffect">
-                                    <img class="img-responsive" src="<?php echo base_url($details[$random_keys[3]][1]); ?>" alt="">
-                                    <div class="overlay">
-                                        <h2><?php echo $details[$random_keys[3]][0]; ?></h2>
-                                        <p> 
-                                            <a href="<?php echo base_url($details[$random_keys[3]][2]); ?>">Check Us!</a>
-                                        </p> 
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
+                        
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="tm-box">
@@ -111,6 +52,36 @@
 
 
                         </div>
+                        
+                        <div class="row">
+                            <div class="tm-box-description">  
+                            <h2>See also.....</h2>
+                            </div>
+                            <?php 
+                                foreach ($activities as $obj) {
+                                    if($generalfeature->activityID != $obj->activityID) {
+                            ?>
+
+                            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                <div class="hovereffect">
+                                    <div class="featureimg"><img class="img-responsive" src="<?php echo base_url($obj->image); ?>" alt=""></div>
+                                    <div class="overlay">
+                                        <h2><?php echo $obj->name; ?></h2>
+                                        <p> 
+                                            <a href="<?php echo base_url("index.php/welcome/getGeneralFeatures/".$obj->activityID); ?>">Check Us!</a>
+                                        </p> 
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <?php
+                                    }
+                                }
+                            ?>
+
+                        </div>
+
+                    </div>
                 </section>
             </div>
             <div id="section4">
@@ -157,29 +128,7 @@
             </div>
 
             <!-- Start Footer Area -->
-            <footer id="footer-area">
-                <div class="container">
-                    <div class="row text-center">
-                        <div class="col-sm-12">
-                            <div class="footer-content">
-                                <h1>Use it free!</h1>
-                                <p>“Conquer is free Bootstrap template from templatemo website. 
-                                    <br>No backlink is required to use this layout.”</p>
-                            </div>                
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-12 text-center">             
-                            <p class="copy">Copyright © 2084 Your Company Name 
-
-                                | Design: <a rel="nofollow" href="http://www.templatemo.com" target="_parent">template mo</a></p>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            <?php include 'footer.php'; ?>
             <!-- End Footer Area -->
 
             <script src="<?php echo base_url('js/jquery-1.11.2.min.js'); ?>"></script>

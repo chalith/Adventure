@@ -173,12 +173,23 @@
                                             if (res)
                                             {
                                                 alert(res);
-                                                clear();
+                                                location.reload();
                                             }
-                                        }
+                                        },
+                                        error: function(jqXHR, textStatus, errorThrown) {
+                                            alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+
+                                            $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+                                            console.log('jqXHR:');
+                                            console.log(jqXHR);
+                                            console.log('textStatus:');
+                                            console.log(textStatus);
+                                            console.log('errorThrown:');
+                                            console.log(errorThrown);
+                                    }
                                     });
                                 }
-                                if (res.alert.bool) {
+                                else  {
                                     location.reload();
                                 }
                             }
@@ -188,7 +199,7 @@
                 }
 
             }
-            function clear() {
+            /*function clear() {
                 document.forms["shopRegister"]["txtpassword"].value = "";
                 document.forms["shopRegister"]["txtrepassword"].value = "";
                 document.forms["shopRegister"]["txtshopname"].value = "";
@@ -220,7 +231,7 @@
                 document.forms["customerRegister"]["customeraddress"].value = "";
                 document.forms["customerRegister"]["customertp"].value = "";
                 document.getElementById("cusfilein").innerHTML = "<div class=\"input-group\"><span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-picture\"></i></span><input class=\"form-control\" type=\"file\" name=\"customerpic\" id=\"customerpic\"/></div><div class=\"picdiv\"><img id=\"cuspic\" src=\"\" alt=\"No picture selected\"/></div>";
-            }
+            }*/
             function testUpload() {
                 var path = document.getElementById("file");
                 var extention = path.value.split(".").pop();
@@ -250,9 +261,18 @@
                 }
             }
 
-
+            $(window).load(function(){
+                getMsgCount("");
+                getNotifyCount();
+                setAllCount();
+                loadNotifications();
+            });
+            
             $(document).ready(function () {
-
+                setInterval("getMsgCount(\"\");", 3000);
+                setInterval("getNotifyCount();", 3000);
+                setInterval("setAllCount();", 3000);
+                setInterval("loadNotifications();", 3000);
                 var userMenu = $('.header-user-dropdown .header-user-menu');
 
                 userMenu.on('touchend', function (e) {
@@ -493,7 +513,6 @@
                         success: function (res) {
                             alert(res.alert.msg);
                             var path = document.getElementById("customerpic");
-
                             if (res.alert.bool && (path.value != "")) {
                                 jQuery.ajax({
                                     url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/customerpic/customer",
@@ -506,12 +525,23 @@
                                         if (res)
                                         {
                                             alert(res);
-                                            claercus();
+                                            location.reload();
                                         }
+                                    },
+                                    error: function(jqXHR, textStatus, errorThrown) {
+                                        alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+
+                                        $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+                                        console.log('jqXHR:');
+                                        console.log(jqXHR);
+                                        console.log('textStatus:');
+                                        console.log(textStatus);
+                                        console.log('errorThrown:');
+                                        console.log(errorThrown);
                                     }
                                 });
                             }
-                            if (res.alert.bool) {
+                            else {
                                 location.reload();
                             }
                         },
@@ -525,17 +555,113 @@
                 }
 
             }
-
+            function loadNotifications() {
+                jQuery.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + "index.php/notification_controller/get_Notifications",
+                    dataType: 'json',
+                    success: function (res) {
+                        var notification="";
+                        for(var i=0;i<res.length;i++){
+                            notification+="<div class=\"panel col-md-15 notification\">"+
+                                "<div id="+res[i].id+" class=\"media-body\">"+
+                                "<h5 id="+res[i].id+" class=\"media-heading\">"+res[i].shopName+"</h5>"+
+                                "<small id="+res[i].id+">The "+res[i].package+" package you have booked from "+res[i].shopName+" is reviewed and ready for you</small>"+
+                                "<button class=\"btn setview\" onclick=\"setViewed(event);\">Set as read</button>"+
+                                "</div>"+
+                                "</div>";
+                        }
+                        document.getElementById("notifications").innerHTML=notification;
+                    }
+                });
+            }
 
             //Customer registration ends here
-
-
+            var msgcount=0;
+            var notifycount=0;
+            function getMsgCount(sid){
+                jQuery.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + "index.php/message_controller/get_ReceivedMsgCount/"+sid,
+                    dataType: 'json',
+                    success: function (res) {
+                        $(".msgcount").html(res.count);
+                        msgcount=res.count;
+                    }
+                });
+            }
+            function getNotifyCount(){
+                jQuery.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + "index.php/notification_controller/get_NotificationCount",
+                    dataType: 'json',
+                    success: function (res) {
+                        $(".notifycount").html(res.count);
+                        notifycount=res.count;
+                    }
+                });
+            }
+            function setViewed(event){
+                var curid=$(event.target).parents().attr('id');
+                jQuery.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + "index.php/notification_controller/set_Viewed/"+curid,
+                    dataType: 'json'
+                });
+                loadNotifications();
+                getNotifyCount();
+                setAllCount();
+                
+            }
+            function setAllCount(){
+                $(".allcount").html(parseInt(msgcount)+parseInt(notifycount));
+            }
         </script>
     </head>
         
     <!--    Edit Customer Details form-->
+    <div id="myModalmessage" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Message</h4>
+            </div>
+            <div class="modal-body" >
+              <?php
+                  include 'message.php';
+              ?>
+            </div>
+          </div>
 
+        </div>
+    </div>
+    <div id="myModalnotify" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Notifications</h4>
+            </div>
+            <div class="modal-body">
+                <div class="" id="notifications">
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+
+<<<<<<< HEAD
     <div class="modal fade" id="myModal2" tabindex="-1" role="dialog">
+=======
+        </div>
+    </div>
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+>>>>>>> d7480b6c61c869709f834d4a03b27bea2ee2d7da
         <div class="modal-dialog" role="document">
 
             <!--            Modal content-->
@@ -673,13 +799,35 @@
                                     <li><a href="#section2">About Us</a></li>
                                     <li><a href="#section3">Services</a></li>
                                     <li><a href="#section4">Contact</a></li>-->
+                                    
                                 </ul>
                                 <ul class="login-signup-sec nav navbar-nav  header-limiter">
                                     <li>
                                         <div class="header-user-menu user">
                                             <img src="<?php echo base_url() . $picture; ?>" alt="User Image"/>
-
+                                            <span class="badge badge-notify allcount">4</span>
                                             <ul>
+                                                <li><a>
+                                                    <div class="notifiction-panel">
+                                                        <table>
+                                                            <tr>
+                                                                <td>
+                                                                    <button class="btn btn-default btn-lg btn-link" data-toggle="modal" data-target="#myModalmessage" style="font-size:30px;">
+                                                                    <span class="glyphicon glyphicon-comment"></span>
+                                                                    </button>
+                                                                    <span class="badge badge-notify msgcount"></span>
+                                                                </td>
+                                                                <td>
+                                                                    <button class="btn btn-default btn-lg btn-link" data-toggle="modal" data-target="#myModalnotify" style="font-size:30px;">
+                                                                    <span class="glyphicon glyphicon-bell"></span>
+                                                                    </button>
+                                                                    <span class="badge badge-notify notifycount"></span>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </a></li>
+                                                                           
                                                 <?php
                                                 if ($person == "provider") {
                                                     ?>
@@ -687,8 +835,7 @@
                                                     <?php
                                                 } else {
                                                     ?>
-                                                    //Edit Details
-                                                    <li><a href="#" button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">Edit info</a></li>
+                                                    <li><a href="#" button type="button" data-toggle="modal" data-target="#myModal2">Edit info</a></li>
 
                                                     <?php
                                                 }
@@ -705,12 +852,44 @@
                             <div class="navbar-header header-user-dropdown navbar-toggle left" style="width: 90px; padding: 0; margin-left: 1px;">
                                 <div class="header-limiter">
                                     <div class="header-user-menu user">
-                                        <img src="<?php echo $picture; ?>" alt="User Image"/>
+                                        <img src="<?php echo base_url() . $picture; ?>" alt="User Image"/>
+                                        <span class="badge badge-notify allcount"></span>
+                                            <ul>
+                                                <li><a>
+                                                    <div class="notifiction-panel">
+                                                        <table>
+                                                            <tr>
+                                                                <td>
+                                                                    <button class="btn btn-default btn-lg btn-link" data-toggle="modal" data-target="#myModalmessage" style="font-size:30px;">
+                                                                    <span class="glyphicon glyphicon-comment"></span>
+                                                                    </button>
+                                                                    <span class="badge badge-notify msgcount"></span>
+                                                                </td>
+                                                                <td>
+                                                                    <button class="btn btn-default btn-lg btn-link" data-toggle="modal" data-target="#myModalnotify" style="font-size:30px;">
+                                                                    <span class="glyphicon glyphicon-bell"></span>
+                                                                    </button>
+                                                                    <span class="badge badge-notify notifycount"></span>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </a></li>
+                                                                           
+                                                <?php
+                                                if ($person == "provider") {
+                                                    ?>
+                                                    <li><a href="#">Profile</a></li>
+                                                    <?php
+                                                } else {
+                                                    ?>
+                                                    <li><a href="#" button type="button" data-toggle="modal" data-target="#myModal2">Edit info</a></li>
 
-                                        <ul>
-                                            <li><a href="#">Profile</a></li>
-                                            <li><a href="#" class="highlight logout">Logout</a></li>
-                                        </ul>
+                                                    <?php
+                                                }
+                                                ?>
+                                                <li><a href="#" class="highlight logout">Logout</a></li>
+                                            </ul>
                                     </div>
                                 </div>
                             </div>

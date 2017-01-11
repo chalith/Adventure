@@ -118,7 +118,12 @@ z-index: 999;
     overflow: hidden;
 }
 .providerimg{
+    margin-top: 5px;
     max-height: 150px;
+    overflow: hidden;
+}
+.featureimg{
+    max-height: 240px;
     overflow: hidden;
 }
 .provider{

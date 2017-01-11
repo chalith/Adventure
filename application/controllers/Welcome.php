@@ -30,6 +30,7 @@ class Welcome extends CI_Controller {
         public function getGeneralFeatures($param1){
             $this->load->model('generalFeaturesModel','',TRUE);
             $data['generalfeature']=$this->generalFeaturesModel->getGeneralFeatures($param1);
+            $data['activities']=$this->frontpage_model->getActivities();
 //            $data['shops'] = $this->generalFeaturesModel->generalFeaturesProvider($param1);
             $this->load->view('generalFeaturesView', $data);
             
