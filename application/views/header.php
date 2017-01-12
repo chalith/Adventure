@@ -262,10 +262,11 @@
                 loadNotifications();
             });
             
+            
             $(document).ready(function () {
-                setInterval("getMsgCount(\"\");", 3000);
-                setInterval("getNotifyCount();", 3000);
-                setInterval("setAllCount();", 3000);
+                setInterval("getMsgCount(\"\");", 500);
+                setInterval("getNotifyCount();", 500);
+                setInterval("setAllCount();", 500);
                 setInterval("loadNotifications();", 3000);
                 var userMenu = $('.header-user-dropdown .header-user-menu');
 
@@ -398,7 +399,6 @@
                     });
                 });
             });
-
             function showLogin() {
                 $('.login').fadeToggle('slow');
                 $(this).toggleClass('green');
@@ -535,8 +535,9 @@
                     url: "<?php echo base_url(); ?>" + "index.php/message_controller/get_ReceivedMsgCount/"+sid,
                     dataType: 'json',
                     success: function (res) {
-                        $(".msgcount").html(res.count);
                         msgcount=res.count;
+                        //if(msgcount!="0")
+                            $(".msgcount").html(res.count);
                     }
                 });
             }
@@ -546,7 +547,9 @@
                     url: "<?php echo base_url(); ?>" + "index.php/notification_controller/get_NotificationCount",
                     dataType: 'json',
                     success: function (res) {
-                        $(".notifycount").html(res.count);
+                        //if(res.count!="0"){
+                            $(".notifycount").html(res.count);
+                        //}
                         notifycount=res.count;
                     }
                 });
@@ -564,29 +567,19 @@
                 
             }
             function setAllCount(){
-                $(".allcount").html(parseInt(msgcount)+parseInt(notifycount));
+                var allcount = parseInt(msgcount)+parseInt(notifycount);
+                if(allcount!=0){
+                    $(".allcount").html(allcount);
+                }else{
+                    $(".allcount").html("");
+                }
             }
         </script>
     </head>
 
-    <!--    Edit Customer Details form-->
-    <div id="myModalmessage" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Message</h4>
-            </div>
-            <div class="modal-body" >
-              <?php
-                  include 'message.php';
-              ?>
-            </div>
-          </div>
-
-        </div>
-    </div>
+    <?php
+        include 'message.php';
+    ?>
     <div id="myModalnotify" class="modal fade" role="dialog">
         <div class="modal-dialog">
           <!-- Modal content-->
@@ -719,7 +712,7 @@
                                     <li>
                                         <div class="header-user-menu user">
                                             <img src="<?php echo base_url() . $picture; ?>" alt="User Image"/>
-                                            <span class="badge badge-notify allcount">4</span>
+                                            <span class="badge badge-notify allcount"></span>
                                             <ul>
                                                 <li><a>
                                                     <div class="notifiction-panel">
@@ -852,7 +845,7 @@
                                     //echo $alert;
                                     ?>
                                     <form name="loginform" id="loginform" role="form" method="post" action="">
-                                        <label>User Name</label>
+                                        <label>E-Mail</label>
                                         <input name="email" type="email" required="required" placeholder="shomeone@somthing.com" />
                                         <label>Password</label>
                                         <input name="password" type="password" required="required" placeholder="password"/>
