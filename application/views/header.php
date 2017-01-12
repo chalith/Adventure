@@ -251,7 +251,23 @@
             }
 
 
+
             $(document).ready(function () {
+
+
+            $(window).load(function(){
+                getMsgCount("");
+                getNotifyCount();
+                setAllCount();
+                loadNotifications();
+            });
+            
+            
+            $(document).ready(function () {
+                setInterval("getMsgCount(\"\");", 500);
+                setInterval("getNotifyCount();", 500);
+                setInterval("setAllCount();", 500);
+                setInterval("loadNotifications();", 3000);
 
                 var userMenu = $('.header-user-dropdown .header-user-menu');
 
@@ -440,7 +456,6 @@
                 });
 
             });
-
             function showLogin() {
                 $('.login').fadeToggle('slow');
                 $(this).toggleClass('green');
@@ -600,10 +615,39 @@
                         }
 
 
+
                     });
                     console.log("saddd");
                 }
 
+
+            //Customer registration ends here
+            var msgcount=0;
+            var notifycount=0;
+            function getMsgCount(sid){
+                jQuery.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + "index.php/message_controller/get_ReceivedMsgCount/"+sid,
+                    dataType: 'json',
+                    success: function (res) {
+                        msgcount=res.count;
+                        //if(msgcount!="0")
+                            $(".msgcount").html(res.count);
+                    }
+                });
+            }
+            function getNotifyCount(){
+                jQuery.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + "index.php/notification_controller/get_NotificationCount",
+                    dataType: 'json',
+                    success: function (res) {
+                        //if(res.count!="0"){
+                            $(".notifycount").html(res.count);
+                        //}
+                        notifycount=res.count;
+                    }
+                });
             }
             
             function editcustomerpassword(){
@@ -632,6 +676,7 @@
                 resetpasswords(obj);
                
             }
+
             
             function resetpasswords(obj){
                 var ret = alert("Do you want to save the changes?");
@@ -654,6 +699,16 @@
                         }
                     });
                     console.log("sad");
+                    
+                    }
+                    }
+
+            function setAllCount(){
+                var allcount = parseInt(msgcount)+parseInt(notifycount);
+                if(allcount!=0){
+                    $(".allcount").html(allcount);
+                }else{
+                    $(".allcount").html("");
                 }
             }
 
@@ -661,9 +716,35 @@
         </script>
     </head>
 
+    <?php
+        include 'message.php';
+    ?>
+        
+    <!--    Edit Customer Details form-->
+    <div id="myModalmessage" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Message</h4>
+            </div>
+            <div class="modal-body" >
+              <?php
+                  include 'message.php';
+              ?>
+            </div>
+          </div>
+
     <!--    Edit Customer Details form-->
 
+
     <div class="modal fade" id="myModal2" tabindex="-1" role="dialog">
+
+        </div>
+    </div>
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
         <div class="modal-dialog" role="document">
 
             <!--            Modal content-->
@@ -839,6 +920,8 @@
                                         <div class="header-user-menu user">
                                             <img src="<?php echo base_url() . $picture; ?>" alt="User Image"/>
 
+                                            <span class="badge badge-notify allcount"></span>
+
                                             <ul>
                                                 <?php
                                                 if ($person == "provider") {
@@ -919,7 +1002,7 @@
                                     //echo $alert;
                                     ?>
                                     <form name="loginform" id="loginform" role="form" method="post" action="">
-                                        <label>User Name</label>
+                                        <label>E-Mail</label>
                                         <input name="email" type="email" required="required" placeholder="shomeone@somthing.com" />
                                         <label>Password</label>
                                         <input name="password" type="password" required="required" placeholder="password"/>

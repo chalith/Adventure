@@ -23,7 +23,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
+<<<<<<< HEAD
 $config['base_url'] = 'http://localhost/WWR/';
+=======
+$config['base_url'] = 'http://localhost/PHPProject/';
+>>>>>>> 09dcf6a884eca06d2b2c9caef25803a38a04d9c3
 
 /*
 |--------------------------------------------------------------------------

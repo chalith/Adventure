@@ -6,6 +6,17 @@
             $(window).load(function(){
                 loadSenders();
             });
+            $(function(){
+                $('#myModalmessage').on('click', function (event) {
+                    var id=event.target.id;
+                    if((id=='myModalmessage')||(id=='myModalmessageclose')){
+                        document.getElementById("sender").value="";
+                        document.getElementById("messages").innerHTML="";
+                        $('#sendername').html("");
+                    }
+                });
+            });
+    
             $(document).ready(function(){
                 $("#receivers").on('click',function(e){
                     var id=e.target.id;
@@ -14,10 +25,12 @@
                         document.getElementById("sender").value=id;
                         loadMessages();
                         $('#messages').animate({scrollTop:$('#messages')[0].scrollHeight});
+                        $('#messages').animate({scrollTop:$('#messages')[0].scrollHeight});
+                            
                     }
                 });
                 setInterval("loadSenders();", 3000);
-                setInterval("loadMessages();", 3000);
+                setInterval("loadMessages();", 500);
             });
             function loadSenders() {
                 jQuery.ajax({
@@ -90,37 +103,53 @@
         </script>
     </head>
 <body>
-    <div class="container">
-    <div class="row">
-        <div class="col-sm-2 col-md-2">
-            <div class="panel panel-default">
-                <div class="panel-body receivers">
-                    <div class="row">
-                        
+    <div id="myModalmessage" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" id="myModalmessageclose" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Message</h4>
+            </div>
+            <div class="modal-body" >
+    
+                <div class="container">
+                <div class="row">
+                    <div class="col-sm-2 col-md-2">
+                        <div class="panel panel-default">
+                            <div class="panel-body receivers">
+                                <div class="row">
+
+                                </div>
+                                <div class="row" id="receivers">
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="row" id="receivers">
-                        
+                    <div class="col-sm-4 col-md-4">
+                        <div class="panel panel-default">
+                            <input id="sender" type="hidden"/>
+                            <div class="panelhead" id="sendername"></div>
+                            <div class="panel-body msgs" id="messages">
+
+                            </div>
+                            <div class="panel-body formbody">                
+                                <form name="messageForm" accept-charset="UTF-8" action="" method="POST">
+                                    <textarea id="field" onkeyup="countChar(this)" class="form-control counted" name="message" placeholder="Type in your message" rows="5" style="margin-bottom:10px;"></textarea>
+                                    <h6 class="pull-right" id="counter">&nbspcharacters remaining</h6><h6 class="pull-right" id="charNum">320</h6>
+                                    <button class="btn btn-info" type="button" onclick="send();">Send</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
+                </div>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-4 col-md-4">
-            <div class="panel panel-default">
-                <input id="sender" type="hidden"/>
-                <div class="panelhead" id="sendername"></div>
-                <div class="panel-body msgs" id="messages">
-                    
-                </div>
-                <div class="panel-body formbody">                
-                    <form name="messageForm" accept-charset="UTF-8" action="" method="POST">
-                        <textarea id="field" onkeyup="countChar(this)" class="form-control counted" name="message" placeholder="Type in your message" rows="5" style="margin-bottom:10px;"></textarea>
-                        <h6 class="pull-right" id="counter">&nbspcharacters remaining</h6><h6 class="pull-right" id="charNum">320</h6>
-                        <button class="btn btn-info" type="button" onclick="send();">Send</button>
-                    </form>
-                </div>
-            </div>
+          </div>
+
         </div>
     </div>
-    </div>
+    
 </body>
 </html>
