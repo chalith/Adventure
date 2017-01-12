@@ -626,12 +626,9 @@
             }
         </script>
     </head>
-<<<<<<< HEAD
-
     <?php
         include 'message.php';
     ?>
-=======
         
     <!--    Edit Customer Details form-->
     <div id="myModalmessage" class="modal fade" role="dialog">
@@ -651,7 +648,6 @@
 
         </div>
     </div>
->>>>>>> 7c92a86b01625fb1fefcc9d5b74738cb4878d652
     <div id="myModalnotify" class="modal fade" role="dialog">
         <div class="modal-dialog">
           <!-- Modal content-->
@@ -670,13 +666,9 @@
             </div>
           </div>
 
-<<<<<<< HEAD
-    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog">
-=======
         </div>
     </div>
     <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
->>>>>>> d7480b6c61c869709f834d4a03b27bea2ee2d7da
         <div class="modal-dialog" role="document">
 
             <!--            Modal content-->
