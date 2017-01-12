@@ -46,7 +46,7 @@ class Register_controller extends CI_Controller{
             echo json_encode(array('alert'=>$alert));
             
         }
-        public function picture_upload($id,$folder){
+        public function picture_upload($id,$folder,$rORe){ //if registering a person, r will be passed. If a picture is baing updated e will be passed
             if($_FILES[$id]["name"]==""){
                 return;
             }
@@ -57,7 +57,10 @@ class Register_controller extends CI_Controller{
             if($folder=="provider")
                 $targtid = $this->register_model->getShopID($_POST["txtemail"]);
             else if($folder=="customer")
-                $targtid = $this->register_model->getCustomerID($_POST["customeremail"]);
+                if ($rORe == "r")
+                    $targtid = $this->register_model->getCustomerID($_POST["customeremail"]);
+                else
+                    $targtid = $this->register_model->getCustomerID($_POST["custresetemail"]);
             if ($_FILES[$id]["error"] > 0)
             {
                 $alert = "Return Code: " . $_FILES[$id]["error"] . "<br/><br/>";
@@ -67,7 +70,7 @@ class Register_controller extends CI_Controller{
             else
             {
                 $name = $targtid."pic.".$file_extension;
-                if (file_exists("img/".$folder."/cover/" . $name)) {
+                if ($rORe == "r" && file_exists("img/".$folder."/cover/" . $name)) {
                     $alert = $name . " already exists. ";
                     echo $alert;
                     return;
@@ -118,5 +121,44 @@ class Register_controller extends CI_Controller{
             
         
             
+        }
+        
+        public function editCustomer(){
+                
+            $custresetname=$custresetaddress=$custresettp="";
+            
+            $custresettp = $this->input->post('custresettp');
+            
+            
+            $custresetname = $this->validate->get_input($this->input->post('custresetname'));
+            $custresetpic = $this->input->post('custresetpic');
+            $custresetaddress = $this->validate->get_input($this->input->post('custresetaddress'));
+            
+            $data = array(
+                    "custresetname" => $custresetname,
+                    "custresetaddress" => $custresetaddress,
+                    "custresettp" => $custresettp,
+                    "custresetpic" => $custresetpic
+            );
+            
+            $alert=$this->register_model->editCustomerModel($data);
+            echo json_encode(array('alert'=>$alert));
+            
+        }
+        
+        public function changeCustomerPassword(){
+            $$resetoldpass = $resetnewpass="";
+            //assuming the same string is encrypted the same way all the time
+            $resetoldpass =  $this->encryptor->encryptPwrd($this->validate->get_input($this->input->post('resetoldpass')));
+            $resetnewpass = $this->encryptor->encryptPwrd($this->validate->get_input($this->input->post('resetnewpass')));
+            
+            
+            $data = array(
+                    "resetoldpass" => $resetoldpass,
+                    "Resetnewpass" => $resetnewpass
+            );
+            
+            $alert = $this->register_model->changeCustomerPasswordModel($data);
+            echo json_encode(array('alert'=>$alert));
         }
     }?>

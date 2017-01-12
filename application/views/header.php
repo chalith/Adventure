@@ -162,7 +162,7 @@
                                 if (res.alert.bool && (path.value != "")) {
                                     //alert(res.alert);
                                     jQuery.ajax({
-                                        url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/file/provider",
+                                        url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/file/provider/r",
                                         type: "POST", // Type of request to be send, called as method
                                         data: new FormData(document.getElementById("shopRegister")), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
                                         contentType: false, // The content type used when sending data to the server.
@@ -173,23 +173,12 @@
                                             if (res)
                                             {
                                                 alert(res);
-                                                location.reload();
+                                                clear();
                                             }
-                                        },
-                                        error: function(jqXHR, textStatus, errorThrown) {
-                                            alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
-
-                                            $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
-                                            console.log('jqXHR:');
-                                            console.log(jqXHR);
-                                            console.log('textStatus:');
-                                            console.log(textStatus);
-                                            console.log('errorThrown:');
-                                            console.log(errorThrown);
-                                    }
+                                        }
                                     });
                                 }
-                                else  {
+                                if (res.alert.bool) {
                                     location.reload();
                                 }
                             }
@@ -199,7 +188,7 @@
                 }
 
             }
-            /*function clear() {
+            function clear() {
                 document.forms["shopRegister"]["txtpassword"].value = "";
                 document.forms["shopRegister"]["txtrepassword"].value = "";
                 document.forms["shopRegister"]["txtshopname"].value = "";
@@ -231,7 +220,7 @@
                 document.forms["customerRegister"]["customeraddress"].value = "";
                 document.forms["customerRegister"]["customertp"].value = "";
                 document.getElementById("cusfilein").innerHTML = "<div class=\"input-group\"><span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-picture\"></i></span><input class=\"form-control\" type=\"file\" name=\"customerpic\" id=\"customerpic\"/></div><div class=\"picdiv\"><img id=\"cuspic\" src=\"\" alt=\"No picture selected\"/></div>";
-            }*/
+            }
             function testUpload() {
                 var path = document.getElementById("file");
                 var extention = path.value.split(".").pop();
@@ -261,18 +250,9 @@
                 }
             }
 
-            $(window).load(function(){
-                getMsgCount("");
-                getNotifyCount();
-                setAllCount();
-                loadNotifications();
-            });
-            
+
             $(document).ready(function () {
-                setInterval("getMsgCount(\"\");", 3000);
-                setInterval("getNotifyCount();", 3000);
-                setInterval("setAllCount();", 3000);
-                setInterval("loadNotifications();", 3000);
+
                 var userMenu = $('.header-user-dropdown .header-user-menu');
 
                 userMenu.on('touchend', function (e) {
@@ -346,6 +326,10 @@
                 $('#customerpic').on("change", function () {
                     var path = document.getElementById("customerpic");
                     readURL(path, "cuspic");
+                });
+                $('#custresetpic').on("change", function () {
+                    var path = document.getElementById("custresetpic");
+                    readURL(path, "custnewpic");
                 });
 
 
@@ -477,6 +461,7 @@
                 custpass = document.forms["customerRegister"]["customerpass"].value;
                 if (custpass == "")
                     return;
+                
                 custconfpass = document.forms["customerRegister"]["customerconfpass"].value;
                 if (custconfpass == "")
                     return;
@@ -513,9 +498,10 @@
                         success: function (res) {
                             alert(res.alert.msg);
                             var path = document.getElementById("customerpic");
+
                             if (res.alert.bool && (path.value != "")) {
                                 jQuery.ajax({
-                                    url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/customerpic/customer",
+                                    url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/customerpic/customer/r",
                                     type: "POST", // Type of request to be send, called as method
                                     data: new FormData(document.getElementById("customerRegister")), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
                                     contentType: false, // The content type used when sending data to the server.
@@ -525,23 +511,87 @@
                                         if (res)
                                         {
                                             alert(res);
-                                            location.reload();
+                                            claercus();
                                         }
-                                    },
-                                    error: function(jqXHR, textStatus, errorThrown) {
-                                        alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
-
-                                        $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
-                                        console.log('jqXHR:');
-                                        console.log(jqXHR);
-                                        console.log('textStatus:');
-                                        console.log(textStatus);
-                                        console.log('errorThrown:');
-                                        console.log(errorThrown);
                                     }
                                 });
                             }
-                            else {
+                            if (res.alert.bool) {
+                                location.reload();
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert(jqXHR.responseText);
+                        }
+
+
+                    });
+                    console.log("saddd");
+                }
+
+            }//Customer registration ends here
+
+            // method called onclick to edit customer profile details
+            function editcustomer() {
+            
+                var custresetname = custresetaddress = custresettp = "";
+                
+                custresetname = document.forms["custdetailsreset"]["custresetname"].value;
+                if (custresetname == "")
+                    
+                    return;
+
+
+                custresetaddress = document.forms["custdetailsreset"]["custresetaddress"].value;
+                if (custresetaddress == "")
+                    
+                    return;
+
+                custresettp = document.forms["custdetailsreset"]["custresettp"].value.trim();
+                alert("clicked");
+                if (custresettp.trim().length != 10 || custresettp.isNaN) {
+                    alert("Invalid Phone Number!");
+                    return;
+                }
+
+                var obj = {custresetname: custresetname, custresetaddress: custresetaddress, custresettp: custresettp, custresetpic: "img/customer/cover/noimg.png"};
+                updatecustomer(obj);
+
+            }
+
+            function updatecustomer(obj) {
+
+                var ret = confirm("Do you want to save changes?");
+
+                if (ret === true) {
+                    //alert("inside ret");
+                    jQuery.ajax({
+                        type: "POST",
+                        url: "<?php echo base_url(); ?>" + "index.php/register_controller/editCustomer",
+                        dataType: "json",
+                        data: obj,
+                        success: function (res) {
+                            alert(res.alert.msg);
+                            var path = document.getElementById("custresetpic");
+
+                            if (res.alert.bool && (path.value != "")) {
+                                jQuery.ajax({
+                                    url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/custresetpic/customer/e",
+                                    type: "POST", // Type of request to be send, called as method
+                                    data: new FormData(document.getElementById("custdetailsreset")), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+                                    contentType: false, // The content type used when sending data to the server.
+                                    cache: false, // To unable request pages to be cached
+                                    processData: false,
+                                    success: function (res) {
+                                        if (res)
+                                        {
+                                            alert(res);
+                                            //claercus();
+                                        }
+                                    }
+                                });
+                            }
+                            if (res.alert.bool) {
                                 location.reload();
                             }
                         },
@@ -555,205 +605,189 @@
                 }
 
             }
-            function loadNotifications() {
-                jQuery.ajax({
-                    type: "POST",
-                    url: "<?php echo base_url(); ?>" + "index.php/notification_controller/get_Notifications",
-                    dataType: 'json',
-                    success: function (res) {
-                        var notification="";
-                        for(var i=0;i<res.length;i++){
-                            notification+="<div class=\"panel col-md-15 notification\">"+
-                                "<div id="+res[i].id+" class=\"media-body\">"+
-                                "<h5 id="+res[i].id+" class=\"media-heading\">"+res[i].shopName+"</h5>"+
-                                "<small id="+res[i].id+">The "+res[i].package+" package you have booked from "+res[i].shopName+" is reviewed and ready for you</small>"+
-                                "<button class=\"btn setview\" onclick=\"setViewed(event);\">Set as read</button>"+
-                                "</div>"+
-                                "</div>";
+            
+            function editcustomerpassword(){
+                var resetoldpass = resetnewpass = resetconfnewpass = "";
+                alert("1");
+                resetoldpass = document.forms["custpasswordreset"]["custpassresetoldpass"].value;
+                if (resetoldpass == "")
+                    return;
+               
+                resetnewpass = document.forms["custpasswordreset"]["custpassresetnewpass"].value;
+                if (resetnewpass == "")
+                    return;
+                
+                resetconfnewpass = document.forms["custpasswordreset"]["custpassresetconfpass"].value;
+                if (resetconfnewpass == "")
+                    return;
+                
+                
+                if (resetnewpass !== resetconfnewpass){
+                    alert("Passwords Mismatch!");
+                    resturn;
+                }
+                alert(resetnewpass);
+                alert(resetoldpass);
+                var obj = {resetoldpass: resetoldpass, resetnewpass: resetnewpass};
+                resetpasswords(obj);
+               
+            }
+            
+            function resetpasswords(obj){
+                var ret = alert("Do you want to save the changes?");
+                
+                if (ret === true){
+                    jQuery.ajax({
+                        type: "POST",
+                        url: "<?php echo base_url(); ?>" + "index.php/register_controller/changeCustomerPassword",
+                        dataType: "json",
+                        data: obj,
+                        success: function (res) {
+                            alert(res.alert.msg);
+                            
+                            if (res.alert.bool) {
+                                location.reload();
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert(jqXHR.responseText);
                         }
-                        document.getElementById("notifications").innerHTML=notification;
-                    }
-                });
+                    });
+                    console.log("sad");
+                }
             }
 
-            //Customer registration ends here
-            var msgcount=0;
-            var notifycount=0;
-            function getMsgCount(sid){
-                jQuery.ajax({
-                    type: "POST",
-                    url: "<?php echo base_url(); ?>" + "index.php/message_controller/get_ReceivedMsgCount/"+sid,
-                    dataType: 'json',
-                    success: function (res) {
-                        $(".msgcount").html(res.count);
-                        msgcount=res.count;
-                    }
-                });
-            }
-            function getNotifyCount(){
-                jQuery.ajax({
-                    type: "POST",
-                    url: "<?php echo base_url(); ?>" + "index.php/notification_controller/get_NotificationCount",
-                    dataType: 'json',
-                    success: function (res) {
-                        $(".notifycount").html(res.count);
-                        notifycount=res.count;
-                    }
-                });
-            }
-            function setViewed(event){
-                var curid=$(event.target).parents().attr('id');
-                jQuery.ajax({
-                    type: "POST",
-                    url: "<?php echo base_url(); ?>" + "index.php/notification_controller/set_Viewed/"+curid,
-                    dataType: 'json'
-                });
-                loadNotifications();
-                getNotifyCount();
-                setAllCount();
-                
-            }
-            function setAllCount(){
-                $(".allcount").html(parseInt(msgcount)+parseInt(notifycount));
-            }
+
         </script>
     </head>
-        
+
     <!--    Edit Customer Details form-->
-    <div id="myModalmessage" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Message</h4>
-            </div>
-            <div class="modal-body" >
-              <?php
-                  include 'message.php';
-              ?>
-            </div>
-          </div>
 
-        </div>
-    </div>
-    <div id="myModalnotify" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Notifications</h4>
-            </div>
-            <div class="modal-body">
-                <div class="" id="notifications">
-                    
-                </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-
-<<<<<<< HEAD
     <div class="modal fade" id="myModal2" tabindex="-1" role="dialog">
-=======
-        </div>
-    </div>
-    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
->>>>>>> d7480b6c61c869709f834d4a03b27bea2ee2d7da
         <div class="modal-dialog" role="document">
 
             <!--            Modal content-->
             <div class="modal-content">
                 <div class="modal-body" id="regbody">
-                    <div class="w" id="w">
-                        <div class="page" id="page2">
-                            <div class="animated-modal-1" id="content-editcustprofile">
-                                <div class="content"><br><br>
-                                    <a href="#" class="slidelink right feature-content-link blue-btn" id="showeditcustpass"> Reset Password &rarr;</a><br><br><br>
-                                    <div class="modal-content">
-                                        <div class="modal-header" style=margin-left:200px;>Edit Personal Details
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        </div>
+                    <center>
+                        <div class="w" id="w">
+                            <div class="page" id="page2">
+                                <div class="animated-modal-1" id="content-editcustprofile">
+                                    <div class="content"><br>
+                                        <a href="#" class="slidelink right feature-content-link blue-btn" id="showeditcustpass"> Reset Password &rarr;</a><br><br><br>
+                                        <div class="modal-content">
+                                            <div class="modal-header" >Edit Personal Details
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
 
-                                        <div class="modal-body">
-                                            <center>
-                                                <form name="custdetailsreset" id="custdetailsreset" role="form" method="post" action="">
-                                                    <div class="form-group">
-                                                        <label>Reset Name:</label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                                            <input type="text" class="form-control" id="custresetname" name="custresetname" placeholder="Name">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label>Reset Address:</label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                                                            <input class="form-control" type="text" name="custresetaddress" id="custresetaddress" placeholder="Address">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label>Reset Contact:</label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                                                            <input class="form-control" type="text" name="custresettp" id="custresettp" minlength="10" maxlength="10" placeholder="TPNumber1">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Select a picture</label>
-                                                        <div id="custresetfilein">
+                                            <div class="modal-body">
+                                                <center>
+                                                    <form name="custdetailsreset" id="custdetailsreset" role="form" method="post" action="">
+                                                        <div class="form-group">
+                                                            <label>Reset Name:</label>
                                                             <div class="input-group">
-                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
-                                                                <input class="form-control" type="file" name="custresetpic" id="custresetpic"/>
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                                                <input type="text" class="form-control" required="required" id="custresetname" name="custresetname" placeholder="Name" value="" >
                                                             </div>
-                                                            <div class="picdiv"><img id="custpic" src="" alt="No picture selected"/></div>
                                                         </div>
-                                                    </div>
+
+                                                        <div class="form-group">
+                                                            <label>Reset Address:</label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                                                <input class="form-control" type="text" required="required" name="custresetaddress" id="custresetaddress" placeholder="Address" >
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label>Reset Contact:</label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                                                <input class="form-control" type="text" required="required name="custresettp" id="custresettp" minlength="10" maxlength="10" placeholder="TPNumber" ">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Select a picture</label>
+                                                            <div id="custresetfilein">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
+                                                                    <input class="form-control" type="file" required="required" name="custresetpic" id="custresetpic" />
+                                                                </div>
+                                                                <div class="picdiv"><img id="custnewpic" src="" alt="No picture selected"/></div>
+                                                            </div>
+                                                        </div>
 
 
-                                                </form>
+                                                    </form>
 
-                                            </center>
-                                            <br>
-                                            <button type="button" class="btn btn-danger">Delete Account</button>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                                </center>
+                                                <br>
+                                                <button type="button" class="btn btn-danger">Delete Account</button>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary" id="savechanges" onclick="editcustomer();">Save changes</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>  <!--content-editcustprofile ends here-->
-                            <div class="animated-modal-2" id="content-editcustpass">
-                                <div class="content"><br>
-                                    <a href="#" class="slidelink left feature-content-link blue-btn" id="showeditcustprofile">&larr; Edit Profile </a><br><br><br>
-                                    <div class="modal-content">
-                                        <div class="modal-header" style=margin-left:200px;">Reset Password
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <center>
-                                                <form name="custdetailsreset" id="custdetailsreset" role="form" method="post" action="">
-                                                    <div class="form-group">
-                                                        <label>Reset Name:</label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                                            <input type="text" class="form-control" id="custresetname" name="custresetname" placeholder="Name">
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </center>
-                                        </div>
+                                </div>  <!--content-editcustprofile ends here-->
+                                <div class="animated-modal-2" id="content-editcustpass">
+                                    <div class="content"><br>
+                                        <a href="#" class="slidelink left feature-content-link blue-btn" id="showeditcustprofile">&larr; Edit Profile </a><br><br><br>
+                                        <div class="modal-content">
+                                            <div class="modal-header">Reset Password
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <center>
+                                                    <form name="custpasswordreset" id="custpasswordreset" role="form" method="post" action="">
+<!--                                                        <div class="form-group">
+                                                            <label>Name:<span style="color:red">*</span></label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                                                <input class="form-control" type="text" name="custpassresetname" id="custpassresetname" placeholder="Name" required>
+                                                            </div>
+                                                        </div>-->
 
+                                                        <div class="form-group">
+                                                            <label>Old Password:<span style="color:red">*</span></label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                                                <input class="form-control" type="password" name="custpassresetoldpass" id="custpassresetoldpass" placeholder="Password"  required>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="form-group">
+                                                            <label>New Password:<span style="color:red">*</span></label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                                                <input class="form-control" type="password" name="custpassresetnewpass" id="custpassresetnewpass" placeholder="Password"  required>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label>Confirm Password:<span style="color:red">*</span></label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                                                <input class="form-control" type="password" name="custpassresetconfpass" required id="custpassresetconfpass" placeholder="Password"><span style="color:red;"></span>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-info" data-dismiss="modal" style="margin-left:100px;">Close</button>
+                                                            <button type="button" class="btn btn-primary" id="savepasswordchanges" style="margin-right:150px;" onclick="editcustomerpassword();">Save changes</button>
+                                                        </div>
+
+                                                    </form>
+                                                </center>
+                                            </div>
+
+                                        </div>
                                     </div>
-                                </div>
-                            </div> <!--  end content-editcustpass -->
+                                </div> <!--  end content-editcustpass -->
+                            </div>
                         </div>
-                    </div>
+                    </center>
                 </div>
             </div>
         </div>
@@ -799,35 +833,13 @@
                                     <li><a href="#section2">About Us</a></li>
                                     <li><a href="#section3">Services</a></li>
                                     <li><a href="#section4">Contact</a></li>-->
-                                    
                                 </ul>
                                 <ul class="login-signup-sec nav navbar-nav  header-limiter">
                                     <li>
                                         <div class="header-user-menu user">
                                             <img src="<?php echo base_url() . $picture; ?>" alt="User Image"/>
-                                            <span class="badge badge-notify allcount">4</span>
+
                                             <ul>
-                                                <li><a>
-                                                    <div class="notifiction-panel">
-                                                        <table>
-                                                            <tr>
-                                                                <td>
-                                                                    <button class="btn btn-default btn-lg btn-link" data-toggle="modal" data-target="#myModalmessage" style="font-size:30px;">
-                                                                    <span class="glyphicon glyphicon-comment"></span>
-                                                                    </button>
-                                                                    <span class="badge badge-notify msgcount"></span>
-                                                                </td>
-                                                                <td>
-                                                                    <button class="btn btn-default btn-lg btn-link" data-toggle="modal" data-target="#myModalnotify" style="font-size:30px;">
-                                                                    <span class="glyphicon glyphicon-bell"></span>
-                                                                    </button>
-                                                                    <span class="badge badge-notify notifycount"></span>
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </a></li>
-                                                                           
                                                 <?php
                                                 if ($person == "provider") {
                                                     ?>
@@ -835,7 +847,8 @@
                                                     <?php
                                                 } else {
                                                     ?>
-                                                    <li><a href="#" button type="button" data-toggle="modal" data-target="#myModal2">Edit info</a></li>
+                                                    //Edit Details
+                                                    <li><a href="#" button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">Edit info</a></li>
 
                                                     <?php
                                                 }
@@ -852,44 +865,12 @@
                             <div class="navbar-header header-user-dropdown navbar-toggle left" style="width: 90px; padding: 0; margin-left: 1px;">
                                 <div class="header-limiter">
                                     <div class="header-user-menu user">
-                                        <img src="<?php echo base_url() . $picture; ?>" alt="User Image"/>
-                                        <span class="badge badge-notify allcount"></span>
-                                            <ul>
-                                                <li><a>
-                                                    <div class="notifiction-panel">
-                                                        <table>
-                                                            <tr>
-                                                                <td>
-                                                                    <button class="btn btn-default btn-lg btn-link" data-toggle="modal" data-target="#myModalmessage" style="font-size:30px;">
-                                                                    <span class="glyphicon glyphicon-comment"></span>
-                                                                    </button>
-                                                                    <span class="badge badge-notify msgcount"></span>
-                                                                </td>
-                                                                <td>
-                                                                    <button class="btn btn-default btn-lg btn-link" data-toggle="modal" data-target="#myModalnotify" style="font-size:30px;">
-                                                                    <span class="glyphicon glyphicon-bell"></span>
-                                                                    </button>
-                                                                    <span class="badge badge-notify notifycount"></span>
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </a></li>
-                                                                           
-                                                <?php
-                                                if ($person == "provider") {
-                                                    ?>
-                                                    <li><a href="#">Profile</a></li>
-                                                    <?php
-                                                } else {
-                                                    ?>
-                                                    <li><a href="#" button type="button" data-toggle="modal" data-target="#myModal2">Edit info</a></li>
+                                        <img src="<?php echo $picture; ?>" alt="User Image"/>
 
-                                                    <?php
-                                                }
-                                                ?>
-                                                <li><a href="#" class="highlight logout">Logout</a></li>
-                                            </ul>
+                                        <ul>
+                                            <li><a href="#">Profile</a></li>
+                                            <li><a href="#" class="highlight logout">Logout</a></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -965,9 +946,9 @@
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-body" id="regbody">
-                        
+
                         <center>
-                            
+
                             <div class="w" id="w">
                                 <div class="page" id="page">
                                     <div class="animated-modal-2" id="content-shopregister">
