@@ -35,10 +35,10 @@
 .modal-body{
     overflow: hidden;
 }
-#w{
+.w{
     height:auto;
 }
-#page { 
+.page { 
   display: block;
   position: relative;
   height: auto;
@@ -49,9 +49,9 @@
   //box-shadow: 0 0 12px 0 rgba(150, 180, 210, .9);
 }
 /* inner page layouts */
-#content-customerregister { display: block; position: relative; width: 100%; }
+.animated-modal-1{ display: block; position: relative; width: 100%; }
 
-#content-shopregister { display: none; width: 100%; position: absolute; top: 0; left: 500px; }
+.animated-modal-2{ display: none; width: 100%; position: absolute; top: 0; left: 500px; }
 
 .slidelink { background-color:gray; font-size: 100%; display:inline-block;}
 .left{float:left;}

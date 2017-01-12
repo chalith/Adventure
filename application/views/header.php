@@ -1,3 +1,9 @@
+
+
+
+
+
+
 <html>
     <?php
     $this->load->helper('url');
@@ -398,6 +404,58 @@
                     }, 550, function () { /* callback */
                     });
                 });
+
+
+//                onclick edit customer details
+                var ccustprofile = $("#content-editcustprofile");
+                var ccustpass = $("#content-editcustpass");
+
+                /* display the password reset page */
+                $("#showeditcustpass").on("click", function (e) {
+                    var newheight = ccustpass.height();
+                    var newwidth = ccustpass.width();
+                    $(ccustpass).css("display", "block");
+
+                    $(ccustprofile).stop().animate({
+                        "left": "-" + newwidth + "px"
+                    }, 800, function () { /* callback */
+                    });
+
+                    $(ccustpass).stop().animate({
+                        "left": "0px"
+                    }, 800, function () {
+                        $(ccustprofile).css("display", "none");
+                    });
+
+                    $("#page2").stop().animate({
+                        "height": newheight + "px"
+                    }, 550, function () { /* callback */
+                    });
+                });
+
+                /* display the reset profile details page */
+                $("#showeditcustprofile").on("click", function (e) {
+                    e.preventDefault();
+                    var newheight = ccustprofile.height();
+                    var newwidth = ccustprofile.width();
+                    $(ccustprofile).css("display", "block");
+
+                    $(ccustprofile).stop().animate({
+                        "left": "0px"
+                    }, 800, function () { /* callback */
+                    });
+                    $(ccustpass).stop().animate({
+                        "left": newwidth + "px"
+                    }, 800, function () {
+                        $(ccustpass).css("display", "none");
+                    });
+
+                    $("#page2").stop().animate({
+                        "height": newheight + "px"
+                    }, 550, function () { /* callback */
+                    });
+                });
+
             });
             function showLogin() {
                 $('.login').fadeToggle('slow');
@@ -409,10 +467,7 @@
             }
             //Register Customer
             function registercustomer() {
-
                 var custid = custemail = custpass = custconfpass = custname = custaddress = custtp = custcontact = "";
-
-
                 custid = "customer" + s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 
                 custemail = document.forms["customerRegister"]["customeremail"].value;
@@ -425,11 +480,6 @@
                 custconfpass = document.forms["customerRegister"]["customerconfpass"].value;
                 if (custconfpass == "")
                     return;
-
-//                custusername = document.forms["customerRegister"]["customerusername"].value;
-//                if (custusername == "")
-//                    return;
-
 
                 custname = document.forms["customerRegister"]["customername"].value;
                 custaddress = document.forms["customerRegister"]["customeraddress"].value;
@@ -576,10 +626,32 @@
             }
         </script>
     </head>
+<<<<<<< HEAD
 
     <?php
         include 'message.php';
     ?>
+=======
+        
+    <!--    Edit Customer Details form-->
+    <div id="myModalmessage" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Message</h4>
+            </div>
+            <div class="modal-body" >
+              <?php
+                  include 'message.php';
+              ?>
+            </div>
+          </div>
+
+        </div>
+    </div>
+>>>>>>> 7c92a86b01625fb1fefcc9d5b74738cb4878d652
     <div id="myModalnotify" class="modal fade" role="dialog">
         <div class="modal-dialog">
           <!-- Modal content-->
@@ -598,74 +670,110 @@
             </div>
           </div>
 
+<<<<<<< HEAD
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog">
+=======
         </div>
     </div>
     <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+>>>>>>> d7480b6c61c869709f834d4a03b27bea2ee2d7da
         <div class="modal-dialog" role="document">
+
+            <!--            Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <!--                    <h4 class="modal-title" id="myModalLabel">Modal</h4>-->
-                    <ul class="nav nav-tabs nav-justified">
-                        <li role="presentation" class="active"><a href="#custdetailsreset">Edit Personal Details</a></li>
-                        <li role="presentation"><a href="#">Reset Password</a></li
-                    </ul>
-                </div>
+                <div class="modal-body" id="regbody">
+                    <div class="w" id="w">
+                        <div class="page" id="page2">
+                            <div class="animated-modal-1" id="content-editcustprofile">
+                                <div class="content"><br><br>
+                                    <a href="#" class="slidelink right feature-content-link blue-btn" id="showeditcustpass"> Reset Password &rarr;</a><br><br><br>
+                                    <div class="modal-content">
+                                        <div class="modal-header" style=margin-left:200px;>Edit Personal Details
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
 
-                <div class="modal-body">
-                    <center>
-                        <form name="custdetailsreset" id="custdetailsreset" role="form" method="post" action="">
-                            <div class="form-group">
-                                <label>Reset Name:</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                    <input type="text" class="form-control" id="custresetname" name="custresetname" placeholder="Name">
-                                </div>
-                            </div>
+                                        <div class="modal-body">
+                                            <center>
+                                                <form name="custdetailsreset" id="custdetailsreset" role="form" method="post" action="">
+                                                    <div class="form-group">
+                                                        <label>Reset Name:</label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                                            <input type="text" class="form-control" id="custresetname" name="custresetname" placeholder="Name">
+                                                        </div>
+                                                    </div>
 
-                            <div class="form-group">
-                                <label>Reset Address:</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                                    <input class="form-control" type="text" name="custresetaddress" id="custresetaddress" placeholder="Address">
-                                </div>
-                            </div>
+                                                    <div class="form-group">
+                                                        <label>Reset Address:</label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                                            <input class="form-control" type="text" name="custresetaddress" id="custresetaddress" placeholder="Address">
+                                                        </div>
+                                                    </div>
 
-                            <div class="form-group">
-                                <label>Reset Contact:</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                                    <input class="form-control" type="text" name="custresettp" id="custresettp" minlength="10" maxlength="10" placeholder="TPNumber1">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Select a picture</label>
-                                <div id="custresetfilein">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
-                                        <input class="form-control" type="file" name="custresetpic" id="custresetpic"/>
+                                                    <div class="form-group">
+                                                        <label>Reset Contact:</label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                                            <input class="form-control" type="text" name="custresettp" id="custresettp" minlength="10" maxlength="10" placeholder="TPNumber1">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Select a picture</label>
+                                                        <div id="custresetfilein">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
+                                                                <input class="form-control" type="file" name="custresetpic" id="custresetpic"/>
+                                                            </div>
+                                                            <div class="picdiv"><img id="custpic" src="" alt="No picture selected"/></div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </form>
+
+                                            </center>
+                                            <br>
+                                            <button type="button" class="btn btn-danger">Delete Account</button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                        </div>
                                     </div>
-                                    <div class="picdiv"><img id="custpic" src="" alt="No picture selected"/></div>
                                 </div>
-                            </div>
+                            </div>  <!--content-editcustprofile ends here-->
+                            <div class="animated-modal-2" id="content-editcustpass">
+                                <div class="content"><br>
+                                    <a href="#" class="slidelink left feature-content-link blue-btn" id="showeditcustprofile">&larr; Edit Profile </a><br><br><br>
+                                    <div class="modal-content">
+                                        <div class="modal-header" style=margin-left:200px;">Reset Password
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <center>
+                                                <form name="custdetailsreset" id="custdetailsreset" role="form" method="post" action="">
+                                                    <div class="form-group">
+                                                        <label>Reset Name:</label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                                            <input type="text" class="form-control" id="custresetname" name="custresetname" placeholder="Name">
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </center>
+                                        </div>
 
-                            
-                        </form>
-                        
-                    </center>
-                    <br>
-                    <button type="button" class="btn btn-danger">Delete Account</button>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div> <!--  end content-editcustpass -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-       
-    </div> 
+    </div>
+
 
 
 
@@ -872,10 +980,12 @@
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-body" id="regbody">
+                        
                         <center>
-                            <div id="w">
-                                <div id="page">
-                                    <div id="content-shopregister">
+                            
+                            <div class="w" id="w">
+                                <div class="page" id="page">
+                                    <div class="animated-modal-2" id="content-shopregister">
                                         <div class="content"><br>
                                             <a href="#" class="slidelink left feature-content-link blue-btn" id="showcustomerregister">&larr; Customer Registration</a><br><br><br>
                                             <div class="modal-content">
@@ -1013,7 +1123,7 @@
                                     </div><!-- /end #content-shopregister -->
 
 
-                                    <div id="content-customerregister">
+                                    <div class="animated-modal-1" id="content-customerregister">
                                         <div class="content"><br>
                                             <a href="#" class="slidelink right feature-content-link blue-btn" id="showshopregister">Register Your Shop &rarr;</a><br><br><br>
                                             <div class="modal-content">
