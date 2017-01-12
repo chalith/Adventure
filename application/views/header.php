@@ -805,7 +805,7 @@
                     <div class="w" id="w">
                         <div class="page" id="page2">
                             <div class="animated-modal-1" id="content-editcustprofile">
-                                <div class="content"><br><br>
+                                <div class="content"><br>
                                     <a href="#" class="slidelink right feature-content-link blue-btn" id="showeditcustpass"> Reset Password &rarr;</a><br><br><br>
                                     <div class="modal-content">
                                         <div class="modal-header" style=margin-left:200px;>Edit Personal Details
@@ -927,7 +927,9 @@
         <div id="headernav">
             <?php
             $email = $id = $person = $picture = "";
-            session_start();
+         
+        session_start(); 
+    
 
             if (isset($_SESSION['email'])) {
                 $email = $_SESSION['email'];

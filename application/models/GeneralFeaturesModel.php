@@ -8,10 +8,5 @@ class GeneralFeaturesModel extends CI_Model{
         
 			
     }
-//    
-//    public function generalFeaturesProvider($param1){
-//        
-//        $shops = array(array('name'=>'KelaniRiver', 'price'=>'1200.00'), array("name"=>"Adventurer","price"=>"1000.00"));
-//        return $shops;
-//    }
+   
 }

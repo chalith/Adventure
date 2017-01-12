@@ -2,7 +2,7 @@
     class Register_model extends CI_Model{
         public function __construct() {
             parent::__construct();
-            //$this->load->library('session');
+            session_start();
         }
         
         public function shop_register($data){
