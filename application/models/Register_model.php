@@ -2,6 +2,7 @@
     class Register_model extends CI_Model{
         public function __construct() {
             parent::__construct();
+            //$this->load->library('session');
         }
         
         public function shop_register($data){
@@ -111,6 +112,53 @@
                         $alert["msg"]=$data["custemail"]." is already registered in the system";
                 }
                 return $alert;
+        }
+        
+         public function editCustomerModel($data){
+                $id = $_SESSION['id'];
+                
+                $alert="";
+                if ($data){
+                        $details = array(
+                            "name" => $data["custresetname"],
+                            "address" => $data["custresetaddress"],
+                            "telephone" => $data["custresettp"],
+                            "picture" => $data["custresetpic"]
+                            
+                        );
+                        $this->db->where('id',$id);
+                        $this->db->update('customer', $details);
+                        
+                        $alert["bool"]=TRUE;
+                        $alert["msg"]="changes updated successfully";
+                        
+                }
+                else{
+                        $alert["bool"]=FALSE;
+                        $alert["msg"]=$data["custreetname"]." has provided wrong details";
+                }
+                return $alert;
+        }
+        
+        public function changeCustomerPasswordModel($data){
+            $email = $_SESSION['email'];
+            
+            $query = $this->db->query("SELECT password FROM user WHERE id = '$id';");
+            $obj = $query->result();
+            $alert="";
+            $deatils = array("password" => $data[resetnewpass]);
+            if ($obj[0]->password === $data['resetoldpass']){ // if they can be compared
+                $this->db->where('email',$email);
+                $this->db->update('user', $details);
+                $alert["bool"] = TRUE;
+                $alert["msg"] = "password succesfully updated!";
+            }
+            else{
+                $alert["bool"] = FALSE;
+                $alert["msg"] = "invalid old password!";
+            }
+                
+            return alert;
         }
     }
 ?>
