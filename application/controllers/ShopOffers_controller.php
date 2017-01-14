@@ -27,13 +27,41 @@ class ShopOffers_controller extends CI_Controller{
                 "start" => $start,
                 "duration" => $duration
             );
-            $this->load->model('shop_model');
-            $alert = $this->shop_model->specialOffers($data);
+            $this->load->model('shopoffers_model');
+            $alert = $this->shopoffers_model->specialOffers($data);
+            $results = $this->shopoffers_model->getFollowers($shopid);
+            $alert2 = $this->notifyFollowers($results);
             echo $alert;
+            echo $alert2;
             return;
                     
             
         }
+        
+        public function notifyFollowers($results){
+            foreach ($results as $result){
+                $senderID = $result->shopID;
+                $content = "Check out the special offer recently posted by ".$senderID;
+                $time=  date("Y-m-d h:i:sa");
+                $receiverID = $result->customerID;
+                
+                
+                $data = array(
+                    "senderID" => $senderID,
+                    "receiverID" => $receiverID,
+                    "message" => $content,
+                    "sendTime" => $time
+                );
+                
+                $this->load->model('shopoffers_model');
+                $this->shopoffers_model->notifyFollowersModel($data);
+                
+            }
+            $alert2 = "Notified all followers";
+            return $alert2;
+        }
+        
+       
 }
 
 ?>

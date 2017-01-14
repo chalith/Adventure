@@ -12,6 +12,7 @@
     ?>
 
     <head>
+
         <title>FindYourRaft</title>
         <?php include 'styles.php'; ?>
         <script>
@@ -106,6 +107,21 @@
                     //window.location="index.php/welcome/getGeneralFeatures/"+e.target.id;
                 });
             });
+
+//JQuery for follow button
+            function followShop() {
+                var text = document.getElementById('followButton').innerHTML;
+
+                if (text === "Follow Us") {
+                    document.getElementById('followButton').innerHTML = "Following..";
+                    $("#followButton").removeClass("btn btn-success").addClass("btn btn-danger");
+                } else {
+                    document.getElementById('followButton').innerHTML = "Follow Us";
+                    $("#followButton").removeClass("btn btn-danger").addClass("btn btn-success");
+                }
+
+            }
+
         </script>
     </head>
 
@@ -241,6 +257,12 @@
                     </section>
                     <!-- End Testimornial Area -->
                 </div>
+
+                <!--                Follow button-->
+
+                <button id="followButton" style="position:fixed; top:400px; right:30px;" class="btn btn-success" onclick="followShop();">Follow Us</button>
+
+
                 <div id="section4">
                     <!-- Start Contact Area -->
                     <section id="contact-area" class="contact-section">
@@ -248,29 +270,30 @@
                             <div class="row">
                                 <div class="col-sm-12 text-center inner">
                                     <div style="color: white;" class="contact-content">
-                                        <h1>Special Offers</h1>
+                                        <h1 style="color:#5bc0de"><i>Special Offers</i></h1>
                                         <div class="row">                            
                                             <div class="col-sm-12">
                                                 <div id="bg" style="opacity:0.5;"></div>
 
-                                                <form method="post" action="<?php echo base_url()."index.php/shopoffers_controller/insertSpecialOffers"; ?>">
+                                                <form method="post" class="contact-form" action="<?php echo base_url() . "index.php/shopoffers_controller/insertSpecialOffers"; ?>">
                                                     <div class="form-group">
-                                                        <label >Title</label>
-                                                        <input type="text" class="form-control" name="sotitle" id="sotitle" placeholder="Catchy Title">
+<!--                                                        <label >Title<</label>-->
+                                                        <input type="text" class="form-control" name="sotitle" id="sotitle" placeholder="Catchy Title!">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label>Details</label>
-                                                        <textarea class="form-control" id="sodetails" name="sodetails" placeholder="Details"></textarea>
+                                                        <!--                                                        <label>Details</label>-->
+                                                        <textarea class="form-control" id="sodetails" name="sodetails" placeholder="Details about the special offer.."></textarea>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label> Starting Date</label>
-                                                        <input type="text" class="form-control" id="sodate" name="sodate">
+                                                        <!--                                                        <label> Starting Date</label>-->
+                                                        <input type="text" class="form-control" id="sodate" name="sodate" placeholder="starting date">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label> Duration</label>
-                                                        <input class="form-control" type="text" id="soduration" name="soduration">
+                                                        <!--                                                        <label> Duration</label>-->
+                                                        <input class="form-control" type="text" id="soduration" name="soduration" placeholder="Duration of the offer..">
                                                     </div>
                                                     <button type="submit" class="btn btn-info">Submit</button>
+
                                                 </form>
 
 
@@ -358,68 +381,61 @@
                 <script src="js/parallax.js-1.3.1/parallax.js"></script> <!-- http://pixelcog.github.io/parallax.js/ -->
                 <script>
 
-        // HTML document is loaded. DOM is ready.
-                    $(function () {
+                            // HTML document is loaded. DOM is ready.
+                            $(function () {
 
-        // Parallax
-                        $('.intro-section').parallax({
-                            imageSrc: 'img/bg-1.jpg',
-                            speed: 0.2
-                        });
-                        $('.services-section').parallax({
-                            imageSrc: 'img/bg-2.jpg',
-                            speed: 0.2
-                        });
-                        $('.contact-section').parallax({
-                            imageSrc: 'img/bg-3.jpg',
-                            speed: 0.2
-                        });
+                                // Parallax
+                                $('.intro-section').parallax({
+                                    imageSrc: 'img/bg-1.jpg',
+                                    speed: 0.2
+                                });
+                                $('.services-section').parallax({
+                                    imageSrc: 'img/bg-2.jpg',
+                                    speed: 0.2
+                                });
+                                $('.contact-section').parallax({
+                                    imageSrc: 'img/bg-3.jpg',
+                                    speed: 0.2
+                                });
+                                // jQuery Scroll Up / Back To Top Image
+                                $.scrollUp({
+                                    scrollName: 'scrollUp', // Element ID
+                                    scrollDistance: 300, // Distance from top/bottom before showing element (px)
+                                    scrollFrom: 'top', // 'top' or 'bottom'
+                                    scrollSpeed: 1000, // Speed back to top (ms)
+                                    easingType: 'linear', // Scroll to top easing (see http://easings.net/)
+                                    animation: 'fade', // Fade, slide, none
+                                    animationSpeed: 300, // Animation speed (ms)		        
+                                    scrollText: '', // Text for element, can contain HTML		        
+                                    scrollImg: true            // Set true to use image		        
+                                });
+                                // ScrollUp Placement
+                                $(window).on('scroll', function () {
 
-        // jQuery Scroll Up / Back To Top Image
-                        $.scrollUp({
-                            scrollName: 'scrollUp', // Element ID
-                            scrollDistance: 300, // Distance from top/bottom before showing element (px)
-                            scrollFrom: 'top', // 'top' or 'bottom'
-                            scrollSpeed: 1000, // Speed back to top (ms)
-                            easingType: 'linear', // Scroll to top easing (see http://easings.net/)
-                            animation: 'fade', // Fade, slide, none
-                            animationSpeed: 300, // Animation speed (ms)		        
-                            scrollText: '', // Text for element, can contain HTML		        
-                            scrollImg: true            // Set true to use image		        
-                        });
+                                    // If the height of the document less the height of the document is the same as the
+                                    // distance the window has scrolled from the top...
+                                    if ($(document).height() - $(window).height() === $(window).scrollTop()) {
 
-        // ScrollUp Placement
-                        $(window).on('scroll', function () {
-
-        // If the height of the document less the height of the document is the same as the
-        // distance the window has scrolled from the top...
-                            if ($(document).height() - $(window).height() === $(window).scrollTop()) {
-
-        // Adjust the scrollUp image so that it's a few pixels above the footer
-                                $('#scrollUp').css('bottom', '80px');
-
-                            } else {
-        // Otherwise, leave set it to its default value.
-                                $('#scrollUp').css('bottom', '30px');
-                            }
-                        });
-
-                        $('.single-page-nav').singlePageNav({
-                            offset: $('.single-page-nav').outerHeight(),
-                            speed: 1500,
-                            filter: ':not(.external)',
-                            updateHash: true
-                        });
-
-                        $('.navbar-toggle').click(function () {
-                            $('.single-page-nav').toggleClass('show');
-                        });
-
-                        $('.single-page-nav a').click(function () {
-                            $('.single-page-nav').removeClass('show');
-                        });
-
-                    });
+                                        // Adjust the scrollUp image so that it's a few pixels above the footer
+                                        $('#scrollUp').css('bottom', '80px');
+                                    } else {
+                                        // Otherwise, leave set it to its default value.
+                                        $('#scrollUp').css('bottom', '30px');
+                                    }
+                                });
+                                $('.single-page-nav').singlePageNav({
+                                    offset: $('.single-page-nav').outerHeight(),
+                                    speed: 1500,
+                                    filter: ':not(.external)',
+                                    updateHash: true
+                                });
+                                $('.navbar-toggle').click(function () {
+                                    $('.single-page-nav').toggleClass('show');
+                                });
+                                $('.single-page-nav a').click(function () {
+                                    $('.single-page-nav').removeClass('show');
+                                });
+                            });
                 </script>
                 </body>
                 </html>

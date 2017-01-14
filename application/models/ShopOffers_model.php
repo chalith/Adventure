@@ -1,6 +1,6 @@
 <?php
 
-class Shop_model extends CI_Model{
+class ShopOffers_model extends CI_Model{
         public function __construct() {
             parent::__construct();
             //$this->load->library('session');
@@ -19,6 +19,19 @@ class Shop_model extends CI_Model{
             return;
         }
         
+        public function getFollowers($senderid){
+            $query = $this->db->get_where('following', array("shopID"=>$senderid));
+            
+            $result = $query->result();
+            return $result;
+            
+        }
+        
+        public function notifyFollowersModel($data){
+            $this->db->insert('messages', $data);
+//            $alerts['msg2'] = "Notified Followers";
+            return;
+        }
 }
 
 ?>
