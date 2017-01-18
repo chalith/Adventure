@@ -156,7 +156,7 @@
                                 if (res.alert.bool && (path.value != "")) {
                                     //alert(res.alert);
                                     jQuery.ajax({
-                                        url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/file/provider",
+                                        url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/file/provider/r",
                                         type: "POST", // Type of request to be send, called as method
                                         data: new FormData(document.getElementById("shopRegister")), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
                                         contentType: false, // The content type used when sending data to the server.
@@ -508,7 +508,7 @@
                             var path = document.getElementById("customerpic");
                             if (res.alert.bool && (path.value != "")) {
                                 jQuery.ajax({
-                                    url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/customerpic/customer",
+                                    url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/customerpic/customer/r",
                                     type: "POST", // Type of request to be send, called as method
                                     data: new FormData(document.getElementById("customerRegister")), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
                                     contentType: false, // The content type used when sending data to the server.
@@ -567,14 +567,14 @@
                                         "</div>";
                             } else {
                                 notification += "<div class=\"panel col-md-15 notification\">" +
-                                        "<div id=" + res.id + " class=\"media-body\">"+
+                                        "<div id=" + res.id + " class=\"media-body\">" +
                                         "<b>" + res[i].shopName + "</b><h5  class=\"media-heading\">" + "Special Offers" + "</h5>" +
-                                        "<small > " + res[i].notification + "</small>"+
-                                        "<div class=\"row\">"+
-                                        "<button class=\"btn btn-primary\" onclick=\"setViewed(event);\">Set as read</button>"+
+                                        "<small > " + res[i].notification + "</small>" +
+                                        "<div class=\"row\">" +
+                                        "<button class=\"btn btn-primary\" onclick=\"setViewed(event);\">Set as read</button>" +
                                         "</div>" +
                                         "</div>" +
-                                        "</div>"; 
+                                        "</div>";
 
                             }
                         }
@@ -759,27 +759,34 @@
 
                 }
             }
-//            
-//            function deleteAccount(){
-//             var ret = confirm("Do you want to delete you account?");
-//
-//                if (ret === true) {
-//                    //alert("inside ret");
-//                    jQuery.ajax({
-//                        type: "POST",
-//                        url: "<?php echo base_url(); ?>" + "index.php/register_controller/deleteCustomerAccount",
+
+//            Deactivate account of a user
+            function deleteAccount() {
+                var ret = confirm("Do you want to delete you account?");
+
+                if (ret === true) {
+                   
+                    jQuery.ajax({
+                        type: "POST",
+                        url: "<?php echo base_url(); ?>" + "index.php/register_controller/deleteCustomerAccount",
 //                        dataType: "json",
-//                        
-//                        success: function (res) {
-//                            alert("You are no longer registered in the system");
-//                        }
-//                    });
-//            }
+                        success: function (res) {
+
+                              location.reload();
+                        },
+                        error: function (xhr, desc, err) {
+                            alert('error');
+                        }
+                    });
+                }
+
+                
+            }
         </script>
     </head>
-    <?php
-    include 'message.php';
-    ?>
+<?php
+include 'message.php';
+?>
 
     <!--    Edit Customer Details form-->
     <div id="myModalmessage" class="modal fade" role="dialog">
@@ -791,9 +798,9 @@
                     <h4 class="modal-title">Message</h4>
                 </div>
                 <div class="modal-body" >
-                    <?php
-                    include 'message.php';
-                    ?>
+<?php
+include 'message.php';
+?>
                 </div>
             </div>
 
@@ -809,7 +816,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="" id="notifications">
-                        
+
 
                     </div>
                 </div>
@@ -951,21 +958,21 @@
     <!--    Edit Customer Details form ends here-->
     <body>
         <div id="headernav">
-            <?php
-            $email = $id = $person = $picture = "";
+<?php
+$email = $id = $person = $picture = "";
 
-            session_start();
+session_start();
 
 
-            if (isset($_SESSION['email'])) {
-                $email = $_SESSION['email'];
-                $id = $_SESSION['id'];
-                $person = $_SESSION['person'];
-                $picture = $_SESSION['picture'];
-            }
+if (isset($_SESSION['email'])) {
+    $email = $_SESSION['email'];
+    $id = $_SESSION['id'];
+    $person = $_SESSION['person'];
+    $picture = $_SESSION['picture'];
+}
 
-            if ($email != "") {
-                ?>
+if ($email != "") {
+    ?>
                 <div id="userheader">
                     <nav class="navbar navbar-inverse navbar-fixed-top topbar">
                         <div class="container">
@@ -979,9 +986,9 @@
                             <div class="single-page-nav sticky-wrapper header-login-signup header-user-dropdown" id="tmNavbar">
                                 <ul class="nav-content nav navbar-nav header-limiter">
                                     <li><a href="#" class="homebtn">Home</a></li>  
-                                    <?php
-                                    echo $headercontent;
-                                    ?>
+    <?php
+    echo $headercontent;
+    ?>
                                     <!--<li><a href="#section1">Homepage</a></li>
                                     <li><a href="#section2">About Us</a></li>
                                     <li><a href="#section3">Services</a></li>
@@ -1015,18 +1022,18 @@
                                                         </div>
                                                     </a></li>
 
-                                                <?php
-                                                if ($person == "provider") {
-                                                    ?>
+    <?php
+    if ($person == "provider") {
+        ?>
                                                     <li><a href="#">Profile</a></li>
                                                     <?php
                                                 } else {
                                                     ?>
                                                     <li><a href="#" button type="button" data-toggle="modal" data-target="#myModal2">Edit info</a></li>
 
-                                                    <?php
-                                                }
-                                                ?>
+        <?php
+    }
+    ?>
                                                 <li><a href="#" class="highlight logout">Logout</a></li>
                                             </ul>
                                         </div>
@@ -1063,18 +1070,18 @@
                                                     </div>
                                                 </a></li>
 
-                                            <?php
-                                            if ($person == "provider") {
-                                                ?>
+    <?php
+    if ($person == "provider") {
+        ?>
                                                 <li><a href="#">Profile</a></li>
                                                 <?php
                                             } else {
                                                 ?>
                                                 <li><a href="#" button type="button" data-toggle="modal" data-target="#myModal2">Edit info</a></li>
 
-                                                <?php
-                                            }
-                                            ?>
+        <?php
+    }
+    ?>
                                             <li><a href="#" class="highlight logout">Logout</a></li>
                                         </ul>
                                     </div>
@@ -1084,9 +1091,9 @@
 
                     </nav>
                 </div>
-                <?php
-            } else {
-                ?>
+    <?php
+} else {
+    ?>
                 <nav class="navbar navbar-inverse navbar-fixed-top topbar">
                     <div class="container">
                         <div class="navbar-header">
@@ -1099,9 +1106,9 @@
                         <div class="single-page-nav sticky-wrapper header-login-signup" id="tmNavbar">
                             <ul class="nav-content nav navbar-nav  header-limiter">
                                 <li><a href="#" class="homebtn">Home</a></li>  
-                                <?php
-                                echo $headercontent;
-                                ?>
+    <?php
+    echo $headercontent;
+    ?>
 
                                 <!--<li><a href="#section1">Homepage</a></li>
                                 <li><a href="#section2">About Us</a></li>
@@ -1121,9 +1128,9 @@
                         <div class="formholder">
                             <div class="randompad">
                                 <fieldset>
-                                    <?php
-                                    //echo $alert;
-                                    ?>
+    <?php
+    //echo $alert;
+    ?>
                                     <form name="loginform" id="loginform" role="form" method="post" action="">
                                         <label>E-Mail</label>
                                         <input name="email" type="email" required="required" placeholder="shomeone@somthing.com" />
@@ -1136,9 +1143,9 @@
                         </div>
                     </div>
                 </nav>
-                <?php
-            }
-            ?>
+    <?php
+}
+?>
         </div>
 
 

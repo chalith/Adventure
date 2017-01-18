@@ -162,12 +162,25 @@ class Register_controller extends CI_Controller{
             echo json_encode(array('alert'=>$alert));
         }
         
-//        public function deleteCustomerAccount(){
-//            session_start();
-//            $id = $_SESSION['id'];
-//            $email = $_SESSION['email'];
-//            $person = $_SESSION['person'];
-//            $this->register_model->deleteCustomerAcount($id, $email, $person);
-//            
-//        }
+        public function deleteCustomerAccount(){
+            $alert2 ="";
+            session_start();
+            $person = $_SESSION['person'];
+            $email = $_SESSION['email'];
+            
+            $alert = $this->register_model->deleteCustomerAccountModel($email, $person);
+            
+            if ($alert['msg'] == "done"){
+                
+                $alert2['msg'] = "You are no longer a registered user";
+                session_destroy();
+                echo json_encode(array('alert'=>$alert2));
+                
+            }
+            else{
+                $alert2 = "Unsuccesful process";
+                echo json_encode(array('alert'=>$alert2));
+            }
+            
+        }
     }?>
