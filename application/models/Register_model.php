@@ -141,12 +141,13 @@
         }
         
         public function changeCustomerPasswordModel($data){
+            session_start();
             $email = $_SESSION['email'];
             
-            $query = $this->db->query("SELECT password FROM user WHERE id = '$id';");
+            $query = $this->db->query("SELECT password FROM user WHERE email = '$email';");
             $obj = $query->result();
             $alert="";
-            $deatils = array("password" => $data[resetnewpass]);
+            $details = array("password" => $data['resetnewpass']);
             if ($obj[0]->password === $data['resetoldpass']){ // if they can be compared
                 $this->db->where('email',$email);
                 $this->db->update('user', $details);
@@ -154,11 +155,22 @@
                 $alert["msg"] = "password succesfully updated!";
             }
             else{
+               
                 $alert["bool"] = FALSE;
                 $alert["msg"] = "invalid old password!";
             }
                 
             return alert;
         }
+        
+//        public function deleteCustomerAccount($id, $email){
+//            if ($person == 'customer'){
+//                $query1 = $this->db->delete('user', array('email'=> ermail));
+//                $query2 = $this->db->delete('customer', array('email'=> ermail));
+//               
+//            }
+//           
+            
+        //}
     }
 ?>

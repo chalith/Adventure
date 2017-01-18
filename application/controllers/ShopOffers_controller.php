@@ -14,18 +14,19 @@ class ShopOffers_controller extends CI_Controller{
             $shopid=$title = $details = $start = $duration = "";
             $title = $this->input->post("sotitle");
             $details = $this->input->post("sodetails");
-            $start = $this->input->post("sodate");
-            $duration = $this->input->post("soduration");
-            
+//            $start = $this->input->post("sodate");
+//            $duration = $this->input->post("soduration");
+//            
             
             $shopid = $_SESSION['id'];
-            
-            $data = array(
+            $dt = date("Y-m-d h:i:sa");
+            $data = array( 
                 "shopid" => $shopid,
                 "title" => $title,
-                "details" => $details,
-                "start" => $start,
-                "duration" => $duration
+                "details" => $details
+                
+//                "start" => $start,
+//                "duration" => $duration
             );
             $this->load->model('shopoffers_model');
             $alert = $this->shopoffers_model->specialOffers($data);
@@ -39,7 +40,12 @@ class ShopOffers_controller extends CI_Controller{
         }
         
         public function notifyFollowers($results){
+            
+               
+            
+            
             foreach ($results as $result){
+                     
                 $senderID = $result->shopID;
                 $content = "Check out the special offer recently posted by ".$senderID;
                 $time=  date("Y-m-d h:i:sa");
@@ -49,13 +55,13 @@ class ShopOffers_controller extends CI_Controller{
                 $data = array(
                     "senderID" => $senderID,
                     "receiverID" => $receiverID,
-                    "message" => $content,
+                    "notification" => $content,
                     "sendTime" => $time
                 );
                 
                 $this->load->model('shopoffers_model');
                 $this->shopoffers_model->notifyFollowersModel($data);
-                
+               
             }
             $alert2 = "Notified all followers";
             return $alert2;

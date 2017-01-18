@@ -11,6 +11,16 @@
             $result=$query->result();
             return $result[0]->count;
         }
+        
+         public function get_SONotificationCount($id){
+            $this->db->select(array('COUNT(receiverID) AS count'));
+            $where = "receiverID='$id' AND viewedTime IS NULL";
+            $this->db->where($where);
+            $query=$this->db->get('notifications');
+            $result=$query->result();
+            return $result[0]->count;
+        }
+        
         public function get_ReviewedReservations($id){
             $where = "customerID='$id' AND acceptedDate IS NOT NULL AND viewedTime IS NULL";
             $this->db->where($where);
@@ -32,6 +42,15 @@
             $result = $query->result();
             return $result[0];
         }
+        
+        public function get_FollowNotifications($receiverID){
+            $where = "receiverID='$receiverID' AND viewedTime IS NULL";
+            $this->db->where($where);
+            $query = $this->db->get('notifications');
+
+            $result = $query->result_array();
+            return $result;
+        }
         public function get_ShopName($id){
             $where = "id='$id'";
             $this->db->where($where);
@@ -43,6 +62,11 @@
             $where = "reservationID='$data[reservationID]' AND viewedTime IS NULL";
             $this->db->where($where);
             $this->db->update('reservation', array('viewedTime'=>$data['viewedTime']));
+        }
+         public function set_FollowViewed($data) {
+            $where = "receiverID='$data[receiverID]' AND viewedTime IS NULL";
+            $this->db->where($where);
+            $this->db->update('notifications', array('viewedTime'=>$data['viewedTime']));
         }
     }
 ?>

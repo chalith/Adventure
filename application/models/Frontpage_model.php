@@ -22,12 +22,12 @@
             }
         }
         public function getAdvertisements(){
-            $query = $this->db->query("SELECT * FROM advertisement");
+            $query = $this->db->query("SELECT * FROM specialoffer");
             //$add["shopname"] = "";
             //$add["shoppic"] = "";
             if($query->num_rows()>0){
                 foreach ($query->result() as $object){
-                    $query2 = $this->db->query("SELECT shopName,picture FROM provider WHERE id = '".$object->shopID."'");
+                    $query2 = $this->db->query("SELECT shopName,picture FROM provider WHERE id = '".$object->shopid."'");
                     foreach ($query2->result() as $object2){
                         if($query2->num_rows()>0){
                             $add["shopname"] = $object2->shopName;
@@ -35,7 +35,7 @@
                         }
                     }
                     $add["title"] = $object->title;
-                    $add["description"] = $object->description;
+                    $add["description"] = $object->details;
                     $res[$add["shopname"].$add["title"]] = $add;
                 }
                 return $res;

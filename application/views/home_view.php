@@ -269,35 +269,28 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-sm-12 text-center inner">
-                                    <div style="color: white;" class="contact-content">
-                                        <h1 style="color:#5bc0de"><i>Special Offers</i></h1>
-                                        <div class="row">                            
-                                            <div class="col-sm-12">
-                                                <div id="bg" style="opacity:0.5;"></div>
+                                    <div style="color: white;" class="container">
 
-                                                <form method="post" class="contact-form" action="<?php echo base_url() . "index.php/shopoffers_controller/insertSpecialOffers"; ?>">
+                                        <div class="row">
+
+                                            <form method="post" class="contact-form" action="<?php echo base_url() . "index.php/shopoffers_controller/insertSpecialOffers"; ?>">
+
+
+                                                <div class="col-sm-6 contact-form-right">
+                                                    <h1 style="color:#336699;"><i>Special Offers</i></h1> 
                                                     <div class="form-group">
-<!--                                                        <label >Title<</label>-->
                                                         <input type="text" class="form-control" name="sotitle" id="sotitle" placeholder="Catchy Title!">
+                                                        <br>
+                                                        <textarea name="sodetails" rows="6" class="form-control" id="sodetails" placeholder="Your message here..."></textarea>
+                                                        <button type="submit" class="btn btn-info">Submit</button>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <!--                                                        <label>Details</label>-->
-                                                        <textarea class="form-control" id="sodetails" name="sodetails" placeholder="Details about the special offer.."></textarea>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <!--                                                        <label> Starting Date</label>-->
-                                                        <input type="text" class="form-control" id="sodate" name="sodate" placeholder="starting date">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <!--                                                        <label> Duration</label>-->
-                                                        <input class="form-control" type="text" id="soduration" name="soduration" placeholder="Duration of the offer..">
-                                                    </div>
-                                                    <button type="submit" class="btn btn-info">Submit</button>
-
-                                                </form>
+                                                </div>
 
 
-                                            </div>
+                                            </form>
+
+
+
                                         </div>
                                     </div>
 
@@ -381,61 +374,61 @@
                 <script src="js/parallax.js-1.3.1/parallax.js"></script> <!-- http://pixelcog.github.io/parallax.js/ -->
                 <script>
 
-                            // HTML document is loaded. DOM is ready.
-                            $(function () {
+                    // HTML document is loaded. DOM is ready.
+                    $(function () {
 
-                                // Parallax
-                                $('.intro-section').parallax({
-                                    imageSrc: 'img/bg-1.jpg',
-                                    speed: 0.2
-                                });
-                                $('.services-section').parallax({
-                                    imageSrc: 'img/bg-2.jpg',
-                                    speed: 0.2
-                                });
-                                $('.contact-section').parallax({
-                                    imageSrc: 'img/bg-3.jpg',
-                                    speed: 0.2
-                                });
-                                // jQuery Scroll Up / Back To Top Image
-                                $.scrollUp({
-                                    scrollName: 'scrollUp', // Element ID
-                                    scrollDistance: 300, // Distance from top/bottom before showing element (px)
-                                    scrollFrom: 'top', // 'top' or 'bottom'
-                                    scrollSpeed: 1000, // Speed back to top (ms)
-                                    easingType: 'linear', // Scroll to top easing (see http://easings.net/)
-                                    animation: 'fade', // Fade, slide, none
-                                    animationSpeed: 300, // Animation speed (ms)		        
-                                    scrollText: '', // Text for element, can contain HTML		        
-                                    scrollImg: true            // Set true to use image		        
-                                });
-                                // ScrollUp Placement
-                                $(window).on('scroll', function () {
+                        // Parallax
+                        $('.intro-section').parallax({
+                            imageSrc: 'img/bg-1.jpg',
+                            speed: 0.2
+                        });
+                        $('.services-section').parallax({
+                            imageSrc: 'img/bg-2.jpg',
+                            speed: 0.2
+                        });
+                        $('.contact-section').parallax({
+                            imageSrc: 'img/bg-3.jpg',
+                            speed: 0.2
+                        });
+                        // jQuery Scroll Up / Back To Top Image
+                        $.scrollUp({
+                            scrollName: 'scrollUp', // Element ID
+                            scrollDistance: 300, // Distance from top/bottom before showing element (px)
+                            scrollFrom: 'top', // 'top' or 'bottom'
+                            scrollSpeed: 1000, // Speed back to top (ms)
+                            easingType: 'linear', // Scroll to top easing (see http://easings.net/)
+                            animation: 'fade', // Fade, slide, none
+                            animationSpeed: 300, // Animation speed (ms)		        
+                            scrollText: '', // Text for element, can contain HTML		        
+                            scrollImg: true            // Set true to use image		        
+                        });
+                        // ScrollUp Placement
+                        $(window).on('scroll', function () {
 
-                                    // If the height of the document less the height of the document is the same as the
-                                    // distance the window has scrolled from the top...
-                                    if ($(document).height() - $(window).height() === $(window).scrollTop()) {
+                            // If the height of the document less the height of the document is the same as the
+                            // distance the window has scrolled from the top...
+                            if ($(document).height() - $(window).height() === $(window).scrollTop()) {
 
-                                        // Adjust the scrollUp image so that it's a few pixels above the footer
-                                        $('#scrollUp').css('bottom', '80px');
-                                    } else {
-                                        // Otherwise, leave set it to its default value.
-                                        $('#scrollUp').css('bottom', '30px');
-                                    }
-                                });
-                                $('.single-page-nav').singlePageNav({
-                                    offset: $('.single-page-nav').outerHeight(),
-                                    speed: 1500,
-                                    filter: ':not(.external)',
-                                    updateHash: true
-                                });
-                                $('.navbar-toggle').click(function () {
-                                    $('.single-page-nav').toggleClass('show');
-                                });
-                                $('.single-page-nav a').click(function () {
-                                    $('.single-page-nav').removeClass('show');
-                                });
-                            });
+                                // Adjust the scrollUp image so that it's a few pixels above the footer
+                                $('#scrollUp').css('bottom', '80px');
+                            } else {
+                                // Otherwise, leave set it to its default value.
+                                $('#scrollUp').css('bottom', '30px');
+                            }
+                        });
+                        $('.single-page-nav').singlePageNav({
+                            offset: $('.single-page-nav').outerHeight(),
+                            speed: 1500,
+                            filter: ':not(.external)',
+                            updateHash: true
+                        });
+                        $('.navbar-toggle').click(function () {
+                            $('.single-page-nav').toggleClass('show');
+                        });
+                        $('.single-page-nav a').click(function () {
+                            $('.single-page-nav').removeClass('show');
+                        });
+                    });
                 </script>
                 </body>
                 </html>

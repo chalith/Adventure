@@ -555,14 +555,28 @@
                     dataType: 'json',
                     success: function (res) {
                         var notification = "";
+
                         for (var i = 0; i < res.length; i++) {
-                            notification += "<div class=\"panel col-md-15 notification\">" +
-                                    "<div id=" + res[i].id + " class=\"media-body\">" +
-                                    "<h5 id=" + res[i].id + " class=\"media-heading\">" + res[i].shopName + "</h5>" +
-                                    "<small id=" + res[i].id + ">The " + res[i].package + " package you have booked from " + res[i].shopName + " is reviewed and ready for you</small>" +
-                                    "<button class=\"btn setview\" onclick=\"setViewed(event);\">Set as read</button>" +
-                                    "</div>" +
-                                    "</div>";
+                            if (res[i].key === 0) {
+                                notification += "<div class=\"panel col-md-15 notification\">" +
+                                        "<div id=" + res.id + " class=\"media-body\">" +
+                                        "<h5 id=" + res[i].id + " class=\"media-heading\">" + res[i].shopName + "</h5>" +
+                                        "<small id=" + res[i].id + ">The " + res[i].package + " package you have booked from " + res[i].shopName + " is reviewed and ready for you</small>" +
+                                        "<button class=\"btn setview\" onclick=\"setViewed(event);\">Set as read</button>" +
+                                        "</div>" +
+                                        "</div>";
+                            } else {
+                                notification += "<div class=\"panel col-md-15 notification\">" +
+                                        "<div id=" + res.id + " class=\"media-body\">"+
+                                        "<b>" + res[i].shopName + "</b><h5  class=\"media-heading\">" + "Special Offers" + "</h5>" +
+                                        "<small > " + res[i].notification + "</small>"+
+                                        "<div class=\"row\">"+
+                                        "<button class=\"btn btn-primary\" onclick=\"setViewed(event);\">Set as read</button>"+
+                                        "</div>" +
+                                        "</div>" +
+                                        "</div>"; 
+
+                            }
                         }
                         document.getElementById("notifications").innerHTML = notification;
                     }
@@ -616,21 +630,19 @@
                     $(".allcount").html("");
                 }
             }
-            
+
             // onclick methhod to edit customer profile details
             function editcustomer() {
-            
+
                 var custresetname = custresetaddress = custresettp = "";
-                
+
                 custresetname = document.forms["custdetailsreset"]["custresetname"].value;
                 if (custresetname == "")
-                    
                     return;
 
 
                 custresetaddress = document.forms["custdetailsreset"]["custresetaddress"].value;
                 if (custresetaddress == "")
-                    
                     return;
 
                 custresettp = document.forms["custdetailsreset"]["custresettp"].value.trim();
@@ -691,7 +703,7 @@
                     console.log("saddd");
                 }
             }
-            
+
 
             //onclick method to reset customer passwords
             function editcustomerpassword() {
@@ -740,12 +752,29 @@
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             alert(jqXHR.responseText);
+                            location.reload();
                         }
                     });
                     console.log("sad");
 
                 }
             }
+//            
+//            function deleteAccount(){
+//             var ret = confirm("Do you want to delete you account?");
+//
+//                if (ret === true) {
+//                    //alert("inside ret");
+//                    jQuery.ajax({
+//                        type: "POST",
+//                        url: "<?php echo base_url(); ?>" + "index.php/register_controller/deleteCustomerAccount",
+//                        dataType: "json",
+//                        
+//                        success: function (res) {
+//                            alert("You are no longer registered in the system");
+//                        }
+//                    });
+//            }
         </script>
     </head>
     <?php
@@ -780,6 +809,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="" id="notifications">
+                        
 
                     </div>
                 </div>
@@ -796,117 +826,119 @@
             <!--            Modal content-->
             <div class="modal-content">
                 <div class="modal-body" id="regbody">
-                    <div class="w" id="w">
-                        <div class="page" id="page2">
-                            <div class="animated-modal-1" id="content-editcustprofile">
-                                <div class="content"><br>
-                                    <a href="#" class="slidelink right feature-content-link blue-btn" id="showeditcustpass"> Reset Password &rarr;</a><br><br><br>
-                                    <div class="modal-content">
-                                        <div class="modal-header" style=margin-left:200px;>Edit Personal Details
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        </div>
+                    <center>
+                        <div class="w" id="w">
+                            <div class="page" id="page2">
+                                <div class="animated-modal-1" id="content-editcustprofile">
+                                    <div class="content"><br>
+                                        <a href="#" class="slidelink right feature-content-link blue-btn" id="showeditcustpass"> Reset Password &rarr;</a><br><br><br>
+                                        <div class="modal-content">
+                                            <div class="modal-header">Edit Personal Details
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
 
-                                        <div class="modal-body">
-                                            <center>
-                                                <form name="custdetailsreset" id="custdetailsreset" role="form" method="post" action="">
-                                                    <div class="form-group">
-                                                        <label>Reset Name:</label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                                            <input type="text" class="form-control" required="required" id="custresetname" name="custresetname" placeholder="Name" value="" >
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label>Reset Address:</label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                                                            <input class="form-control" type="text" required="required" name="custresetaddress" id="custresetaddress" placeholder="Address" >
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label>Reset Contact:</label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                                                            <input class="form-control" type="text" required="required name="custresettp" id="custresettp" minlength="10" maxlength="10" placeholder="TPNumber" ">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Select a picture</label>
-                                                        <div id="custresetfilein">
+                                            <div class="modal-body">
+                                                <center>
+                                                    <form name="custdetailsreset" id="custdetailsreset" role="form" method="post" action="">
+                                                        <div class="form-group">
+                                                            <label>Reset Name:</label>
                                                             <div class="input-group">
-                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
-                                                                <input class="form-control" type="file" required="required" name="custresetpic" id="custresetpic" />
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                                                <input type="text" class="form-control" required="required" id="custresetname" name="custresetname" placeholder="Name" value="" >
                                                             </div>
-                                                            <div class="picdiv"><img id="custnewpic" src="" alt="No picture selected"/></div>
                                                         </div>
-                                                    </div>
+
+                                                        <div class="form-group">
+                                                            <label>Reset Address:</label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                                                <input class="form-control" type="text" required="required" name="custresetaddress" id="custresetaddress" placeholder="Address" >
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label>Reset Contact:</label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                                                <input class="form-control" type="text" required="required name="custresettp" id="custresettp" minlength="10" maxlength="10" placeholder="TPNumber" ">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Select a picture</label>
+                                                            <div id="custresetfilein">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
+                                                                    <input class="form-control" type="file" required="required" name="custresetpic" id="custresetpic" />
+                                                                </div>
+                                                                <div class="picdiv"><img id="custnewpic" src="" alt="No picture selected"/></div>
+                                                            </div>
+                                                        </div>
 
 
-                                                </form>
+                                                    </form>
 
-                                            </center>
-                                            <br>
-                                            <button type="button" class="btn btn-danger">Delete Account</button>
+                                                </center>
+                                                <br>
+                                                <button type="button" class="btn btn-danger" onclick="deleteAccount();">Delete Account</button>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary" id="savechanges" onclick="editcustomer();">Save changes</button>
+                                            </div>
+
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary" id="savechanges" onclick="editcustomer();">Save changes</button>
-                                        </div>
-
                                     </div>
-                                </div>
-                            </div>  <!--content-editcustprofile ends here-->
-                            <div class="animated-modal-2" id="content-editcustpass">
-                                <div class="content"><br>
-                                    <a href="#" class="slidelink left feature-content-link blue-btn" id="showeditcustprofile">&larr; Edit Profile </a><br><br><br>
-                                    <div class="modal-content">
-                                        <div class="modal-header">Reset Password
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>  <!--content-editcustprofile ends here-->
+                                <div class="animated-modal-2" id="content-editcustpass">
+                                    <div class="content"><br>
+                                        <a href="#" class="slidelink left feature-content-link blue-btn" id="showeditcustprofile">&larr; Edit Profile </a><br><br><br>
+                                        <div class="modal-content">
+                                            <div class="modal-header">Reset Password
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <center>
+                                                    <form name="custpasswordreset" id="custpasswordreset" role="form" method="post" action="">
+
+                                                        <div class="form-group">
+                                                            <label>Old Password:<span style="color:red">*</span></label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                                                <input class="form-control" type="password" name="custpassresetoldpass" id="custpassresetoldpass" placeholder="Password"  required="required">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label>New Password:<span style="color:red">*</span></label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                                                <input class="form-control" type="password" name="custpassresetnewpass" id="custpassresetnewpass" placeholder="Password"  required="required">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label>Confirm Password:<span style="color:red">*</span></label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                                                <input class="form-control" type="password" name="custpassresetconfpass" required id="custpassresetconfpass" placeholder="Password"><span style="color:red;"></span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-info" data-dismiss="modal" style="margin-left:100px;">Close</button>
+                                                            <button type="button" class="btn btn-primary" id="savepasswordchanges" style="margin-right:150px;" onclick="editcustomerpassword();">Save changes</button>
+                                                        </div>
+
+                                                    </form>
+                                                </center>
+                                            </div>
+
                                         </div>
-                                        <div class="modal-body">
-                                            <center>
-                                                <form name="custpasswordreset" id="custpasswordreset" role="form" method="post" action="">
-                                                   
-                                                    <div class="form-group">
-                                                        <label>Old Password:<span style="color:red">*</span></label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                                            <input class="form-control" type="password" name="custpassresetoldpass" id="custpassresetoldpass" placeholder="Password"  required>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label>New Password:<span style="color:red">*</span></label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                                            <input class="form-control" type="password" name="custpassresetnewpass" id="custpassresetnewpass" placeholder="Password"  required>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label>Confirm Password:<span style="color:red">*</span></label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                                            <input class="form-control" type="password" name="custpassresetconfpass" required id="custpassresetconfpass" placeholder="Password"><span style="color:red;"></span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-info" data-dismiss="modal" style="margin-left:100px;">Close</button>
-                                                        <button type="button" class="btn btn-primary" id="savepasswordchanges" style="margin-right:150px;" onclick="editcustomerpassword();">Save changes</button>
-                                                    </div>
-
-                                                </form>
-                                            </center>
-                                        </div>
-
                                     </div>
-                                </div>
-                            </div> <!--  end content-editcustpass -->
+                                </div> <!--  end content-editcustpass -->
+                            </div>
                         </div>
-                    </div>
+                    </center>
                 </div>
             </div>
         </div>
@@ -921,9 +953,9 @@
         <div id="headernav">
             <?php
             $email = $id = $person = $picture = "";
-         
-        session_start(); 
-    
+
+            session_start();
+
 
             if (isset($_SESSION['email'])) {
                 $email = $_SESSION['email'];

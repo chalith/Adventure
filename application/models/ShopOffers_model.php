@@ -10,9 +10,10 @@ class ShopOffers_model extends CI_Model{
             $specialoff = array(
                 "shopid" => $data["shopid"],
                 "title" => $data["title"],
-                "details" => $data["details"],
-                "start" => $data["start"],
-                "duration" => $data["duration"]
+                "details" => $data["details"]
+                
+//                "start" => $data["start"],
+//                "duration" => $data["duration"]
             );
             $this->db->insert('specialoffer', $specialoff);
             $alert['msg'] = "Special Offer Succesfully Published";
@@ -28,8 +29,11 @@ class ShopOffers_model extends CI_Model{
         }
         
         public function notifyFollowersModel($data){
-            $this->db->insert('messages', $data);
+            
+            $this->db->insert('notifications', $data);
+            
 //            $alerts['msg2'] = "Notified Followers";
+            
             return;
         }
 }
