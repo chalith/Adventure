@@ -98,15 +98,14 @@
                 $(".featurebtn").on("click", function (e) {
                     window.location = "index.php/welcome/getGeneralFeatures/" + e.target.id;
                 });
-                $(".provider").on("click", function (e) {
-                    var curid = $(e.target).parents().attr('id');
-                    if (typeof curid == 'undefined') {
-                        var curid = e.target.id;
-                    }
-                    alert(curid);
-                    //window.location="index.php/welcome/getGeneralFeatures/"+e.target.id;
+                $(".provider").on("click",function(e){
+                        var curid=$(e.target).parents().attr('id');
+                        if(typeof curid=='undefined'){
+                                var curid = e.target.id;
+                        }
+                        window.location="index.php/welcome/getShopView/"+curid;
+                    });
                 });
-            });
 
 //JQuery for follow button
             function followShop() {

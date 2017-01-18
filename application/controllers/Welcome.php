@@ -36,6 +36,15 @@ class Welcome extends CI_Controller {
             
         }
         
+		public function getShopView($param1){
+            /*$this->load->model('generalFeaturesModel','',TRUE);
+            $data['generalfeature']=$this->generalFeaturesModel->getGeneralFeatures($param1);
+            $data['activities']=$this->frontpage_model->getActivities();*/
+            $data['id']=$param1;
+            $this->load->view('shopView', $data);
+            
+        }
+		
         public function registerCustomer(){
             
            
@@ -44,5 +53,7 @@ class Welcome extends CI_Controller {
             $this->load->model('register_model');
             $this->register_model->registerCustomer($packet1);
         }
+		
+		
 }
 ?>
