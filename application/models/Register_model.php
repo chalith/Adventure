@@ -168,16 +168,16 @@
                 
                 if ($person == 'provider'){
                  $this->db->delete('provider', array('email'=> $email));
-//                 $alert['msg'] = "done";
+                 $alert['msg'] = "done";
                 }
                 
                 else{
                     $this->db->delete('customer', array('email' => $email));
-//                    $alert['msg'] = "done";
+                    $alert['msg'] = "done";
                 }
                
                 $this->db->delete('user', array('email'=> $email));
-//                return $alert;
+                return $alert;
            
             
         }

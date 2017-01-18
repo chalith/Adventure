@@ -47,7 +47,7 @@ class ShopOffers_controller extends CI_Controller{
             foreach ($results as $result){
                      
                 $senderID = $result->shopID;
-                $content = "Check out the special offer recently posted by ".$senderID;
+                $content = "Check out the special offer recently posted by us";
                 $time=  date("Y-m-d h:i:sa");
                 $receiverID = $result->customerID;
                 

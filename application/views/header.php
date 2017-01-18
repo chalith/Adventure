@@ -559,18 +559,20 @@
                         for (var i = 0; i < res.length; i++) {
                             if (res[i].key === 0) {
                                 notification += "<div class=\"panel col-md-15 notification\">" +
-                                        "<div id=" + res.id + " class=\"media-body\">" +
+                                        "<div id=" + res.id + " class=\"media-body\" style=\"padding:10px;\" >" +
                                         "<h5 id=" + res[i].id + " class=\"media-heading\">" + res[i].shopName + "</h5>" +
                                         "<small id=" + res[i].id + ">The " + res[i].package + " package you have booked from " + res[i].shopName + " is reviewed and ready for you</small>" +
+                                        "<div class=\"row\" style=\"padding:10px;\">" +
                                         "<button class=\"btn setview\" onclick=\"setViewed(event);\">Set as read</button>" +
+                                        "</div>" +
                                         "</div>" +
                                         "</div>";
                             } else {
                                 notification += "<div class=\"panel col-md-15 notification\">" +
-                                        "<div id=" + res.id + " class=\"media-body\">" +
-                                        "<b>" + res[i].shopName + "</b><h5  class=\"media-heading\">" + "Special Offers" + "</h5>" +
+                                        "<div id=" + res.id + " class=\"media-body\" style=\"padding:10px;\">" +
+                                        "<b>" + res[i].shopName + "</b><h5  class=\"media-heading\" style=\"color:#336699\"><b>" + "Special Offers" + "</b></h5>" +
                                         "<small > " + res[i].notification + "</small>" +
-                                        "<div class=\"row\">" +
+                                        "<div class=\"row\" style=\"padding:10px;\">" +
                                         "<button class=\"btn btn-primary\" onclick=\"setViewed(event);\">Set as read</button>" +
                                         "</div>" +
                                         "</div>" +
@@ -771,7 +773,8 @@
                         url: "<?php echo base_url(); ?>" + "index.php/register_controller/deleteCustomerAccount",
 //                        dataType: "json",
                         success: function (res) {
-
+                            
+                              alert("You are no longer registered in  the system");
                               location.reload();
                         },
                         error: function (xhr, desc, err) {
@@ -1377,7 +1380,7 @@ if ($email != "") {
 
                                                         <div class="form-inline">
                                                             <input class="btn btn-primary" id="submitregister" onclick="registercustomer();" type="submit" value="Register"/>
-                                                            <a class="btn btn-info" onclick="showLogin();">Sign In</a>
+<!--                                                            <a class="btn btn-info" onclick="showLogin();">Sign In</a>-->
                                                         </div>
 
                                                         <!-- nds here -->

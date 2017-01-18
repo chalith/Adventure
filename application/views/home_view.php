@@ -98,14 +98,14 @@
                 $(".featurebtn").on("click", function (e) {
                     window.location = "index.php/welcome/getGeneralFeatures/" + e.target.id;
                 });
-                $(".provider").on("click",function(e){
-                        var curid=$(e.target).parents().attr('id');
-                        if(typeof curid=='undefined'){
-                                var curid = e.target.id;
-                        }
-                        window.location="index.php/welcome/getShopView/"+curid;
-                    });
+                $(".provider").on("click", function (e) {
+                    var curid = $(e.target).parents().attr('id');
+                    if (typeof curid == 'undefined') {
+                        var curid = e.target.id;
+                    }
+                    window.location = "index.php/welcome/getShopView/" + curid;
                 });
+            });
 
 //JQuery for follow button
             function followShop() {
@@ -262,38 +262,50 @@
                 <button id="followButton" style="position:fixed; top:400px; right:30px;" class="btn btn-success" onclick="followShop();">Follow Us</button>
 
 
+
                 <div id="section4">
                     <!-- Start Contact Area -->
-                    <section id="contact-area" class="contact-section">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-sm-12 text-center inner">
-                                    <div style="color: white;" class="container">
+                    <?php
+                    if (isset($_SESSION['person'])) {
+                        if ($_SESSION['person'] == 'provider') {
+                            ?>
+                            <section id="contact-area" class="contact-section">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-sm-12 text-center inner">
+                                            <div style="color: white;" class="container">
 
-                                        <div class="row">
-
-                                            <form method="post" class="contact-form" action="<?php echo base_url() . "index.php/shopoffers_controller/insertSpecialOffers"; ?>">
+                                                <div class="row">
 
 
-                                                <div class="col-sm-6 contact-form-right">
-                                                    <h1 style="color:#336699;"><i>Special Offers</i></h1> 
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control" name="sotitle" id="sotitle" placeholder="Catchy Title!">
-                                                        <br>
-                                                        <textarea name="sodetails" rows="6" class="form-control" id="sodetails" placeholder="Your message here..."></textarea>
-                                                        <button type="submit" class="btn btn-info">Submit</button>
-                                                    </div>
+
+                                                    <form method="post" class="contact-form" action="<?php echo base_url() . "index.php/shopoffers_controller/insertSpecialOffers"; ?>">
+
+
+                                                        <div class="col-sm-6 contact-form-right">
+                                                            <h1 style="color:#336699;"><i>Special Offers</i></h1> 
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" name="sotitle" id="sotitle" placeholder="Catchy Title!">
+                                                                <br>
+                                                                <textarea name="sodetails" rows="6" class="form-control" id="sodetails" placeholder="Your message here..."></textarea>
+                                                                <button type="submit" class="btn btn-info">Submit</button>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </form>
+
+
+
                                                 </div>
 
-
-                                            </form>
-
-
+                                            </div>
 
                                         </div>
-                                    </div>
-
-                                </div>
+                                        <?php
+                                    }
+                                }
+                                ?>
                                 </section><br><br>
                                 <!-- End Contact Area -->
                                 <?php

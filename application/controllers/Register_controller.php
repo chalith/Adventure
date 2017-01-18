@@ -170,16 +170,11 @@ class Register_controller extends CI_Controller{
             
             $alert = $this->register_model->deleteCustomerAccountModel($email, $person);
             
-            if ($alert['msg'] == "done"){
-                
-                $alert2['msg'] = "You are no longer a registered user";
-                session_destroy();
-                echo json_encode(array('alert'=>$alert2));
-                
+            if ($alert['msg'] == 'done'){
+            session_destroy();
             }
             else{
-                $alert2 = "Unsuccesful process";
-                echo json_encode(array('alert'=>$alert2));
+                
             }
             
         }
