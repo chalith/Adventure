@@ -147,10 +147,10 @@ class Register_controller extends CI_Controller{
         }
         
         public function changeCustomerPassword(){
-//            $resetoldpass = $resetnewpass="";
+            $resetoldpass = $resetnewpass="";
             //assuming the same string is encrypted the same way all the time
-            $resetoldpass =  $this->encryptor->encryptPwrd($this->validate->get_input($this->input->post('custpassresetoldpass')));
-            $resetnewpass = $this->encryptor->encryptPwrd($this->validate->get_input($this->input->post('custpassresetnewpass')));
+            $resetoldpass =  $this->encryptor->encryptPwrd($this->validate->get_input($this->input->post('resetoldpass')));
+            $resetnewpass = $this->encryptor->encryptPwrd($this->validate->get_input($this->input->post('resetnewpass')));
             
             
             $data = array(

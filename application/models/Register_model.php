@@ -141,7 +141,7 @@
         }
         
         public function changeCustomerPasswordModel($data){
-            session_start();
+           
             $email = $_SESSION['email'];
             
             $query = $this->db->query("SELECT password FROM user WHERE email = '$email';");
@@ -157,7 +157,7 @@
             else{
                
                 $alert["bool"] = FALSE;
-                $alert["msg"] = "invalid old password!";
+                $alert["msg"] = $data['"Invalid old password'];
             }
                 
             return $alert;

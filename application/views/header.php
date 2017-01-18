@@ -710,7 +710,7 @@
             //onclick method to reset customer passwords
             function editcustomerpassword() {
                 var resetoldpass = resetnewpass = resetconfnewpass = "";
-                alert("1");
+                
                 resetoldpass = document.forms["custpasswordreset"]["custpassresetoldpass"].value;
                 if (resetoldpass == "")
                     return;
@@ -726,10 +726,10 @@
 
                 if (resetnewpass !== resetconfnewpass) {
                     alert("Passwords Mismatch!");
-                    resturn;
+                    return;
                 }
-                alert(resetnewpass);
-                alert(resetoldpass);
+//                alert(resetnewpass);
+//                alert(resetoldpass);
                 var obj = {resetoldpass: resetoldpass, resetnewpass: resetnewpass};
                 resetpasswords(obj);
 
@@ -737,7 +737,7 @@
 
 
             function resetpasswords(obj) {
-                var ret = alert("Do you want to save the changes?");
+                var ret = confirm("Do you want to save the changes?");
 
                 if (ret === true) {
                     jQuery.ajax({
@@ -746,6 +746,7 @@
                         dataType: "json",
                         data: obj,
                         success: function (res) {
+                            alert("HII");
                             alert(res.alert.msg);
 
                             if (res.alert.bool) {
@@ -757,7 +758,7 @@
                             location.reload();
                         }
                     });
-                    console.log("sad");
+                    
 
                 }
             }
