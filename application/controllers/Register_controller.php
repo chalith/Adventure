@@ -147,10 +147,10 @@ class Register_controller extends CI_Controller{
         }
         
         public function changeCustomerPassword(){
-            $resetoldpass = $resetnewpass="";
+//            $resetoldpass = $resetnewpass="";
             //assuming the same string is encrypted the same way all the time
-            $resetoldpass =  $this->encryptor->encryptPwrd($this->validate->get_input($this->input->post('resetoldpass')));
-            $resetnewpass = $this->encryptor->encryptPwrd($this->validate->get_input($this->input->post('resetnewpass')));
+            $resetoldpass =  $this->encryptor->encryptPwrd($this->validate->get_input($this->input->post('custpassresetoldpass')));
+            $resetnewpass = $this->encryptor->encryptPwrd($this->validate->get_input($this->input->post('custpassresetnewpass')));
             
             
             $data = array(
@@ -162,20 +162,12 @@ class Register_controller extends CI_Controller{
             echo json_encode(array('alert'=>$alert));
         }
         
-        public function deleteCustomerAccount(){
-            $alert2 ="";
-            session_start();
-            $person = $_SESSION['person'];
-            $email = $_SESSION['email'];
-            
-            $alert = $this->register_model->deleteCustomerAccountModel($email, $person);
-            
-            if ($alert['msg'] == 'done'){
-            session_destroy();
-            }
-            else{
-                
-            }
-            
-        }
+//        public function deleteCustomerAccount(){
+//            session_start();
+//            $id = $_SESSION['id'];
+//            $email = $_SESSION['email'];
+//            $person = $_SESSION['person'];
+//            $this->register_model->deleteCustomerAcount($id, $email, $person);
+//            
+//        }
     }?>

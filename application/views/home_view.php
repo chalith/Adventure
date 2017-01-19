@@ -120,18 +120,18 @@
                 }
 
             }
-            
-            function specialoffersubmit(){
+
+            function specialoffersubmit() {
                 var sotitle = sodetails = "";
                 alert("h");
                 sotitle = document.forms["so"]["sotitle"].value;
                 sodetails = document.forms["so"]["sodetails"].value;
                 alert(sotitle);
-                var obj = {'sotitle':sotitle, 'sodetails': sodetails};
+                var obj = {'sotitle': sotitle, 'sodetails': sodetails};
                 call(obj);
             }
-            
-            function call(obj){
+
+            function call(obj) {
                 var ret = confirm("Do you want to save the changes?");
 
                 if (ret === true) {
@@ -141,23 +141,24 @@
                         url: "<?php echo base_url(); ?>" + "index.php/shopoffers_controller/insertSpecialOffers",
                         dataType: "json",
                         data: obj,
-                        success: function(res){
-                           
+                        success: function (res) {
+
                             alert(res.alert1.msg);
                             alert(res.alert2.msg);
 
 
-                            
+
                         },
-                        error: function(jqXHR, textStatus, errorThrown){
+                        error: function (jqXHR, textStatus, errorThrown) {
                             alert(jqXHR.responseText);
                             alert("hmmm");
                         }
                     });
-            }
+                }
             }
 
         </script>
+
     </head>
 
     <body>
@@ -298,9 +299,9 @@
                 <button id="followButton" style="position:fixed; top:400px; right:30px;" class="btn btn-success" onclick="followShop();">Follow Us</button>
 
 
-
                 <div id="section4">
                     <!-- Start Contact Area -->
+
                     <?php
                     if (isset($_SESSION['person'])) {
                         if ($_SESSION['person'] == 'provider') {
@@ -317,99 +318,99 @@
 
                                                     <form id="so" name="so" method="post" class="contact-form" action="">
 
-
-                                                        <div class="col-sm-6 contact-form-right">
-                                                            <h1 style="color:#336699;"><i>Special Offers</i></h1> 
-                                                            <div class="form-group">
-                                                                <input type="text" class="form-control" name="sotitle" id="sotitle" placeholder="Catchy Title!">
-                                                                <br>
-                                                                <textarea name="sodetails" rows="6" class="form-control" id="sodetails" placeholder="Your message here..."></textarea>
-                                                                <button type="submit" class="btn btn-info" onclick="specialoffersubmit();">Submit</button>
+                                                        
+                                                            <div class="col-sm-6 contact-form-right">
+                                                                <h1 style="color:#336699;"><i>Special Offers</i></h1> 
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control" name="sotitle" id="sotitle" placeholder="Catchy Title!">
+                                                                    <br>
+                                                                    <textarea name="sodetails" rows="6" class="form-control" id="sodetails" placeholder="Your message here..."></textarea>
+                                                                    <button type="submit" class="btn btn-info" onclick="specialoffersubmit();">Submit</button>
+                                                                </div>
                                                             </div>
-                                                        </div>
 
+
+                                                           
 
                                                     </form>
 
 
 
                                                 </div>
-
                                             </div>
 
                                         </div>
+                                        </section><br><br>
+                                        <!-- End Contact Area -->
                                         <?php
-                                    }
-                                }
-                                ?>
-                                </section><br><br>
-                                <!-- End Contact Area -->
-                                <?php
-                                if ($advertisements != NULL) {
-                                    ?>
-                                    <section id="testimornial-area2">
-                                        <div class="container">
-                                            <div id="myCarousel2" class="carousel slide pro" data-ride="carousel">
-                                                <!-- Indicators -->
-                                                <ol class="carousel-indicators">
-                                                    <li class="active"></li>
-                                                    <li></li>
-                                                    <li></li>
-                                                    <li></li>
-                                                </ol>
+                                            }
+                                            
+                                            }
+                                        if ($advertisements != NULL) {
+                                            ?>
+                                            <section id="testimornial-area2">
+                                                <div class="container">
+                                                    <div id="myCarousel2" class="carousel slide pro" data-ride="carousel">
+                                                        <!-- Indicators -->
+                                                        <ol class="carousel-indicators">
+                                                            <li class="active"></li>
+                                                            <li></li>
+                                                            <li></li>
+                                                            <li></li>
+                                                        </ol>
 
-                                                <!-- Wrapper for slides -->
-                                                <div class="carousel-inner pro" role="listbox">
-                                                    <div class="row text-center providers">
-                                                        <table id="advertisements">
-                                                            <tr>
-                                                                <?php
-                                                                foreach ($advertisements as $object) {
-                                                                    ?>                                                               
-                                                                    <td>
-                                                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-xxs-12">
-                                                                            <div class="testimonial-content">
-                                                                                <img src="<?php echo base_url() . $object["shoppic"]; ?>" alt="Image">
-                                                                                <h2><?php echo $object["title"]; ?></h2>
-                                                                                <a style="font-size:120%;"><?php echo $object["shopname"]; ?></a>
-                                                                                <p><?php echo $object["description"]; ?></p>
-                                                                                <br>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                    <?php
-                                                                }
-                                                                ?>
-                                                            </tr>
-                                                        </table>
+                                                        <!-- Wrapper for slides -->
+                                                        <div class="carousel-inner pro" role="listbox">
+                                                            <div class="row text-center providers">
+                                                                <table id="advertisements">
+                                                                    <tr>
+                                                                        <?php
+                                                                        foreach ($advertisements as $object) {
+                                                                            ?>                                                               
+                                                                            <td>
+                                                                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-xxs-12">
+                                                                                    <div class="testimonial-content">
+                                                                                        <img src="<?php echo base_url() . $object["shoppic"]; ?>" alt="Image">
+                                                                                        <h2><?php echo $object["title"]; ?></h2>
+                                                                                        <a style="font-size:120%;"><?php echo $object["shopname"]; ?></a>
+                                                                                        <p><?php echo $object["description"]; ?></p>
+                                                                                        <br>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <?php
+                                                                        }
+                                                                        ?>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Left and right controls -->
+                                                        <a class="left carousel-control" id="left-carousel-control2" href="#myCarousel">
+                                                            <span class="glyphicon glyphicon-chevron-left"></span>
+                                                            <span class="sr-only">Previous</span>
+                                                        </a>
+                                                        <a class="right carousel-control" id="right-carousel-control2" href="#myCarousel">
+                                                            <span class="glyphicon glyphicon-chevron-right"></span>
+                                                            <span class="sr-only">Next</span>
+                                                        </a>
                                                     </div>
+
                                                 </div>
-                                                <!-- Left and right controls -->
-                                                <a class="left carousel-control" id="left-carousel-control2" href="#myCarousel">
-                                                    <span class="glyphicon glyphicon-chevron-left"></span>
-                                                    <span class="sr-only">Previous</span>
-                                                </a>
-                                                <a class="right carousel-control" id="right-carousel-control2" href="#myCarousel">
-                                                    <span class="glyphicon glyphicon-chevron-right"></span>
-                                                    <span class="sr-only">Next</span>
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                    </section>
-                                    <?php
-                                } else {
-                                    ?>
-                                    <center><h1>No special offers for this season</h1></center><br><br>
-                                    <?php
-                                }
-                                ?>
-                            </div>
-                        </div>
+                                            </section>
+                                            <?php
+                                        } else {
+                                            ?>
+                                            <center><h1>No special offers for this season</h1></center><br><br>
+                                            <?php
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
 
 
-                        <!-- Start Footer Area -->
-                        <?php include 'footer.php'; ?>
+                                <!-- Start Footer Area -->
+                                <?php include 'footer.php'; ?>
                         <!-- End Footer Area -->
 
 
@@ -421,61 +422,61 @@
                 <script src="js/parallax.js-1.3.1/parallax.js"></script> <!-- http://pixelcog.github.io/parallax.js/ -->
                 <script>
 
-                    // HTML document is loaded. DOM is ready.
-                    $(function () {
+                                                                // HTML document is loaded. DOM is ready.
+                                                                $(function () {
 
-                        // Parallax
-                        $('.intro-section').parallax({
-                            imageSrc: 'img/bg-1.jpg',
-                            speed: 0.2
-                        });
-                        $('.services-section').parallax({
-                            imageSrc: 'img/bg-2.jpg',
-                            speed: 0.2
-                        });
-                        $('.contact-section').parallax({
-                            imageSrc: 'img/bg-3.jpg',
-                            speed: 0.2
-                        });
-                        // jQuery Scroll Up / Back To Top Image
-                        $.scrollUp({
-                            scrollName: 'scrollUp', // Element ID
-                            scrollDistance: 300, // Distance from top/bottom before showing element (px)
-                            scrollFrom: 'top', // 'top' or 'bottom'
-                            scrollSpeed: 1000, // Speed back to top (ms)
-                            easingType: 'linear', // Scroll to top easing (see http://easings.net/)
-                            animation: 'fade', // Fade, slide, none
-                            animationSpeed: 300, // Animation speed (ms)		        
-                            scrollText: '', // Text for element, can contain HTML		        
-                            scrollImg: true            // Set true to use image		        
-                        });
-                        // ScrollUp Placement
-                        $(window).on('scroll', function () {
+                                                                    // Parallax
+                                                                    $('.intro-section').parallax({
+                                                                        imageSrc: 'img/bg-1.jpg',
+                                                                        speed: 0.2
+                                                                    });
+                                                                    $('.services-section').parallax({
+                                                                        imageSrc: 'img/bg-2.jpg',
+                                                                        speed: 0.2
+                                                                    });
+                                                                    $('.contact-section').parallax({
+                                                                        imageSrc: 'img/bg-3.jpg',
+                                                                        speed: 0.2
+                                                                    });
+                                                                    // jQuery Scroll Up / Back To Top Image
+                                                                    $.scrollUp({
+                                                                        scrollName: 'scrollUp', // Element ID
+                                                                        scrollDistance: 300, // Distance from top/bottom before showing element (px)
+                                                                        scrollFrom: 'top', // 'top' or 'bottom'
+                                                                        scrollSpeed: 1000, // Speed back to top (ms)
+                                                                        easingType: 'linear', // Scroll to top easing (see http://easings.net/)
+                                                                        animation: 'fade', // Fade, slide, none
+                                                                        animationSpeed: 300, // Animation speed (ms)		        
+                                                                        scrollText: '', // Text for element, can contain HTML		        
+                                                                        scrollImg: true            // Set true to use image		        
+                                                                    });
+                                                                    // ScrollUp Placement
+                                                                    $(window).on('scroll', function () {
 
-                            // If the height of the document less the height of the document is the same as the
-                            // distance the window has scrolled from the top...
-                            if ($(document).height() - $(window).height() === $(window).scrollTop()) {
+                                                                        // If the height of the document less the height of the document is the same as the
+                                                                        // distance the window has scrolled from the top...
+                                                                        if ($(document).height() - $(window).height() === $(window).scrollTop()) {
 
-                                // Adjust the scrollUp image so that it's a few pixels above the footer
-                                $('#scrollUp').css('bottom', '80px');
-                            } else {
-                                // Otherwise, leave set it to its default value.
-                                $('#scrollUp').css('bottom', '30px');
-                            }
-                        });
-                        $('.single-page-nav').singlePageNav({
-                            offset: $('.single-page-nav').outerHeight(),
-                            speed: 1500,
-                            filter: ':not(.external)',
-                            updateHash: true
-                        });
-                        $('.navbar-toggle').click(function () {
-                            $('.single-page-nav').toggleClass('show');
-                        });
-                        $('.single-page-nav a').click(function () {
-                            $('.single-page-nav').removeClass('show');
-                        });
-                    });
+                                                                            // Adjust the scrollUp image so that it's a few pixels above the footer
+                                                                            $('#scrollUp').css('bottom', '80px');
+                                                                        } else {
+                                                                            // Otherwise, leave set it to its default value.
+                                                                            $('#scrollUp').css('bottom', '30px');
+                                                                        }
+                                                                    });
+                                                                    $('.single-page-nav').singlePageNav({
+                                                                        offset: $('.single-page-nav').outerHeight(),
+                                                                        speed: 1500,
+                                                                        filter: ':not(.external)',
+                                                                        updateHash: true
+                                                                    });
+                                                                    $('.navbar-toggle').click(function () {
+                                                                        $('.single-page-nav').toggleClass('show');
+                                                                    });
+                                                                    $('.single-page-nav a').click(function () {
+                                                                        $('.single-page-nav').removeClass('show');
+                                                                    });
+                                                                });
                 </script>
                 </body>
                 </html>

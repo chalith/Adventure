@@ -156,7 +156,7 @@
                                 if (res.alert.bool && (path.value != "")) {
                                     //alert(res.alert);
                                     jQuery.ajax({
-                                        url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/file/provider/r",
+                                        url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/file/provider",
                                         type: "POST", // Type of request to be send, called as method
                                         data: new FormData(document.getElementById("shopRegister")), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
                                         contentType: false, // The content type used when sending data to the server.
@@ -171,15 +171,7 @@
                                             }
                                         },
                                         error: function (jqXHR, textStatus, errorThrown) {
-                                            alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
-
-                                            $('#result').html('<p>status code: ' + jqXHR.status + '</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>' + jqXHR.responseText + '</div>');
-                                            console.log('jqXHR:');
-                                            console.log(jqXHR);
-                                            console.log('textStatus:');
-                                            console.log(textStatus);
-                                            console.log('errorThrown:');
-                                            console.log(errorThrown);
+                                            alert(jqXHR.responseText);
                                         }
                                     });
                                 } else {
@@ -289,7 +281,10 @@
                 $('.homebtn').on('click', function () {
                     window.location = "<?php echo base_url(); ?>";
                 });
-
+                
+                $('.profile').on('click', function () {
+                    window.location = "<?php echo base_url(); ?>"+ "index.php/welcome/getShopProfileView";
+                });
                 $('#loginformbtn').click(function () {
                     $('.login').fadeToggle('slow');
                     $(this).toggleClass('activebtn');
@@ -508,7 +503,7 @@
                             var path = document.getElementById("customerpic");
                             if (res.alert.bool && (path.value != "")) {
                                 jQuery.ajax({
-                                    url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/customerpic/customer/r",
+                                    url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/customerpic/customer",
                                     type: "POST", // Type of request to be send, called as method
                                     data: new FormData(document.getElementById("customerRegister")), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
                                     contentType: false, // The content type used when sending data to the server.
@@ -522,15 +517,7 @@
                                         }
                                     },
                                     error: function (jqXHR, textStatus, errorThrown) {
-                                        alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
-
-                                        $('#result').html('<p>status code: ' + jqXHR.status + '</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>' + jqXHR.responseText + '</div>');
-                                        console.log('jqXHR:');
-                                        console.log(jqXHR);
-                                        console.log('textStatus:');
-                                        console.log(textStatus);
-                                        console.log('errorThrown:');
-                                        console.log(errorThrown);
+                                        alert(jqXHR.responseText);
                                     }
                                 });
                             } else {
@@ -557,34 +544,109 @@
                         var notification = "";
 
                         for (var i = 0; i < res.length; i++) {
-                            if (res[i].key === 0) {
-                                notification += "<div class=\"panel col-md-15 notification\">" +
-                                        "<div id=" + res[i].id + " class=\"media-body\" style=\"padding:10px;\" >" +
-                                        "<h5 id=" + res[i].id + " class=\"media-heading\">" + res[i].shopName + "</h5>" +
-                                        "<small id=" + res[i].id + ">The " + res[i].package + " package you have booked from " + res[i].shopName + " is reviewed and ready for you</small>" +
-                                        "<div class=\"row\" style=\"padding:10px;\">" +
-                                        "<button class=\"btn setview\" onclick=\"setViewed(" + res[i].id + "," + res[i].key + ");\">Set as read</button>" +
-                                        "</div>" +
-                                        "</div>" +
-                                        "</div>";
-                            } else {
-                                notification += "<div class=\"panel col-md-15 notification\">" +
-                                        "<div id=" + res[i].id + " class=\"media-body\" style=\"padding:10px;\">" +
-                                        "<b>" + res[i].shopName + "</b><h5  class=\"media-heading\" style=\"color:#336699\"><b>" + "Special Offers" + "</b></h5>" +
-                                        "<small > " + res[i].notification + "</small>" +
-                                        "<div class=\"row\" style=\"padding:10px;\">" +
-                                        "<button class=\"btn btn-primary\" onclick=\"setViewed(" + res[i].id + "," + res[i].key + ");\">Set as read</button>" +
-                                        "</div>" +
-                                        "</div>" +
-                                        "</div>";
+
+                            notification += "<div class=\"panel col-md-15 notification\">" +
+                            "<div class=\"media-body\">"+
+                            "<b>" + res[i].name + "</b><h5  class=\"media-heading\">" + "Special Offers" + "</h5>" +
+                            "<small > " + res[i].notification + "</small>";
+                            if(res[i].type==="Reservation"){
+                                notification += "<button id=" + res[i].id + " class=\"btn setview btn-danger\" onclick=\"delete"+res[i].type+"();\">Delete</button>";
 
                             }
+                            notification += "<button id=" + res[i].id + " class=\"btn setview btn-primary\" onclick=\"set"+res[i].type+"Viewed();\">Set as read</button>"+
+                            "</div>" +
+                            "</div>";
                         }
                         document.getElementById("notifications").innerHTML = notification;
                     }
                 });
             }
+            function setReviewedReservationViewed(){
+                setViewed(event.target.id,"reviewedreservation");
+            }
+            function setNotificationViewed(){
+                setViewed(event.target.id,"notification");
+            }
+            function setReservationViewed(){
+                setAccepted(event.target.id,"notification");
+            }
+            function deleteReviewedReservation(){
+                deleteNotfy(event.target.id,"reviewedreservation");
+            }
+            function deleteNotification(){
+                deleteNotfy(event.target.id,"notifications");
+            }
+            function deleteReservation(){
+                deleteNotfy(event.target.id,"reservations");
+            }
+            function setViewed(curid,which) {
+                jQuery.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + "index.php/notification_controller/set_Viewed/" + curid + "/" + which,
+                    dataType: 'json',
+                    success: function (res){
+                        //alert(res);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        //alert(jqXHR.responseText);
+                    }
+                });
+                loadNotifications();
+                getNotifyCount();
+                setAllCount();
 
+            }
+            function setViewed(curid,which) {
+                jQuery.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + "index.php/notification_controller/set_Viewed/" + curid + "/" + which,
+                    dataType: 'json',
+                    success: function (res){
+                        //alert(res);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        //alert(jqXHR.responseText);
+                    }
+                });
+                loadNotifications();
+                getNotifyCount();
+                setAllCount();
+
+            }
+            function deleteNotfy(curid,which) {
+                jQuery.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + "index.php/notification_controller/delete_Notify/" + curid + "/" + which,
+                    dataType: 'json',
+                    success: function (res){
+                        //alert(res);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        //alert(jqXHR.responseText);
+                    }
+                });
+                loadNotifications();
+                getNotifyCount();
+                setAllCount();
+
+            }
+            function setAccepted(curid,which) {
+                jQuery.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + "index.php/notification_controller/set_Accepted/" + curid + "/" + which,
+                    dataType: 'json',
+                    success: function (res){
+                        //alert(res);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        //alert(jqXHR.responseText);
+                    }
+                });
+                loadNotifications();
+                getNotifyCount();
+                setAllCount();
+
+            }
             var msgcount = 0;
             var notifycount = 0;
             function getMsgCount(sid) {
@@ -612,12 +674,13 @@
                     }
                 });
             }
-            function setViewed(curid,key) {
-//                var curid = $(event.target).parents().attr('id');
+
+            function setViewed(curid,which) {
+
                 alert(curid);
                 jQuery.ajax({
                     type: "POST",
-                    url: "<?php echo base_url(); ?>" + "index.php/notification_controller/set_Viewed/" + curid + "/" +key,
+                    url: "<?php echo base_url(); ?>" + "index.php/notification_controller/set_Viewed/" + curid + "/" +which,
                     dataType: 'json'
                 });
                 loadNotifications();
@@ -625,9 +688,10 @@
                 setAllCount();
 
             }
+
             function setAllCount() {
                 var allcount = parseInt(msgcount) + parseInt(notifycount);
-                if (allcount != 0) {
+                if (allcount !== 0) {
                     $(".allcount").html(allcount);
                 } else {
                     $(".allcount").html("");
@@ -711,7 +775,7 @@
             //onclick method to reset customer passwords
             function editcustomerpassword() {
                 var resetoldpass = resetnewpass = resetconfnewpass = "";
-                
+                alert("1");
                 resetoldpass = document.forms["custpasswordreset"]["custpassresetoldpass"].value;
                 if (resetoldpass == "")
                     return;
@@ -727,10 +791,10 @@
 
                 if (resetnewpass !== resetconfnewpass) {
                     alert("Passwords Mismatch!");
-                    return;
+                    resturn;
                 }
-//                alert(resetnewpass);
-//                alert(resetoldpass);
+                alert(resetnewpass);
+                alert(resetoldpass);
                 var obj = {resetoldpass: resetoldpass, resetnewpass: resetnewpass};
                 resetpasswords(obj);
 
@@ -738,7 +802,7 @@
 
 
             function resetpasswords(obj) {
-                var ret = confirm("Do you want to save the changes?");
+                var ret = alert("Do you want to save the changes?");
 
                 if (ret === true) {
                     jQuery.ajax({
@@ -747,7 +811,6 @@
                         dataType: "json",
                         data: obj,
                         success: function (res) {
-                            alert("HII");
                             alert(res.alert.msg);
 
                             if (res.alert.bool) {
@@ -759,39 +822,31 @@
                             location.reload();
                         }
                     });
-                    
+                    console.log("sad");
 
                 }
             }
-
-//            Deactivate account of a user
-            function deleteAccount() {
-                var ret = confirm("Do you want to delete you account?");
-
-                if (ret === true) {
-                   
-                    jQuery.ajax({
-                        type: "POST",
-                        url: "<?php echo base_url(); ?>" + "index.php/register_controller/deleteCustomerAccount",
+//            
+//            function deleteAccount(){
+//             var ret = confirm("Do you want to delete you account?");
+//
+//                if (ret === true) {
+//                    //alert("inside ret");
+//                    jQuery.ajax({
+//                        type: "POST",
+//                        url: "<?php echo base_url(); ?>" + "index.php/register_controller/deleteCustomerAccount",
 //                        dataType: "json",
-                        success: function (res) {
-                            
-                              alert("You are no longer registered in  the system");
-                              location.reload();
-                        },
-                        error: function (xhr, desc, err) {
-                            alert('error');
-                        }
-                    });
-                }
-
-                
-            }
+//                        
+//                        success: function (res) {
+//                            alert("You are no longer registered in the system");
+//                        }
+//                    });
+//            }
         </script>
     </head>
-<?php
-include 'message.php';
-?>
+    <?php
+    include 'message.php';
+    ?>
 
     <!--    Edit Customer Details form-->
     <div id="myModalmessage" class="modal fade" role="dialog">
@@ -803,9 +858,9 @@ include 'message.php';
                     <h4 class="modal-title">Message</h4>
                 </div>
                 <div class="modal-body" >
-<?php
-include 'message.php';
-?>
+                    <?php
+                    include 'message.php';
+                    ?>
                 </div>
             </div>
 
@@ -821,7 +876,7 @@ include 'message.php';
                 </div>
                 <div class="modal-body">
                     <div class="" id="notifications">
-
+                        
 
                     </div>
                 </div>
@@ -963,21 +1018,21 @@ include 'message.php';
     <!--    Edit Customer Details form ends here-->
     <body>
         <div id="headernav">
-<?php
-$email = $id = $person = $picture = "";
+            <?php
+            $email = $id = $person = $picture = "";
 
-session_start();
+            //session_start();
 
 
-if (isset($_SESSION['email'])) {
-    $email = $_SESSION['email'];
-    $id = $_SESSION['id'];
-    $person = $_SESSION['person'];
-    $picture = $_SESSION['picture'];
-}
+            if (isset($_SESSION['email'])) {
+                $email = $_SESSION['email'];
+                $id = $_SESSION['id'];
+                $person = $_SESSION['person'];
+                $picture = $_SESSION['picture'];
+            }
 
-if ($email != "") {
-    ?>
+            if ($email != "") {
+                ?>
                 <div id="userheader">
                     <nav class="navbar navbar-inverse navbar-fixed-top topbar">
                         <div class="container">
@@ -991,9 +1046,9 @@ if ($email != "") {
                             <div class="single-page-nav sticky-wrapper header-login-signup header-user-dropdown" id="tmNavbar">
                                 <ul class="nav-content nav navbar-nav header-limiter">
                                     <li><a href="#" class="homebtn">Home</a></li>  
-    <?php
-    echo $headercontent;
-    ?>
+                                    <?php
+                                    echo $headercontent;
+                                    ?>
                                     <!--<li><a href="#section1">Homepage</a></li>
                                     <li><a href="#section2">About Us</a></li>
                                     <li><a href="#section3">Services</a></li>
@@ -1027,18 +1082,18 @@ if ($email != "") {
                                                         </div>
                                                     </a></li>
 
-    <?php
-    if ($person == "provider") {
-        ?>
-                                                    <li><a href="#">Profile</a></li>
+                                                <?php
+                                                if ($person == "provider") {
+                                                    ?>
+                                                    <li><a href="#" class="profile" type="button">Profile</a></li>
                                                     <?php
                                                 } else {
                                                     ?>
                                                     <li><a href="#" button type="button" data-toggle="modal" data-target="#myModal2">Edit info</a></li>
 
-        <?php
-    }
-    ?>
+                                                    <?php
+                                                }
+                                                ?>
                                                 <li><a href="#" class="highlight logout">Logout</a></li>
                                             </ul>
                                         </div>
@@ -1075,18 +1130,18 @@ if ($email != "") {
                                                     </div>
                                                 </a></li>
 
-    <?php
-    if ($person == "provider") {
-        ?>
+                                            <?php
+                                            if ($person == "provider") {
+                                                ?>
                                                 <li><a href="#">Profile</a></li>
                                                 <?php
                                             } else {
                                                 ?>
                                                 <li><a href="#" button type="button" data-toggle="modal" data-target="#myModal2">Edit info</a></li>
 
-        <?php
-    }
-    ?>
+                                                <?php
+                                            }
+                                            ?>
                                             <li><a href="#" class="highlight logout">Logout</a></li>
                                         </ul>
                                     </div>
@@ -1096,9 +1151,9 @@ if ($email != "") {
 
                     </nav>
                 </div>
-    <?php
-} else {
-    ?>
+                <?php
+            } else {
+                ?>
                 <nav class="navbar navbar-inverse navbar-fixed-top topbar">
                     <div class="container">
                         <div class="navbar-header">
@@ -1111,9 +1166,9 @@ if ($email != "") {
                         <div class="single-page-nav sticky-wrapper header-login-signup" id="tmNavbar">
                             <ul class="nav-content nav navbar-nav  header-limiter">
                                 <li><a href="#" class="homebtn">Home</a></li>  
-    <?php
-    echo $headercontent;
-    ?>
+                                <?php
+                                echo $headercontent;
+                                ?>
 
                                 <!--<li><a href="#section1">Homepage</a></li>
                                 <li><a href="#section2">About Us</a></li>
@@ -1133,9 +1188,9 @@ if ($email != "") {
                         <div class="formholder">
                             <div class="randompad">
                                 <fieldset>
-    <?php
-    //echo $alert;
-    ?>
+                                    <?php
+                                    //echo $alert;
+                                    ?>
                                     <form name="loginform" id="loginform" role="form" method="post" action="">
                                         <label>E-Mail</label>
                                         <input name="email" type="email" required="required" placeholder="shomeone@somthing.com" />
@@ -1148,9 +1203,9 @@ if ($email != "") {
                         </div>
                     </div>
                 </nav>
-    <?php
-}
-?>
+                <?php
+            }
+            ?>
         </div>
 
 
@@ -1382,7 +1437,7 @@ if ($email != "") {
 
                                                         <div class="form-inline">
                                                             <input class="btn btn-primary" id="submitregister" onclick="registercustomer();" type="submit" value="Register"/>
-<!--                                                            <a class="btn btn-info" onclick="showLogin();">Sign In</a>-->
+                                                            <a class="btn btn-info" onclick="showLogin();">Sign In</a>
                                                         </div>
 
                                                         <!-- nds here -->

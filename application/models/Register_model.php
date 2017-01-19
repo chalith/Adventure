@@ -135,13 +135,13 @@
                 }
                 else{
                         $alert["bool"]=FALSE;
-                        $alert["msg"]=$data["custresetname"]." has provided wrong details";
+                        $alert["msg"]=$data["custreetname"]." has provided wrong details";
                 }
                 return $alert;
         }
         
         public function changeCustomerPasswordModel($data){
-           
+            session_start();
             $email = $_SESSION['email'];
             
             $query = $this->db->query("SELECT password FROM user WHERE email = '$email';");
@@ -157,29 +157,20 @@
             else{
                
                 $alert["bool"] = FALSE;
-                $alert["msg"] = $data['"Invalid old password'];
+                $alert["msg"] = "invalid old password!";
             }
                 
-            return $alert;
+            return alert;
         }
         
-        public function deleteCustomerAccountModel($email, $person){
-                $alert = "";
-                
-                if ($person == 'provider'){
-                 $this->db->delete('provider', array('email'=> $email));
-                 $alert['msg'] = "done";
-                }
-                
-                else{
-                    $this->db->delete('customer', array('email' => $email));
-                    $alert['msg'] = "done";
-                }
-               
-                $this->db->delete('user', array('email'=> $email));
-                return $alert;
-           
+//        public function deleteCustomerAccount($id, $email){
+//            if ($person == 'customer'){
+//                $query1 = $this->db->delete('user', array('email'=> ermail));
+//                $query2 = $this->db->delete('customer', array('email'=> ermail));
+//               
+//            }
+//           
             
-        }
+        //}
     }
 ?>
