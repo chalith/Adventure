@@ -38,7 +38,146 @@
     <!-- Navigation -->
         <?php include('header.php'); ?>
         
+    
+    <div class="modal fade" id="myModaleditprovider" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
 
+            <!--            Modal content-->
+            <div class="modal-content">
+                <div class="modal-body" id="regbody">
+                    <center>
+                        <div class="w" id="w">
+                            <div class="page" id="page2">
+                                <div class="animated-modal-1" id="content-editcustprofile">
+                                    <div class="content"><br>
+                                        <div class="modal-content">
+                                            <div class="modal-header">Edit Shop Details
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <form name="shopRegister" id="shopRegister" role="form" action="" method="post" accept-charset="utf-8">
+                                                    <div class="form-group">
+                                                        <label>Email<span style="color:red">*</span></label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                                            <input class="form-control" type="Email" name="txtemail" id="email" required="required" placeholder="Email" value="<?php echo $email; ?>"/>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Select a picture</label>
+                                                        <div id="fileshopin">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
+                                                                <input class="form-control" type="file" name="fileshop" id="fileshop"/>
+                                                            </div>
+                                                            <div class="picdiv"><img id="resetshoppic" src="" alt="No picture selected"/></div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="form-group">
+                                                        <label>Name of the shop<span style="color:red">*</span></label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                                            <input class="form-control" type="text" name="txtresetshopname" id="resetshopname" required="required" placeholder="ShopName" value="<?php echo $name; ?>"/>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Owner's Name<span style="color:red">*</span></label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                                            <input class="form-control" type="text" name="txtresetownername" id="resetownername" required="required" placeholder="OwnerName" value="<?php echo $owner; ?>"/>
+                                                        </div>
+                                                    </div>        
+                                                    <script>
+                                                        var i = 1;
+                                                        function addTP() {
+                                                            if (i >= 1) {
+                                                                alert("Number of contact numbers are too much !!!");
+                                                                return;
+                                                            }
+                                                            var tp = Array();
+                                                            var name = Array();
+                                                            for (var j = 1; j <= i; j++) {
+                                                                tp.push(document.getElementById("tpnumber" + j).value);
+                                                                name.push(document.getElementById("name" + j).value);
+                                                            }
+                                                            i++;
+                                                            var out = "<div class=\"form-inline\"><input class=\"form-control\" type=\"text\" name=\"txttpnumber" + i + "\" id=\"tpnumber" + i + "\" required=\"required\" placeholder=\"TPNumber" + i + "\" maxlength=\"10\"/><label>Name</label><input class=\"form-control\" type=\"text\" name=\"txtname" + i + "\" id=\"name" + i + "\" required=\"required\" placeholder=\"Name\"/></div>";
+                                                            document.getElementById("contactnumber").innerHTML += out;
+                                                            for (var j = 1; j < i; j++) {
+                                                                if (tp[j - 1] != "") {
+                                                                    document.getElementById("tpnumber" + j).value = tp[j - 1];
+                                                                }
+                                                                if (name[j - 1] != "") {
+                                                                    document.getElementById("name" + j).value = name[j - 1];
+                                                                }
+                                                            }
+                                                        }
+                                                    </script>
+
+                                                    <div class="form-inline">
+                                                        <label>Contact Number</label>
+                                                        <div class="form-group" id="contactnumber">
+                                                            <div class="form-inline">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                                                    <input class="form-control" type="tel" name="txtresettpnumber1" id="resettpnumber1" placeholder="TPNumber1" minlength="10" maxlength="10" value="<?php echo $mobilenumbers[0]->mobileNumber; ?>"/>
+                                                                </div>
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                                                    <input class="form-control" type="text" name="txtresetname1" id="resetname1" placeholder="Name" value="<?php echo $mobilenumbers[0]->contactName; ?>"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <br><br>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Address<span style="color:red">*</span></label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                                            <textarea class="form-control" name="txtresetaddress" id="resetaddress" required="required" placeholder="Address"><?php echo $address; ?></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Fax</label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-phone-alt"></i></span>
+                                                            <input class="form-control" type="tel" name="txtresetfax" id="resetfax" placeholder="Fax" minlength="10" maxlength="10" value="<?php echo $fax; ?>"/>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>About</label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                                            <textarea class="form-control" name="txtresetabout" id="resetabout" placeholder="About"><?php echo $about ?></textarea>
+                                                        </div>
+                                                    </div>    
+
+                                                </form>
+                                               </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary" id="resetsavechanges" onclick="editprovider();">Save changes</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>  <!--content-editcustprofile ends here-->
+                                
+                            </div>
+                        </div>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Image Background Page Header -->
     <!-- Note: The background image is set within the business-casual.css file. -->
     <header id="section1" class="business-header" style="background: url('<?php echo base_url().$picture; ?>') center center no-repeat scroll; background-size: 100%;">
@@ -65,7 +204,7 @@
                     <li class="list-group-item"><?php echo $about; ?></li>
                     <?php } ?>
                 </ul>
-                
+                <button class="btn btn-default" type="button" data-toggle="modal" data-target="#myModaleditprovider">Edit Profile</button>
             </div>
             <div class="col-sm-4">
                 <h2>Contact</h2>
