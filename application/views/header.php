@@ -171,15 +171,7 @@
                                             }
                                         },
                                         error: function (jqXHR, textStatus, errorThrown) {
-                                            alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
-
-                                            $('#result').html('<p>status code: ' + jqXHR.status + '</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>' + jqXHR.responseText + '</div>');
-                                            console.log('jqXHR:');
-                                            console.log(jqXHR);
-                                            console.log('textStatus:');
-                                            console.log(textStatus);
-                                            console.log('errorThrown:');
-                                            console.log(errorThrown);
+                                            alert(jqXHR.responseText);
                                         }
                                     });
                                 } else {
@@ -289,7 +281,10 @@
                 $('.homebtn').on('click', function () {
                     window.location = "<?php echo base_url(); ?>";
                 });
-
+                
+                $('.profile').on('click', function () {
+                    window.location = "<?php echo base_url(); ?>"+ "index.php/welcome/getShopProfileView";
+                });
                 $('#loginformbtn').click(function () {
                     $('.login').fadeToggle('slow');
                     $(this).toggleClass('activebtn');
@@ -522,15 +517,7 @@
                                         }
                                     },
                                     error: function (jqXHR, textStatus, errorThrown) {
-                                        alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
-
-                                        $('#result').html('<p>status code: ' + jqXHR.status + '</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>' + jqXHR.responseText + '</div>');
-                                        console.log('jqXHR:');
-                                        console.log(jqXHR);
-                                        console.log('textStatus:');
-                                        console.log(textStatus);
-                                        console.log('errorThrown:');
-                                        console.log(errorThrown);
+                                        alert(jqXHR.responseText);
                                     }
                                 });
                             } else {
@@ -557,32 +544,107 @@
                         var notification = "";
 
                         for (var i = 0; i < res.length; i++) {
-                            if (res[i].key === 0) {
-                                notification += "<div class=\"panel col-md-15 notification\">" +
-                                        "<div id=" + res.id + " class=\"media-body\">" +
-                                        "<h5 id=" + res[i].id + " class=\"media-heading\">" + res[i].shopName + "</h5>" +
-                                        "<small id=" + res[i].id + ">The " + res[i].package + " package you have booked from " + res[i].shopName + " is reviewed and ready for you</small>" +
-                                        "<button class=\"btn setview\" onclick=\"setViewed(event);\">Set as read</button>" +
-                                        "</div>" +
-                                        "</div>";
-                            } else {
-                                notification += "<div class=\"panel col-md-15 notification\">" +
-                                        "<div id=" + res.id + " class=\"media-body\">"+
-                                        "<b>" + res[i].shopName + "</b><h5  class=\"media-heading\">" + "Special Offers" + "</h5>" +
-                                        "<small > " + res[i].notification + "</small>"+
-                                        "<div class=\"row\">"+
-                                        "<button class=\"btn btn-primary\" onclick=\"setViewed(event);\">Set as read</button>"+
-                                        "</div>" +
-                                        "</div>" +
-                                        "</div>"; 
-
+                            notification += "<div class=\"panel col-md-15 notification\">" +
+                            "<div class=\"media-body\">"+
+                            "<b>" + res[i].name + "</b><h5  class=\"media-heading\">" + "Special Offers" + "</h5>" +
+                            "<small > " + res[i].notification + "</small>";
+                            if(res[i].type==="Reservation"){
+                                notification += "<button id=" + res[i].id + " class=\"btn setview btn-danger\" onclick=\"delete"+res[i].type+"();\">Delete</button>";
                             }
+                            notification += "<button id=" + res[i].id + " class=\"btn setview btn-primary\" onclick=\"set"+res[i].type+"Viewed();\">Set as read</button>"+
+                            "</div>" +
+                            "</div>";
                         }
                         document.getElementById("notifications").innerHTML = notification;
                     }
                 });
             }
+            function setReviewedReservationViewed(){
+                setViewed(event.target.id,"reviewedreservation");
+            }
+            function setNotificationViewed(){
+                setViewed(event.target.id,"notification");
+            }
+            function setReservationViewed(){
+                setAccepted(event.target.id,"notification");
+            }
+            function deleteReviewedReservation(){
+                deleteNotfy(event.target.id,"reviewedreservation");
+            }
+            function deleteNotification(){
+                deleteNotfy(event.target.id,"notifications");
+            }
+            function deleteReservation(){
+                deleteNotfy(event.target.id,"reservations");
+            }
+            function setViewed(curid,which) {
+                jQuery.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + "index.php/notification_controller/set_Viewed/" + curid + "/" + which,
+                    dataType: 'json',
+                    success: function (res){
+                        //alert(res);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        //alert(jqXHR.responseText);
+                    }
+                });
+                loadNotifications();
+                getNotifyCount();
+                setAllCount();
 
+            }
+            function setViewed(curid,which) {
+                jQuery.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + "index.php/notification_controller/set_Viewed/" + curid + "/" + which,
+                    dataType: 'json',
+                    success: function (res){
+                        //alert(res);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        //alert(jqXHR.responseText);
+                    }
+                });
+                loadNotifications();
+                getNotifyCount();
+                setAllCount();
+
+            }
+            function deleteNotfy(curid,which) {
+                jQuery.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + "index.php/notification_controller/delete_Notify/" + curid + "/" + which,
+                    dataType: 'json',
+                    success: function (res){
+                        //alert(res);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        //alert(jqXHR.responseText);
+                    }
+                });
+                loadNotifications();
+                getNotifyCount();
+                setAllCount();
+
+            }
+            function setAccepted(curid,which) {
+                jQuery.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + "index.php/notification_controller/set_Accepted/" + curid + "/" + which,
+                    dataType: 'json',
+                    success: function (res){
+                        //alert(res);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        //alert(jqXHR.responseText);
+                    }
+                });
+                loadNotifications();
+                getNotifyCount();
+                setAllCount();
+
+            }
             var msgcount = 0;
             var notifycount = 0;
             function getMsgCount(sid) {
@@ -610,21 +672,9 @@
                     }
                 });
             }
-            function setViewed(event) {
-                var curid = $(event.target).parents().attr('id');
-                jQuery.ajax({
-                    type: "POST",
-                    url: "<?php echo base_url(); ?>" + "index.php/notification_controller/set_Viewed/" + curid,
-                    dataType: 'json'
-                });
-                loadNotifications();
-                getNotifyCount();
-                setAllCount();
-
-            }
             function setAllCount() {
                 var allcount = parseInt(msgcount) + parseInt(notifycount);
-                if (allcount != 0) {
+                if (allcount !== 0) {
                     $(".allcount").html(allcount);
                 } else {
                     $(".allcount").html("");
@@ -954,7 +1004,7 @@
             <?php
             $email = $id = $person = $picture = "";
 
-            session_start();
+            //session_start();
 
 
             if (isset($_SESSION['email'])) {
@@ -1018,7 +1068,7 @@
                                                 <?php
                                                 if ($person == "provider") {
                                                     ?>
-                                                    <li><a href="#">Profile</a></li>
+                                                    <li><a href="#" class="profile" type="button">Profile</a></li>
                                                     <?php
                                                 } else {
                                                     ?>

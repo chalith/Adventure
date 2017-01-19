@@ -3,8 +3,10 @@ class Welcome extends CI_Controller {
         public function __construct() {
             parent::__construct();
             //$this->load->model('login_model');
-            
+            $this->load->model('shopmodel');
+            $this->load->model('login_model');
             $this->load->model('frontpage_model');
+            
             
         }
         
@@ -36,7 +38,36 @@ class Welcome extends CI_Controller {
             
         }
         
-		public function getShopView($param1){
+        public function getShopProfileView(){
+            if(!isset($_SESSION['email'])){
+               $this->home();
+            }
+            $email = $_SESSION['email'];
+            $id = $_SESSION['id'];
+            $person = $_SESSION['person'];
+            $result = $this->shopmodel->get_Shop($id);
+            $picture = $this->login_model->getPicture("provider",$id);
+            
+            $data['email']=$result->email;
+            $data['name']=$result->shopName;
+            $data['owner']=$result->ownerName;
+            $data['address']=$result->address;
+            $data['fax']=$result->fax;
+            $data['about']=$result->about;
+            $data['picture']=$picture;
+            
+            $result = $this->shopmodel->get_Mobilenumbers($id);
+            
+            $data['mobilenumbers']=$result;
+            
+            $result = $this->shopmodel->get_Packages($id);
+            
+            $data['packages']=$result;
+            
+            $this->load->view('shopprofile',$data);
+        }
+        
+	public function getShopView($param1){
             /*$this->load->model('generalFeaturesModel','',TRUE);
             $data['generalfeature']=$this->generalFeaturesModel->getGeneralFeatures($param1);
             $data['activities']=$this->frontpage_model->getActivities();*/
