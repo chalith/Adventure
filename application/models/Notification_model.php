@@ -64,7 +64,7 @@
             $this->db->update('reservation', array('viewedTime'=>$data['viewedTime']));
         }
          public function set_FollowViewed($data) {
-            $where = "receiverID='$data[receiverID]' AND viewedTime IS NULL";
+            $where = "id='" . $data['receiverID']. "' AND viewedTime IS NULL";
             $this->db->where($where);
             $this->db->update('notifications', array('viewedTime'=>$data['viewedTime']));
         }

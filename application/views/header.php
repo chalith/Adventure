@@ -559,21 +559,21 @@
                         for (var i = 0; i < res.length; i++) {
                             if (res[i].key === 0) {
                                 notification += "<div class=\"panel col-md-15 notification\">" +
-                                        "<div id=" + res.id + " class=\"media-body\" style=\"padding:10px;\" >" +
+                                        "<div id=" + res[i].id + " class=\"media-body\" style=\"padding:10px;\" >" +
                                         "<h5 id=" + res[i].id + " class=\"media-heading\">" + res[i].shopName + "</h5>" +
                                         "<small id=" + res[i].id + ">The " + res[i].package + " package you have booked from " + res[i].shopName + " is reviewed and ready for you</small>" +
                                         "<div class=\"row\" style=\"padding:10px;\">" +
-                                        "<button class=\"btn setview\" onclick=\"setViewed(event);\">Set as read</button>" +
+                                        "<button class=\"btn setview\" onclick=\"setViewed(" + res[i].id + "," + res[i].key + ");\">Set as read</button>" +
                                         "</div>" +
                                         "</div>" +
                                         "</div>";
                             } else {
                                 notification += "<div class=\"panel col-md-15 notification\">" +
-                                        "<div id=" + res.id + " class=\"media-body\" style=\"padding:10px;\">" +
+                                        "<div id=" + res[i].id + " class=\"media-body\" style=\"padding:10px;\">" +
                                         "<b>" + res[i].shopName + "</b><h5  class=\"media-heading\" style=\"color:#336699\"><b>" + "Special Offers" + "</b></h5>" +
                                         "<small > " + res[i].notification + "</small>" +
                                         "<div class=\"row\" style=\"padding:10px;\">" +
-                                        "<button class=\"btn btn-primary\" onclick=\"setViewed(event);\">Set as read</button>" +
+                                        "<button class=\"btn btn-primary\" onclick=\"setViewed(" + res[i].id + "," + res[i].key + ");\">Set as read</button>" +
                                         "</div>" +
                                         "</div>" +
                                         "</div>";
@@ -612,11 +612,12 @@
                     }
                 });
             }
-            function setViewed(event) {
-                var curid = $(event.target).parents().attr('id');
+            function setViewed(curid,key) {
+//                var curid = $(event.target).parents().attr('id');
+                alert(curid);
                 jQuery.ajax({
                     type: "POST",
-                    url: "<?php echo base_url(); ?>" + "index.php/notification_controller/set_Viewed/" + curid,
+                    url: "<?php echo base_url(); ?>" + "index.php/notification_controller/set_Viewed/" + curid + "/" +key,
                     dataType: 'json'
                 });
                 loadNotifications();

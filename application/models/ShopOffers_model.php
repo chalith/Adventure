@@ -17,7 +17,7 @@ class ShopOffers_model extends CI_Model{
             );
             $this->db->insert('specialoffer', $specialoff);
             $alert['msg'] = "Special Offer Succesfully Published";
-            return;
+            return $alert;
         }
         
         public function getFollowers($senderid){

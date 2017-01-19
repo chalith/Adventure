@@ -14,6 +14,7 @@ class ShopOffers_controller extends CI_Controller{
             $shopid=$title = $details = $start = $duration = "";
             $title = $this->input->post("sotitle");
             $details = $this->input->post("sodetails");
+            
 //            $start = $this->input->post("sodate");
 //            $duration = $this->input->post("soduration");
 //            
@@ -32,9 +33,9 @@ class ShopOffers_controller extends CI_Controller{
             $alert = $this->shopoffers_model->specialOffers($data);
             $results = $this->shopoffers_model->getFollowers($shopid);
             $alert2 = $this->notifyFollowers($results);
-            echo $alert;
-            echo $alert2;
-            return;
+            
+            echo json_encode(array('alert1'=>$alert, 'alert2' => $alert2));
+            
                     
             
         }
@@ -63,7 +64,7 @@ class ShopOffers_controller extends CI_Controller{
                 $this->shopoffers_model->notifyFollowersModel($data);
                
             }
-            $alert2 = "Notified all followers";
+            $alert2['msg'] = "Notified all followers";
             return $alert2;
         }
         

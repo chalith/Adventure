@@ -43,30 +43,28 @@ class Notification_controller extends CI_Controller {
 //            
 
         $result2 = $this->notification_model->get_FollowNotifications($id);
-        foreach ($result2 as $obj){
-            $senderID = $notification = $sendTime = $shop = $id ="";
+        foreach ($result2 as $obj) {
+            $senderID = $notification = $sendTime = $shop = $id = "";
             $senderID = $obj['senderID'];
             $id = $obj['id'];
             $shop = $this->notification_model->get_ShopName($senderID);
             $notification = $obj['notification'];
             $sendTime = $obj['sendTime'];
-            array_push($data, array('key'=>1, 'senderID' => $senderID, 'id' => $id, 'shopName' => $shop->shopName, 'notification' => $notification, 'sendTime' =>$sendTime));
-            
+            array_push($data, array('key' => 1, 'senderID' => $senderID, 'id' => $id, 'shopName' => $shop->shopName, 'notification' => $notification, 'sendTime' => $sendTime));
         }
-        
+
         echo json_encode($data);
     }
 
-    public function set_Viewed($reservationID) {
-        session_start();
-        $person = $_SESSION['person'];
+    public function set_Viewed($reservationID, $key) {
+//        session_start();
+//        $person = $_SESSION['person'];
         $time = date("Y-m-d h:i:sa");
-        if ($person == 'provider') {
+        if (key == 0) {
             $view = array('reservationID' => $reservationID, 'viewedTime' => $time);
             $this->notification_model->set_Viewed($view);
         } else {
-
-            $view = array('receiverID' => $reservationID, 'viewedTime' => $time);
+            $view = array('id' => $reservationID, 'viewedTime' => $time);
             $this->notification_model->set_FollowViewed($view);
         }
     }

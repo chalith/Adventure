@@ -120,6 +120,42 @@
                 }
 
             }
+            
+            function specialoffersubmit(){
+                var sotitle = sodetails = "";
+                alert("h");
+                sotitle = document.forms["so"]["sotitle"].value;
+                sodetails = document.forms["so"]["sodetails"].value;
+                alert(sotitle);
+                var obj = {'sotitle':sotitle, 'sodetails': sodetails};
+                call(obj);
+            }
+            
+            function call(obj){
+                var ret = confirm("Do you want to save the changes?");
+
+                if (ret === true) {
+                    alert("in");
+                    jQuery.ajax({
+                        type: "POST",
+                        url: "<?php echo base_url(); ?>" + "index.php/shopoffers_controller/insertSpecialOffers",
+                        dataType: "json",
+                        data: obj,
+                        success: function(res){
+                           
+                            alert(res.alert1.msg);
+                            alert(res.alert2.msg);
+
+
+                            
+                        },
+                        error: function(jqXHR, textStatus, errorThrown){
+                            alert(jqXHR.responseText);
+                            alert("hmmm");
+                        }
+                    });
+            }
+            }
 
         </script>
     </head>
@@ -279,7 +315,7 @@
 
 
 
-                                                    <form method="post" class="contact-form" action="<?php echo base_url() . "index.php/shopoffers_controller/insertSpecialOffers"; ?>">
+                                                    <form id="so" name="so" method="post" class="contact-form" action="">
 
 
                                                         <div class="col-sm-6 contact-form-right">
@@ -288,7 +324,7 @@
                                                                 <input type="text" class="form-control" name="sotitle" id="sotitle" placeholder="Catchy Title!">
                                                                 <br>
                                                                 <textarea name="sodetails" rows="6" class="form-control" id="sodetails" placeholder="Your message here..."></textarea>
-                                                                <button type="submit" class="btn btn-info">Submit</button>
+                                                                <button type="submit" class="btn btn-info" onclick="specialoffersubmit();">Submit</button>
                                                             </div>
                                                         </div>
 
