@@ -103,23 +103,10 @@
                         if(typeof curid=='undefined'){
                                 var curid = e.target.id;
                         }
-                        window.location="index.php/welcome/getShopView/"+curid;
+                        window.location = "<?php echo base_url(); ?>"+ "index.php/welcome/getShopProfileView/"+curid;
                     });
                 });
 
-//JQuery for follow button
-            function followShop() {
-                var text = document.getElementById('followButton').innerHTML;
-
-                if (text === "Follow Us") {
-                    document.getElementById('followButton').innerHTML = "Following..";
-                    $("#followButton").removeClass("btn btn-success").addClass("btn btn-danger");
-                } else {
-                    document.getElementById('followButton').innerHTML = "Follow Us";
-                    $("#followButton").removeClass("btn btn-danger").addClass("btn btn-success");
-                }
-
-            }
 
         </script>
         
@@ -257,10 +244,6 @@
                     </section>
                     <!-- End Testimornial Area -->
                 </div>
-
-                <!--                Follow button-->
-
-                <button id="followButton" style="position:fixed; top:400px; right:30px;" class="btn btn-success" onclick="followShop();">Follow Us</button>
 
 
                 <div id="section4">

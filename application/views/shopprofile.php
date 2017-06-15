@@ -37,129 +37,8 @@
     <div>
     <!-- Navigation -->
         <?php include('header.php'); ?>
-    <script>
-        // onclick methhod to edit customer profile details
-            function editprovider() {
-                var shopid = email = shopname = ownername = address = fax = about = "";
-                var tpnumbers;
-
-                shopid = document.forms["shopEdit"]["resetshopid"].value;
-                email = document.forms["shopEdit"]["resetemail"].value;
-                if (email == "")
-                    return;
-                shopname = document.forms["shopEdit"]["resetshopname"].value;
-                if (shopname == "")
-                    return;
-                ownername = document.forms["shopEdit"]["resetownername"].value;
-                if (ownername == "")
-                    return;
-                
-                tpnumbers = [];
-                for (var i = 1; i < 6; i++) {
-
-                    var t = document.forms["shopEdit"]["txttpnumber" + i];
-
-                    if (typeof t != 'undefined') {
-                        var number = document.forms["shopEdit"]["txttpnumber" + i].value.trim();
-                        var name = document.forms["shopEdit"]["txtname" + i].value;
-                        if ((number != "") || (name != "")) {
-                            var temp = [number, name];
-                            tpnumbers.push(temp);
-                        }
-                    } else {
-                        break;
-                    }
-
-                }
-                for (var i = 0; i < tpnumbers.length; i++) {
-                    var n = tpnumbers[i][0];
-                    if ((n.length != 10) || (n.isNaN)) {
-                        alert("Telephone number is invalid");
-                        return;
-                    }
-                }
-                address = document.forms["shopEdit"]["resetaddress"].value;
-                if (address == "")
-                    return;
-                fax = document.forms["shopEdit"]["resetfax"].value.trim();
-                if (fax != "") {
-                    if ((fax.length != 10) || (fax.isNaN)) {
-                        alert("Fax number is invalid");
-                        return;
-                    }
-                }
-                about = document.forms["shopEdit"]["resetabout"].value;
-                //if(about=="") {alert("Please write about your services"); return;}
-                if (!validateEmail(email))
-                    return;
-                    
-                var obj = {shopid: shopid, shopname: shopname, ownername: ownername, email: email, address: address, fax: fax, about: about, tpnumbers: tpnumbers};
-                //alert();
-                updateprovider(obj);
-
-            }
-
-            function updateprovider(obj) {
-
-                var ret = confirm("Do you want to save changes?");
-
-                if (ret == true) {
-                    jQuery.ajax({
-                        type: "POST",
-                        url: "<?php echo base_url(); ?>" + "index.php/register_controller/editShop",
-                        dataType: 'json',
-                        data: obj,
-                        success: function (res) {
-                            
-                            if (res)
-                            {
-                                alert(res.alert.msg);
-                                var path = document.getElementById("fileshop").files.length;
-                                if (res.alert.bool && (path != "")) {
-                                    //alert(res.alert);
-                                    jQuery.ajax({
-                                        url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/fileshop/provider/e",
-                                        type: "POST", // Type of request to be send, called as method
-                                        data: new FormData(document.getElementById("shopEdit")), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
-                                        contentType: false, // The content type used when sending data to the server.
-                                        cache: false, // To unable request pages to be cached
-                                        processData: false,
-                                        success: function (res) {
-
-                                            if (res)
-                                            {
-                                                alert(res);
-                                                location.reload();
-                                            }
-                                        },
-                                        error: function (jqXHR, textStatus, errorThrown) {
-                                            alert(jqXHR.responseText);
-                                        }
-                                    });
-                                } else {
-                                    location.reload();
-                                }
-                            }
-                        }
-
-                    });
-                }
-            }
-            $(document).ready(function(){
-                $('#fileshop').on("change", function () {
-                    var path = document.getElementById("fileshop");
-                    readURL(path, "resetshoppic");
-                });
-                $("#shopEdit").submit(function (e) {
-                    e.preventDefault();
-                });
-
-                $("#resetsavechanges").click(function (event) {
-                    //event.preventDefault();
-                    editprovider();
-                });
-            });
-    </script>
+        
+    
     <div class="modal fade" id="myModaleditprovider" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
 
@@ -177,11 +56,15 @@
                                             </div>
 
                                             <div class="modal-body">
-                                                <form name="shopEdit" id="shopEdit" role="form" action="" method="post" accept-charset="utf-8">
-                                                    <input class="form-control" type="hidden" name="txtshopid" id="resetshopid" required="required" placeholder="Email" value="<?php echo $shopid; ?>"/>
-                                                    
-                                                    <input class="form-control" type="hidden" name="txtemail" id="resetemail" required="required" placeholder="Email" value="<?php echo $shopemail; ?>"/>
-                                                    
+                                                <form name="shopRegister" id="shopRegister" role="form" action="" method="post" accept-charset="utf-8">
+                                                    <div class="form-group">
+                                                        <label>Email<span style="color:red">*</span></label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                                            <input class="form-control" type="Email" name="txtemail" id="email" required="required" placeholder="Email" value="<?php echo $shopemail; ?>"/>
+                                                        </div>
+                                                    </div>
+
                                                     <div class="form-group">
                                                         <label>Select a picture</label>
                                                         <div id="fileshopin">
@@ -189,7 +72,7 @@
                                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
                                                                 <input class="form-control" type="file" name="fileshop" id="fileshop"/>
                                                             </div>
-                                                            <div class="picdiv"><img id="resetshoppic" src="<?php echo base_url() . $shoppicture; ?>" alt="No picture selected"/></div>
+                                                            <div class="picdiv"><img id="resetshoppic" src="" alt="No picture selected"/></div>
                                                         </div>
                                                     </div>
 
@@ -219,34 +102,34 @@
                                                             var tp = Array();
                                                             var name = Array();
                                                             for (var j = 1; j <= i; j++) {
-                                                                tp.push(document.getElementById("tpresetnumber" + j).value);
-                                                                name.push(document.getElementById("resetname" + j).value);
+                                                                tp.push(document.getElementById("tpnumber" + j).value);
+                                                                name.push(document.getElementById("name" + j).value);
                                                             }
                                                             i++;
-                                                            var out = "<div class=\"form-inline\"><input class=\"form-control\" type=\"text\" name=\"txttpnumber" + i + "\" id=\"tpresetnumber" + i + "\" required=\"required\" placeholder=\"TPNumber" + i + "\" maxlength=\"10\"/><label>Name</label><input class=\"form-control\" type=\"text\" name=\"txtname" + i + "\" id=\"resetname" + i + "\" required=\"required\" placeholder=\"Name\"/></div>";
-                                                            document.getElementById("resetcontactnumber").innerHTML += out;
+                                                            var out = "<div class=\"form-inline\"><input class=\"form-control\" type=\"text\" name=\"txttpnumber" + i + "\" id=\"tpnumber" + i + "\" required=\"required\" placeholder=\"TPNumber" + i + "\" maxlength=\"10\"/><label>Name</label><input class=\"form-control\" type=\"text\" name=\"txtname" + i + "\" id=\"name" + i + "\" required=\"required\" placeholder=\"Name\"/></div>";
+                                                            document.getElementById("contactnumber").innerHTML += out;
                                                             for (var j = 1; j < i; j++) {
                                                                 if (tp[j - 1] != "") {
-                                                                    document.getElementById("tpresetnumber" + j).value = tp[j - 1];
+                                                                    document.getElementById("tpnumber" + j).value = tp[j - 1];
                                                                 }
                                                                 if (name[j - 1] != "") {
-                                                                    document.getElementById("resetname" + j).value = name[j - 1];
+                                                                    document.getElementById("name" + j).value = name[j - 1];
                                                                 }
                                                             }
                                                         }
                                                     </script>
-                                                    
+
                                                     <div class="form-inline">
                                                         <label>Contact Number</label>
-                                                        <div class="form-group" id="resetcontactnumber">
+                                                        <div class="form-group" id="contactnumber">
                                                             <div class="form-inline">
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                                                                    <input class="form-control" type="tel" name="txttpnumber1" id="tpresetnumber1" placeholder="TPNumber1" minlength="10" maxlength="10" value="<?php if(count($mobilenumbers)>0){ echo $mobilenumbers[0]->mobileNumber; } ?>"/>
+                                                                    <input class="form-control" type="tel" name="txtresettpnumber1" id="resettpnumber1" placeholder="TPNumber1" minlength="10" maxlength="10" value="<?php echo $mobilenumbers[0]->mobileNumber; ?>"/>
                                                                 </div>
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                                                    <input class="form-control" type="text" name="txtname1" id="resetname1" placeholder="Name" value="<?php if(count($mobilenumbers)>0){ echo $mobilenumbers[0]->contactName; } ?>"/>
+                                                                    <input class="form-control" type="text" name="txtresetname1" id="resetname1" placeholder="Name" value="<?php echo $mobilenumbers[0]->contactName; ?>"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -276,12 +159,13 @@
                                                             <textarea class="form-control" name="txtresetabout" id="resetabout" placeholder="About"><?php echo $about ?></textarea>
                                                         </div>
                                                     </div>    
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary" id="resetsavechanges">Save changes</button>
-                                                    </div>
+
                                                 </form>
                                                </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary" id="resetsavechanges" onclick="editprovider();">Save changes</button>
+                                            </div>
 
                                         </div>
                                     </div>

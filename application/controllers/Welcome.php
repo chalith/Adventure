@@ -6,7 +6,7 @@ class Welcome extends CI_Controller {
             $this->load->model('ShopModel');
             $this->load->model('Login_model');
             $this->load->model('Frontpage_model');
-            
+            $this->load->model('Follow_model');
             
         }
         
@@ -20,7 +20,7 @@ class Welcome extends CI_Controller {
                 $data['email']=$_SESSION['email'];
                 $data['id']=$_SESSION['id'];
                 $data['person']=$_SESSION['person'];
-                $data['picture']=$this->login_model->getPicture($_SESSION['person'],$_SESSION['id']);
+                $data['picture']=$this->Login_model->getPicture($_SESSION['person'],$_SESSION['id']);
             }*/
             $data['alert']="";
             $data['activities']=$this->Frontpage_model->getActivities();
@@ -38,33 +38,26 @@ class Welcome extends CI_Controller {
             
         }
         
-        public function getShopProfileView(){
-            if(!isset($_SESSION['email'])){
-               $this->home();
-            }
-            $email = $_SESSION['email'];
-            $id = $_SESSION['id'];
-            $person = $_SESSION['person'];
+        public function getShopProfileView($id){
             $result = $this->ShopModel->get_Shop($id);
             $picture = $this->Login_model->getPicture("provider",$id);
-            
-            $data['email']=$result->email;
+            $data['shopid']=$id;
+            $data['shopemail']=$result->email;
             $data['name']=$result->shopName;
             $data['owner']=$result->ownerName;
             $data['address']=$result->address;
             $data['fax']=$result->fax;
             $data['about']=$result->about;
-            $data['picture']=$picture;
-            
-            $result = $this->Sh0opModel->get_Mobilenumbers($id);
+            $data['shoppicture']=$picture;
+            $result = $this->ShopModel->get_Mobilenumbers($id);
             
             $data['mobilenumbers']=$result;
             
             $result = $this->ShopModel->get_Packages($id);
             
-            $data['packages']=$result;
+            $data['shoppackages']=$result;
             
-            $this->load->view('shopprofile',$data);
+            $this->load->view('shopProfile',$data);
         }
         
 	public function getShopView($param1){

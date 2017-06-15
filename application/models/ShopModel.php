@@ -19,7 +19,7 @@
             return $result;
         }
         public function get_Packages($id){
-            $sql = "SELECT pkg.packageName AS packageName, pkg.about AS about, pkg.durationDays AS durationDays, pkg.durationHours AS durationHours, pkg.meals AS meals, pkg.price AS price, pkg.picture AS picture FROM package pkg INNER JOIN provider WHERE provider.id = '$id'";
+            $sql = "SELECT pkg.packageName AS packageName, pkg.about AS about, pkg.durationDays AS durationDays, pkg.durationHours AS durationHours, pkg.meals AS meals, pkg.price AS price, pkg.picture AS picture FROM package pkg INNER JOIN provider ON provider.id = pkg.shopID WHERE provider.id = '$id'";
             $query=$this->db->query($sql);
             $result = $query->result();
             if(count($result)>0){

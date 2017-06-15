@@ -48,6 +48,37 @@
                 }
                 return $alert;
         }
+        public function shop_edit($data){
+            $id = $data["shopid"];
+                
+            $shop = array(
+                "shopName" => $data["shopname"],
+                "ownerName" => $data["ownername"],
+                "address" => $data["address"],
+                "fax" => $data["fax"],
+                "about" => $data["about"],
+                "email" => $data["email"]
+            );
+            $this->db->where('id',$id);
+            $this->db->update('provider',$shop);
+            $tpnumbers = $data["tpnumbers"];
+                       
+            $this->db->where('shopID',$id);
+            $this->db->delete('shopmobilenumber');
+            
+            for($i=0;$i<count($tpnumbers);$i++){
+                    $tp = array(
+                        "shopID" => $data["shopid"],
+                        "mobileNumber" => trim($tpnumbers[$i][0]),
+                        "contactName" => $tpnumbers[$i][1]
+                    );
+                    $this->db->insert('shopmobilenumber',$tp);
+
+            }
+            $alert["bool"]=TRUE;
+            $alert["msg"]=$data["email"]." edited successfully";
+            return $alert;
+        }
         public function getShopID($email){
             $query=$this->db->query("SELECT id FROM provider WHERE email = '$email';");
             $shopID="";
@@ -122,13 +153,10 @@
                         $details = array(
                             "name" => $data["custresetname"],
                             "address" => $data["custresetaddress"],
-                            "telephone" => $data["custresettp"],
-                            "picture" => $data["custresetpic"]
-                            
+                            "telephone" => $data["custresettp"]
                         );
                         $this->db->where('id',$id);
                         $this->db->update('customer', $details);
-                        
                         $alert["bool"]=TRUE;
                         $alert["msg"]="changes updated successfully";
                         

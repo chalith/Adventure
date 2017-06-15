@@ -6,6 +6,18 @@
     foreach ($_SESSION["headercontent"] as $ob) {
         $headercontent = $headercontent . $ob;
     }
+    $email = $id = $person = $picture = "";
+
+    //session_start();
+
+
+    if (isset($_SESSION['email'])) {
+        $email = $_SESSION['email'];
+        $id = $_SESSION['id'];
+        $person = $_SESSION['person'];
+        $picture = $_SESSION['picture'];
+    }
+            
     ?>
 
     <head>
@@ -152,11 +164,11 @@
                             if (res)
                             {
                                 alert(res.alert.msg);
-                                var path = document.getElementById("file");
-                                if (res.alert.bool && (path.value != "")) {
+                                var path = document.getElementById("file").files.length;
+                                if (res.alert.bool && (path != 0)) {
                                     //alert(res.alert);
                                     jQuery.ajax({
-                                        url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/file/provider",
+                                        url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/file/provider/r",
                                         type: "POST", // Type of request to be send, called as method
                                         data: new FormData(document.getElementById("shopRegister")), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
                                         contentType: false, // The content type used when sending data to the server.
@@ -279,11 +291,12 @@
 
                 });
                 $('.homebtn').on('click', function () {
+                    
                     window.location = "<?php echo base_url(); ?>";
                 });
                 
                 $('.profile').on('click', function () {
-                    window.location = "<?php echo base_url(); ?>"+ "index.php/welcome/getShopProfileView";
+                    window.location = "<?php echo base_url(); ?>"+ "index.php/welcome/getShopProfileView/<?php echo $id; ?>";
                 });
                 $('#loginformbtn').click(function () {
                     $('.login').fadeToggle('slow');
@@ -500,10 +513,10 @@
                         data: obj,
                         success: function (res) {
                             alert(res.alert.msg);
-                            var path = document.getElementById("customerpic");
-                            if (res.alert.bool && (path.value != "")) {
+                            var path = document.getElementById("customerpic").files.length;
+                            if (res.alert.bool && (path != 0)) {
                                 jQuery.ajax({
-                                    url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/customerpic/customer",
+                                    url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/customerpic/customer/r",
                                     type: "POST", // Type of request to be send, called as method
                                     data: new FormData(document.getElementById("customerRegister")), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
                                     contentType: false, // The content type used when sending data to the server.
@@ -683,7 +696,6 @@
 
             // onclick methhod to edit customer profile details
             function editcustomer() {
-
                 var custresetname = custresetaddress = custresettp = "";
 
                 custresetname = document.forms["custdetailsreset"]["custresetname"].value;
@@ -696,13 +708,12 @@
                     return;
 
                 custresettp = document.forms["custdetailsreset"]["custresettp"].value.trim();
-                alert("clicked");
-                if (custresettp.trim().length != 10 || custresettp.isNaN) {
+                if ((custresettp!="")&&(custresettp.trim().length != 10 || custresettp.isNaN)) {
                     alert("Invalid Phone Number!");
                     return;
                 }
 
-                var obj = {custresetname: custresetname, custresetaddress: custresetaddress, custresettp: custresettp, custresetpic: "img/customer/cover/noimg.png"};
+                var obj = {custresetname: custresetname, custresetaddress: custresetaddress, custresettp: custresettp};
                 updatecustomer(obj);
 
             }
@@ -720,9 +731,9 @@
                         data: obj,
                         success: function (res) {
                             alert(res.alert.msg);
-                            var path = document.getElementById("custresetpic");
-
-                            if (res.alert.bool && (path.value != "")) {
+                            var path = document.getElementById("custresetpic").files.length;
+                                
+                            if (res.alert.bool && (path != 0)) {
                                 jQuery.ajax({
                                     url: "<?php echo base_url(); ?>" + "index.php/register_controller/picture_upload/custresetpic/customer/e",
                                     type: "POST", // Type of request to be send, called as method
@@ -870,9 +881,30 @@
 
         </div>
     </div>
+    
+    <?php
+        if ($person == "customer") {
+    ?>
+    <script>
+        jQuery.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "index.php/Customer_controller/getCustomer/<?php echo $id ?>",
+            dataType: 'json',
+            success: function (res){
+                $("#custresetemail").val(res.email);
+                $("#custresetname").val(res.name);
+                $("#custresetaddress").val(res.address);
+                $("#custresettp").val(res.telephone);
+                $("#custnewpic").attr("src",res.picture);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                //alert(jqXHR.responseText);
+            }
+        });
+    </script>
     <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-
+                
             <!--            Modal content-->
             <div class="modal-content">
                 <div class="modal-body" id="regbody">
@@ -890,6 +922,7 @@
                                             <div class="modal-body">
                                                 <center>
                                                     <form name="custdetailsreset" id="custdetailsreset" role="form" method="post" action="">
+                                                        <input type="hidden" class="form-control" required="required" id="custresetemail" name="custresetemail" placeholder="Name" value="" >
                                                         <div class="form-group">
                                                             <label>Reset Name:</label>
                                                             <div class="input-group">
@@ -910,7 +943,7 @@
                                                             <label>Reset Contact:</label>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                                                                <input class="form-control" type="text" required="required name="custresettp" id="custresettp" minlength="10" maxlength="10" placeholder="TPNumber" ">
+                                                                <input class="form-control" type="text" required="required" name="custresettp" id="custresettp" minlength="10" maxlength="10" placeholder="TPNumber" ">
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
@@ -993,27 +1026,14 @@
             </div>
         </div>
     </div>
-
-
-
-
-
     <!--    Edit Customer Details form ends here-->
+    <?php
+        }
+    ?>
+    
     <body>
         <div id="headernav">
             <?php
-            $email = $id = $person = $picture = "";
-
-            //session_start();
-
-
-            if (isset($_SESSION['email'])) {
-                $email = $_SESSION['email'];
-                $id = $_SESSION['id'];
-                $person = $_SESSION['person'];
-                $picture = $_SESSION['picture'];
-            }
-
             if ($email != "") {
                 ?>
                 <div id="userheader">
